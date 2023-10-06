@@ -18,7 +18,8 @@
     double x = xin(0);
     double y = xin(1);
     
-    if (y >= 0.5 && y <= 1.5*x && y <= -1.5*x +1.5)
+    
+      if (y >= 0.5 && y <= 1.5*x && y <= -1.5*x +1.5)
     {
       return 0.0;
     }
@@ -29,13 +30,40 @@
     else{
       return 10.0;
     }
+  }
+
+  bool Triangle::checkReachability(const vectord &query)
+  {return true;};
     
+  Circle::Circle(bayesopt::Parameters par):
+    ContinuousModel(2,par) {}
+
+  double Circle::evaluateSample( const vectord& xin)
+  {
+     if (xin.size() != 2)
+      {
+	std::cout << "WARNING: This only works for 2D inputs." << std::endl
+		  << "WARNING: Using only first two components." << std::endl;
+      }
+    double x = xin(0);
+    double y = xin(1);
+
+    if ((x-0.5)*(x-0.5)+ (y-0.5)*(y-0.5) <= 0.01)
+
+    {
+      return 1.0;
+    }
     
+    else
+    {
+      return 2.0;
+    }
+  
    //return (x-0.5)*(x-0.5) + (y-0.5)*(y-0.5);
     
   }
 
-  bool Triangle::checkReachability(const vectord &query)
+  bool Circle::checkReachability(const vectord &query)
   {return true;};
 
 
@@ -48,10 +76,11 @@
 
 
     DisplayHeatMap2D::DisplayHeatMap2D(): 
-      MatPlot(), cx(1), cy(1), c_points(100), cX(c_points),
+      MatPlot(), cx(1), cy(1), c_points(100), cX(c_points), 
       cY(c_points), cZ(c_points,std::vector<double>(c_points))
     {
       status = NOT_READY;
+      
     }
 
     void DisplayHeatMap2D::setSolution(vectord sol)
@@ -59,20 +88,37 @@
       solx.push_back(sol(0));
       soly.push_back(sol(1));
     }
-
+    void DisplayHeatMap2D::setHighLow(double &low, double &high, double val){
+      if (val > high)
+      {
+          high = val;
+      }
+      if (val < low)
+      {
+          low = val;
+      }
+    }
     void DisplayHeatMap2D::prepareContourPlot()
     {
       cX=linspace(0,1,c_points);
       cY=linspace(0,1,c_points);
-      
+      vectord q_(2);
+      q_(0) = cX[0]; 
+      q_(1) = cY[0];
+      gTLow = bopt_model->evaluateSample(q_);
+      gTHigh = bopt_model->evaluateSample(q_);
+
       for(int i=0;i<c_points;++i)
-	    {
+	    {   std::cout<<"[";
 	        for(int j=0;j<c_points;++j)
 	        {
 	            vectord q(2);
 	            q(0) = cX[j]; q(1) = cY[i];
 	            cZ[i][j]= bopt_model->evaluateSample(q);
+              setHighLow(gTLow,gTHigh,cZ[i][j]);
+              std::cout<<cZ[i][j]<< ", ";
 	        }
+          std::cout<<"]"<<std::endl;
 	    }
     }
 
@@ -141,7 +187,7 @@
       set("EdgeColor","none");
     
       // To add color bar
-      colorbar();
+      colorbar(gTLow,gTHigh);
       subplot(2,2,1);
       title("Prediction and Samples");
       plot(cx,cy);set("g");set("o");set(4);         // Data points as black star
@@ -181,9 +227,16 @@
         x = linspace(0,1,n);
         y = linspace(0,1,n);
         vectord q(2);
+        bayesopt::ProbabilityDistribution* pd = bopt_model->getPrediction(q);
         std::vector<std::vector<double>> z{c_points,std::vector<double>(c_points)};
+        PHigh = pd->getMean();
+        PLow = pd->getMean();
         std::vector<std::vector<double>> c{c_points,std::vector<double>(c_points)};
-    
+        StdHigh = 2*pd->getStd();
+        StdLow = 2*pd->getStd();
+        std::vector<std::vector<double>> std{c_points,std::vector<double>(c_points)};
+        CVHigh = -bopt_model->evaluateCriteria(q);
+        CVLow = -bopt_model->evaluateCriteria(q);
         for(size_t i=0; i<n; ++i)
 	      {
         
@@ -193,6 +246,10 @@
             bayesopt::ProbabilityDistribution* pd = bopt_model->getPrediction(q);
             c[i][j] = -bopt_model->evaluateCriteria(q);     //Criteria value
             z[i][j] = pd->getMean(); //Expected value
+            std[i][j] = pd->getStd();
+            setHighLow(PLow,PHigh,z[i][j]);
+            setHighLow(StdLow,StdHigh,std[i][j]);
+            setHighLow(CVLow,CVHigh,c[i][j]);
           }
 
 	      }
@@ -207,9 +264,10 @@
         set("EdgeColor","none");
     
         // To add color bar
-        colorbar();
+        colorbar(PLow,PHigh);
 
       subplot(2,2,3);
+      
       title("Criteria Value");
        jet();
         
@@ -221,7 +279,20 @@
         set("EdgeColor","none");
     
         // To add color bar
-        colorbar();
+        colorbar(CVLow,CVHigh);
+        subplot(2,2,4);
+      title("Standard Deviation");
+       jet();
+        
+        // To generate pseudo color plot:r
+        //pcolor(cX,cY,cZ);
+        pcolor(cX,cY,std);
+
+        // To delete edge lines:
+        set("EdgeColor","none");
+    
+        // To add color bar
+        colorbar(StdLow,StdHigh);
         
 
 	}

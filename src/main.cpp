@@ -79,7 +79,9 @@ int main(int nargs, char *args[])
   GLOBAL_MATPLOT.init(triangle.get(),2);
   //boost::scoped_ptr<BraninNormalized> Branin(new BraninNormalized(par));
   //GLOBAL_MATPLOT.init(Branin.get(),2);
-  
+  //boost::scoped_ptr<Circle> circle(new Circle(par));
+  //GLOBAL_MATPLOT.init(circle.get(),2);
+
   vectord sv(2);  
   sv(0) = 0.1239; sv(1) = 0.8183;
   GLOBAL_MATPLOT.setSolution(sv);

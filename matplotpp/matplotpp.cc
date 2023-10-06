@@ -1324,6 +1324,31 @@ int MatPlot::colorbar(){
     ca->YLim[0]=zmin;
     ca->YLim[1]=zmax;
     return hh;
+}int MatPlot::colorbar(float zMin, float zMax)
+{
+    float l,b,w,h;
+    l=ca->Position[0];
+    b=ca->Position[1];
+    w=ca->Position[2];
+    h=ca->Position[3];
+    float zmin,zmax;
+    zmin=zMin;
+    zmax=zMax;
+    
+    // TODO use in 3D
+    
+    int hh=axes();
+    ca->ColorMap=cmap;
+    ca->View=2;
+    ca->Position[0]=l+w+w*0.01;
+    ca->Position[1]=b;
+    ca->Position[2]=w*0.05;
+    ca->Position[3]=h;
+    ca->ZLim[0]=zmin;
+    ca->ZLim[1]=zmax;
+    ca->YLim[0]=zmin;
+    ca->YLim[1]=zmax;
+    return hh;
 }
 /// axis
 void MatPlot::axis(double xMin,double xMax,double yMin,double yMax){	

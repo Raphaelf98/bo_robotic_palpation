@@ -518,6 +518,7 @@ class MatPlot{///
     int subplot(int m,int n,int p);
     
     int colorbar();
+    int colorbar(float zMin, float zMax);
 
     void axis(double xMin,double xMax,double yMin,double yMax);
     void axis(double xMin,double xMax,double yMin,double yMax,double zMin,double zMax);
