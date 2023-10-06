@@ -41,7 +41,7 @@ Adjust optimization parameters by entering desired values under /config/bo_param
 ### 2. Run the optimization
 ```
 cd build
-./display_gp
+./display_gp ../config/bo_parameters.txt
 ```
 
 
