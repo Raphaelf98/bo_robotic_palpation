@@ -2,12 +2,61 @@ cmake_minimum_required(VERSION 3.16)
 project(display_gp)
 #https://stackoverflow.com/questions/8774593/cmake-link-to-external-library
 #add_library(bayesopt_tut_libs main.cpp)
+find_package(OpenMP)
+
 find_library(BAYESOPT_LIB bayesopt)
 find_library(NLOPT_LIB nlopt)
+find_library(MLPACK_LIB mlpack)
+find_package(Boost)
 message(bayeslibrarypath="${BAYESOPT_LIB}")
 message(nloptlibrarypath="${NLOPT_LIB}")
 enable_language(C)  #For OpenGL and bo_display demo
 
+
+set ( ALGLIB_HEADER_FILES
+libs/alglibinternal.h
+libs/alglibmisc.h
+libs/ap.h
+libs/dataanalysis.h
+libs/diffequations.h
+libs/fasttransforms.h
+libs/integration.h
+libs/interpolation.h
+libs/kernels_avx2.h
+libs/kernels_fma.h
+libs/kernels_sse2.h
+libs/linalg.h
+libs/optimization.h
+libs/solvers.h
+libs/specialfunctions.h
+libs/statistics.h
+libs/stdafx.h
+)
+set( ALGLIB_SOURCE_FILES
+libs/alglibinternal.cpp
+libs/alglibmisc.cpp
+libs/ap.cpp
+libs/dataanalysis.cpp
+libs/diffequations.cpp
+libs/fasttransforms.cpp
+libs/integration.cpp
+libs/interpolation.cpp
+libs/kernels_avx2.cpp
+libs/kernels_fma.cpp
+libs/kernels_sse2.cpp
+libs/linalg.cpp
+libs/optimization.cpp
+libs/solvers.cpp
+libs/specialfunctions.cpp
+libs/statistics.cpp
+)
+
+
+set(LIBS_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+message(libs_path=${LIBS_PATH})
+message(ALGLIB_HEADER_FILES=${ALGLIB_HEADER_FILES})
+add_library(alglib ${ALGLIB_SOURCE_FILES} ${ALGLIB_HEADER_FILES} )
+target_include_directories(alglib PUBLIC ${LIBS_PATH})
 #Display test
 find_package(GLUT)
 find_package(OpenGL)
@@ -26,7 +75,8 @@ endif()
   INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/matplotpp
 		      ${GLUT_INCLUDE_DIRS} 
 		      ${GLUT_INCLUDE_DIR} 
-		      ${OpenGL_INCLUDE_DIRS})			  
+		      ${OpenGL_INCLUDE_DIRS}
+          ${Boost_INCLUDE_DIRS})			  
 
   link_directories(${GLUT_LIBRARY_DIRS}
 		   ${OpenGL_LIBRARY_DIRS})
@@ -71,14 +121,24 @@ set(UTILS_HEADERS
    
 )   
 set(SRCS
-    src/display2dgp.cpp)
+    src/display2dgp.cpp
+    src/tumorModel.cpp
+    src/fileParser.cpp
+    src/meanShift.cpp
+    src/contour.cpp
+    )
 set(HEADERS
-    include/display2dgp.hpp)
+    include/display2dgp.hpp
+    include/meanShift.hpp
+    include/fileParser.hpp
+    include/contour.hpp
+    include/tumorModel.hpp
+    include/evaluation.hpp)
 
 #create library from additional sources and include headers
 add_library(headers ${SRCS} ${HEADERS} )
 target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
-                    ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
+                    ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib alglib)
 
 add_library(utils_lib ${UTILS_SOURCES} ${UTILS_HEADERS} )
 target_include_directories(utils_lib PUBLIC /home/raphael/robolab/displaygp/utils)
@@ -87,7 +147,10 @@ target_include_directories(utils_lib PUBLIC /home/raphael/robolab/displaygp/util
 add_executable(twod_display_gp src/twod_main.cpp )
 add_executable(oned_display_gp src/oned_main.cpp )
 add_executable(display_gp src/main.cpp )
+#add_executable(compute_mean_shift src/meanShift.cpp )
+add_executable(compute_contour src/contour_main.cpp)
 add_executable(test_display_gp src/test.cpp )
+add_executable(evaluate src/evaluation.cpp)
 #target_link_libraries(bayesopt_tut bayesopt_tut_libs)
 include_directories(include ${BAYESOPT_LIB_INCLUDE_DIRS}${NLOPT_LIB_INCLUDE_DIRS})
 
@@ -99,11 +162,19 @@ target_link_libraries(oned_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
 
 
+#target_link_libraries(compute_mean_shift ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}   OpenMP::OpenMP_CXX
+#${GLUT_LIBRARY} ${OPENGL_LIBRARY}  headers)
+
+target_link_libraries(compute_contour alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} utils_lib  OpenMP::OpenMP_CXX)
+
 target_link_libraries(display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib headers)
 
 
 target_link_libraries(test_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
+
+
+target_link_libraries(evaluate alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} ${Boost_LIBRARIES} utils_lib )
 
 endif()

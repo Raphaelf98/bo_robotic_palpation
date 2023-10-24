@@ -2,14 +2,14 @@
 #ifndef _DISPLAY2DGP_HPP_
 #define _DISPLAY2DGP_HPP_
 
-#include "bayesopt/bayesopt.hpp"
+
 #include "matplotpp.h"
-
-
+#include "fileParser.hpp"
+#include "tumorModel.hpp"
     
     enum RunningStatus
       {
-	    RUN, STEP, STOP, NOT_READY
+	    RUN, STEP, STOP, NOT_READY, RUN_MS, 
       };
 
     class DisplayHeatMap2D :public MatPlot
@@ -34,29 +34,8 @@
       void setSTEP();
       void toogleRUN();
       void DISPLAY();
+      //Methods for Mean Shift algorithm
+     
     };
-  class Triangle: public bayesopt::ContinuousModel
-  {
-  public:
-    Triangle(bayesopt::Parameters par);
   
-    double evaluateSample( const vectord& xin);
-  
-
-    
-  bool checkReachability(const vectord &query);
-
-};
-class Circle: public bayesopt::ContinuousModel
-  {
-  public:
-    Circle(bayesopt::Parameters par);
-  
-    double evaluateSample( const vectord& xin);
-  
-
-    
-  bool checkReachability(const vectord &query);
-
-};
 #endif

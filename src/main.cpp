@@ -39,13 +39,20 @@ int main(int nargs, char *args[])
   bayesopt::Parameters par;
   if(nargs > 1)
   {
-    if(!bayesopt::utils::ParamLoader::load(args[1], par)){
+    if(!bayesopt::utils::ParamLoader::load(args[1], par))
+    {
         std::cout << "ERROR: provided file \"" << args[1] << "\" does not exist" << std::endl;
         return -1;
     }
     
   }
-  else{
+  if (bayesopt::utils::ParamLoader::load("/home/raphael/robolab/displaygp/config/bo_parameters.txt", par))
+  {
+      std::cout << "Found bo_parameters.txt" << std::endl;
+      
+  }
+  else
+  {
     par = initialize_parameters_to_default();
     
     par.n_iterations = 60;
@@ -75,13 +82,15 @@ int main(int nargs, char *args[])
     
   }
   bayesopt::utils::ParamLoader::save("triangle_display_params.txt", par);
-  boost::scoped_ptr<Triangle> triangle(new Triangle(par));
-  GLOBAL_MATPLOT.init(triangle.get(),2);
+  //boost::scoped_ptr<Triangle> triangle(new Triangle(par));
+  //GLOBAL_MATPLOT.init(triangle.get(),2);
   //boost::scoped_ptr<BraninNormalized> Branin(new BraninNormalized(par));
   //GLOBAL_MATPLOT.init(Branin.get(),2);
-  //boost::scoped_ptr<Circle> circle(new Circle(par));
-  //GLOBAL_MATPLOT.init(circle.get(),2);
-
+  boost::scoped_ptr<Circle> circle(new Circle(par));
+  GLOBAL_MATPLOT.init(circle.get(),2);
+  //boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
+  //GLOBAL_MATPLOT.init(twoCircles.get(),2);
+  //
   vectord sv(2);  
   sv(0) = 0.1239; sv(1) = 0.8183;
   GLOBAL_MATPLOT.setSolution(sv);
@@ -100,8 +109,10 @@ int main(int nargs, char *args[])
   glutMotionFunc( motion );
   glutMouseFunc( mouse );
   glutPassiveMotionFunc(passive);    
-  glutKeyboardFunc( keyboard );        
+  glutKeyboardFunc( keyboard );     
+  
   glutMainLoop();    
+  
 
   return 0;
 }

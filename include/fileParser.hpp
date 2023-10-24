@@ -37,10 +37,7 @@
 
 #include "parser.hpp"
 
-namespace bayesopt 
-{  
-  namespace utils 
-  {
+
     class FileParser{
     public:
         FileParser(std::string filename, int prec = 10);
@@ -143,7 +140,5 @@ namespace bayesopt
         
 
     };
-  } //namespace utils
-} //namespace bayesopt
 
 #endif

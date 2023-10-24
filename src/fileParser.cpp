@@ -20,12 +20,9 @@
 ------------------------------------------------------------------------
 */
 
-#include "fileparser.hpp"
+#include "fileParser.hpp"
 
-namespace bayesopt
-{   
-  namespace utils 
-  {
+
     namespace ublas = boost::numeric::ublas;
 
     FileParser::FileParser(std::string filename, int prec)
@@ -102,6 +99,12 @@ namespace bayesopt
 		      << std::endl;
 	  }
     }
+    std::string FileParser::read(std::string name){
+        std::string ret;
+        read(name, ret);
+        return ret;
+    }
+        
     /* Array write/read function */
     void FileParser::write(std::string name, 
 			   const std::vector<std::string> &arr, 
@@ -332,21 +335,17 @@ namespace bayesopt
         size_t init_arr = contents.find("(")+1;
         size_t end_arr = contents.find(")")-1;
         std::string input = contents.substr(init_arr, end_arr - init_arr +1);
-        utils::split(input, ',', arr);        
+        bayesopt::utils::split(input, ',', arr);        
         
         // Parse dimensions
         std::vector<std::string> dims_string;
         size_t init_dims = contents.find("[")+1;
         size_t end_dims = contents.find("]")-1;
         input = contents.substr(init_dims, end_dims - init_dims +1);
-        utils::split(input, ',', dims_string);
+        bayesopt::utils::split(input, ',', dims_string);
         
         for(std::vector<std::string>::iterator it = dims_string.begin(); 
 	    it != dims_string.end(); ++it) {
             dims.push_back(to_value<size_t>(*it));
         }
     }
-
-  } //namespace utils
-} //namespace bayesopt
-

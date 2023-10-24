@@ -2,75 +2,10 @@
 #include "dataset.hpp"
 #include "prob_distribution.hpp"
 #include <stdlib.h>
-   
+#include "meanShift.hpp"
 
 
-  Triangle::Triangle(bayesopt::Parameters par):
-    ContinuousModel(2,par) {}
-
-  double Triangle::evaluateSample( const vectord& xin)
-  {
-     if (xin.size() != 2)
-      {
-	std::cout << "WARNING: This only works for 2D inputs." << std::endl
-		  << "WARNING: Using only first two components." << std::endl;
-      }
-    double x = xin(0);
-    double y = xin(1);
-    
-    
-      if (y >= 0.5 && y <= 1.5*x && y <= -1.5*x +1.5)
-    {
-      return 0.0;
-    }
-    if (y >= 0.4 && y <= 1.5*x+0.2 && y <= -1.5*x +1.7)
-    {
-      return 5.0;
-    }
-    else{
-      return 10.0;
-    }
-  }
-
-  bool Triangle::checkReachability(const vectord &query)
-  {return true;};
-    
-  Circle::Circle(bayesopt::Parameters par):
-    ContinuousModel(2,par) {}
-
-  double Circle::evaluateSample( const vectord& xin)
-  {
-     if (xin.size() != 2)
-      {
-	std::cout << "WARNING: This only works for 2D inputs." << std::endl
-		  << "WARNING: Using only first two components." << std::endl;
-      }
-    double x = xin(0);
-    double y = xin(1);
-
-    if ((x-0.5)*(x-0.5)+ (y-0.5)*(y-0.5) <= 0.01)
-
-    {
-      return 1.0;
-    }
-    
-    else
-    {
-      return 2.0;
-    }
-  
-   //return (x-0.5)*(x-0.5) + (y-0.5)*(y-0.5);
-    
-  }
-
-  bool Circle::checkReachability(const vectord &query)
-  {return true;};
-
-
-
-
-
-
+ 
 
 
 
@@ -168,10 +103,12 @@
 	  }
     }
     
+   
     void DisplayHeatMap2D::DISPLAY()
     {
       if (status != NOT_READY)
 	  {
+      std::vector<std::vector<double>> z{c_points,std::vector<double>(c_points)};
 	    size_t nruns = bopt_model->getParameters()->n_iterations;
 	    title("Press r to run and stop, s to run a step and q to quit.");
       subplot(2,2,2);
@@ -217,10 +154,11 @@
         { 
           status = STOP; 
         }
-	      }	    
+	    }	    
 	      else
 	      {
           plot(lx,ly);set("k");set("o");set(4);         // Data points as black star
+         
 	      }
         std::vector<double> x,y;
         int n=c_points;
@@ -228,7 +166,7 @@
         y = linspace(0,1,n);
         vectord q(2);
         bayesopt::ProbabilityDistribution* pd = bopt_model->getPrediction(q);
-        std::vector<std::vector<double>> z{c_points,std::vector<double>(c_points)};
+        
         PHigh = pd->getMean();
         PLow = pd->getMean();
         std::vector<std::vector<double>> c{c_points,std::vector<double>(c_points)};
@@ -253,7 +191,15 @@
           }
 
 	      }
-      
+        if ((status != STOP) && (state_ii == nruns))
+        {
+          std::cout<<"write file"<<std::endl;
+            FileParser fp("/home/raphael/robolab/displaygp/build/posterior.txt");
+          fp.open(0);
+          fp.write_stdvecOfvec("posterior", z);
+          ++state_ii;
+        }
+       
        jet();
         
         // To generate pseudo color plot:r
@@ -296,6 +242,7 @@
         
 
 	}
+
     };
 
 
