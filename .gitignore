@@ -2,3 +2,4 @@ build/
 .vscode/
 .csv
 scripts/.csv
+src/wastecode.cpp

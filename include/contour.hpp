@@ -37,6 +37,7 @@ private:
     size_t n_samples_;
 public:
     Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
+    Contour(){}
     ~Contour();
     void runGaussianProcess();
     void computeCluster();

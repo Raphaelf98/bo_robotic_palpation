@@ -7,75 +7,23 @@
 #include <stdio.h>
 #include <math.h>
 #include "interpolation.h"
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/lu.hpp>
+#include <boost/numeric/ublas/io.hpp>
+#include <memory>
 
 using namespace alglib;
-class F_x{
-    spline1dinterpolant *s_;
-    public:
-    F_x(){}
-    F_x(spline1dinterpolant *s) : s_(s){}
-    double operator()(double x) const
-    {
-        return spline1dcalc(*s_, x);
-    }
-    
+namespace ublas = boost::numeric::ublas;
 
-};
-class D_f_x{
-    spline1dinterpolant *s_;
-    public:
-    D_f_x(){}
-    D_f_x(spline1dinterpolant *s) : s_(s){}
-    double operator()(double x) const
-    {
-        double s, ds, dds;
-        spline1ddiff(*s_, x, s, ds, dds);
-        return ds;
-    }
-    
-};
-
-class Spline_function{
-    public:
-    Spline_function(){}
-    Spline_function(spline1dinterpolant *s) :s_(s){}
-
-    F_x f_s_x_()
-    {
-        return F_x(s_);
-    }
-    
-    D_f_x d_f_s_x_()
-    {   
-        return D_f_x(s_);
-    }
-    spline1dinterpolant* s_;
-};
-class Contour_Integrand{
-    
-    F_x f_x_1_,f_x_2_;
-    D_f_x d_f_x_1_, d_f_x_2_;
-    public:
-        Contour_Integrand(Spline_function *spline_1, Spline_function *spline_2 )
-        {   
-    
-            f_x_1_ = spline_1->f_s_x_();
-            f_x_2_ = spline_2->f_s_x_();
-            d_f_x_1_ = spline_1->d_f_s_x_();
-            d_f_x_2_ = spline_2->d_f_s_x_();
-
-
-        }
-        double operator()(double x)
-        {
-            return -0.5*(f_x_1_(x) * d_f_x_2_(x) - f_x_2_(x) * d_f_x_1_(x));
-        }
-};
-evaluate::evaluate(Contour* contour):contour_(contour)
+evaluate::evaluate(ContourPairs contour_pairs):contour_pairs_(contour_pairs)
 {   
-    std::vector<alglib::spline1dinterpolant*> splines = contour_->getSplineInterpolant();
-    spline_1_ = splines[0];
-    spline_2_ = splines[1];
+    for (auto contourpair : contour_pairs_)
+    {
+        Contour *c1 = contourpair.first;
+        Contour *c2 = contourpair.second;
+        spline_pairs_.push_back(std::make_pair(c1->getSplineInterpolant()[0],c2->getSplineInterpolant()[1]));
+    }
+  
 
 
 }   
@@ -83,41 +31,102 @@ evaluate::evaluate(Contour* contour):contour_(contour)
 evaluate::~evaluate()
 {
 }
-bool computeFalseNegativ();
+bool evaluate::polygonizeSpline( std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>>  &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
+{   
+    
+    std::cout<<"Number of vertices: "<<num_vertices<<std::endl;
+    std::unique_ptr<spline1dinterpolant> s1 = std::move(spline_pair.first);
+    std::unique_ptr<spline1dinterpolant> s2= std::move(spline_pair.second);
+    for (size_t i = 0; i < num_vertices; i++)
+    {   
+        //counter-clockwise 
+        double x = spline1dcalc(*s1,  1.0-i * 1.0/((double)num_vertices));
+        double y = spline1dcalc(*s2,  1.0-i * 1.0/((double)num_vertices));
+        Point_2 p(x,y);
+        P.push_back(p);
+    }
 
-bool computeFalsePositive();
-double f(double x){
-    return sin(x)*sin(x)+cos(x)*cos(x);
+    return 0;
 }
-template <typename T1, typename T2>
-void writeVectorsToCSV(const std::vector<T1>& vec1, const std::vector<T2>& vec2, const std::string& filename) {
-    if (vec1.size() != vec2.size()) {
-        std::cerr << "Vectors have different sizes!" << std::endl;
-        return;
-    }
-
-    std::ofstream outfile(filename);
-    if (!outfile.is_open()) {
-        std::cerr << "Failed to open the file: " << filename << std::endl;
-        return;
-    }
-
-    for (size_t i = 0; i < vec1.size(); ++i) {
-        outfile << vec1[i] << "," << vec2[i] << "\n";
-    }
-
-    outfile.close();
+double evaluate::computeArea(Polygon_2 &A)
+{
+    return static_cast<double>(A.area().exact());
 }
-int main(){
-    int n_samples_ = 10;
+double evaluate::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
+{
+     if ((CGAL::do_intersect (A, B))){
+        std::cout << "The two polygons intersect in their interior." << std::endl;
+            
+        Pwh_list_2 symmR;
+        Pwh_list_2::const_iterator it;
+        CGAL::difference(A, B,std::back_inserter(symmR) );
+        if (verbose){
+            std::cout << "Difference: " <<  std::endl;
+            for (it = symmR.begin(); it != symmR.end(); ++it) 
+            {
+                std::cout << "--> ";
+                print_polygon_with_holes(*it);    
+            }
+
+        }
+        
+    if (! (*symmR.begin()).is_unbounded())
+     {
+        double diff_area = computeArea((*symmR.begin()).outer_boundary());
+        
+        return diff_area;
+     }
+    
+    }
+    
+    // AREA: Returns the signed area of the polygon.
+    //This means that the area is positive for counter clockwise polygons and negative for clockwise polygons.
+    else{
+        std::cout << "The two polygons do not intersect." << std::endl;
+        return 0;
+    }
+
+}
+
+double evaluate::computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+{   
+    double area = computeDifferenceArea(Approximation,GroundTruth);
+    std::cout << "FalseNegative Area: " << area << std::endl;
+    return area;
+}
+
+double evaluate::computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+{
+    double area = computeDifferenceArea(GroundTruth,Approximation);
+    std::cout << "FalsePositive Area: " << area << std::endl;
+    return area;
+}
+double fx1(double x)
+{
+    return sin(x);
+}
+double fy1(double x)
+{
+    return cos(x);
+}
+double fx2(double x)
+{
+    return 0.5+sin(x);
+}
+double fy2(double x)
+{
+    return cos(x);
+}
+std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>> f_param(FunctionPtr f_x, FunctionPtr f_y, int n_samples_ = 10)
+{
     double t[n_samples_];
     std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
     double f_1[n_samples_];
     double f_2[n_samples_];
     for (size_t i = 0; i < n_samples_; i++)
     {
-        f_1[i] =0.5+sin(2*M_PI*i/(n_samples_-1));
-        f_2[i] =cos(2*M_PI*i/(n_samples_-1));;
+        f_1[i] =f_x(2*M_PI*i/(n_samples_-1));
+        f_2[i] =f_y(2*M_PI*i/(n_samples_-1));;
         t[i] = i * 1.0/((double)n_samples_-1);
         
     }
@@ -135,41 +144,26 @@ int main(){
     // Build B-spline
     alglib::spline1dbuildcubic(theta, x, s1);
     alglib::spline1dbuildcubic(theta, y, s2);
-    
-   
-    
-     using boost::math::quadrature::trapezoidal;
-     // This function has an analytic form for its integral over a period: 2pi/3.
-     //auto f_x = [](double x) { return sin(x)*sin(x)+cos(x)*cos(x); };
-     
-    Spline_function spline_1(&s1);
-    Spline_function spline_2(&s2);
 
-    Contour_Integrand c_i(&spline_1,&spline_2);
+    return std::make_pair(std::make_unique<alglib::spline1dinterpolant>(s1),std::make_unique<alglib::spline1dinterpolant>(s2));
+}
 
-    int N = 1000;
-    
-    // Size of each sub-interval
-    double a = 0.0;
-    double b = 1.0;
-    double step = (b - a) / N;
-    
-    std::vector<double> total_integral_vec;
-    std::vector<double> t_val;
-    double total_integral = 0;
-    for (int i = 0; i < N; ++i) {
-        double start = a + i * step;
-        double end = start + step;
-        
-        // Integrate over the sub-interval [start, end]
-        double ground_truth = boost::math::quadrature::trapezoidal(f, start, end);
-        double approximation= trapezoidal(c_i, start, end);
-        total_integral += ground_truth-approximation;
-        total_integral_vec.push_back(total_integral);
-        t_val.push_back((start+end)/2);
-    }
-    
-    writeVectorsToCSV(t_val,total_integral_vec,"integral_vals.csv");
+int main(){
+    ContourPairs contourpairs;
+    evaluate evaluation_(contourpairs);
+
+    Polygon_2 A;
+    std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>>  f_A = f_param(fx1,fy1,1000);
+    evaluation_.polygonizeSpline(f_A, A);
+    std::cout << "AREA P:  = "<< A.area()<<std::endl;
+
+    Polygon_2 B;
+    std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>>  f_B = f_param(fx2,fy2,1000);
+    evaluation_.polygonizeSpline(f_B, B);
+    std::cout << "AREA P:  = "<< B.area()<<std::endl;
+
+    evaluation_.computeFalseNegative(A,B);
+    evaluation_.computeFalsePositive(A,B);
+
     return 0;
-
 }

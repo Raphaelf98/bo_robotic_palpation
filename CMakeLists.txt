@@ -8,8 +8,10 @@ find_library(BAYESOPT_LIB bayesopt)
 find_library(NLOPT_LIB nlopt)
 find_library(MLPACK_LIB mlpack)
 find_package(Boost)
+find_package(CGAL)
 message(bayeslibrarypath="${BAYESOPT_LIB}")
 message(nloptlibrarypath="${NLOPT_LIB}")
+message(cgullibrarypath="${CGAL_DIR}" )
 enable_language(C)  #For OpenGL and bo_display demo
 
 
@@ -135,6 +137,14 @@ set(HEADERS
     include/tumorModel.hpp
     include/evaluation.hpp)
 
+
+#create cgul lib
+#find_library(GMP_LIBRARY NAMES gmp)
+#find_library(GMPXX_LIBRARY NAMES gmpxx)
+#add_library(cgul_lib INTERFACE)
+#target_include_directories(cgul_lib INTERFACE ${CGAL_DIR})
+
+#target_link_libraries(cgul_lib INTERFACE ${Boost_LIBRARIES} ${GMP_LIBRARY} ${GMPXX_LIBRARY})
 #create library from additional sources and include headers
 add_library(headers ${SRCS} ${HEADERS} )
 target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
@@ -175,6 +185,6 @@ target_link_libraries(test_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
 
 
-target_link_libraries(evaluate alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} ${Boost_LIBRARIES} utils_lib )
+target_link_libraries(evaluate alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} utils_lib  )
 
 endif()
