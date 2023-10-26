@@ -5,6 +5,9 @@
 #include "meanShift.hpp"
 #include "interpolation.h"
 #include "stdafx.h"
+typedef std::unique_ptr<alglib::spline1dinterpolant> SplineInterpolant1d_ptr;
+typedef std::pair<std::shared_ptr<alglib::spline1dinterpolant>,std::shared_ptr<alglib::spline1dinterpolant>> SplineInterpolant_ptr_pair;
+typedef std::vector<SplineInterpolant_ptr_pair> SplineInterpolant_ptr_pair_vec;
 inline std::vector<double> linspace(double min,double max,int n){
     std::vector<double> a;
     if(n<1){n=1;}
@@ -34,6 +37,7 @@ private:
     std::vector<std::vector<Point>> contours_;
     // Approximation Parameters
     alglib::spline1dinterpolant spline_1_, spline_2_;
+    SplineInterpolant_ptr_pair_vec spline_contours_;
     size_t n_samples_;
 public:
     Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
@@ -42,8 +46,8 @@ public:
     void runGaussianProcess();
     void computeCluster();
     void exploreContour();
-    void approximateTContour();
-    std::vector<alglib::spline1dinterpolant*> getSplineInterpolant();
+    void approximateContour();
+    SplineInterpolant_ptr_pair_vec getSplineInterpolant();
 };
 
 #endif

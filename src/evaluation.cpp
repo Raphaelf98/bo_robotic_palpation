@@ -11,31 +11,47 @@
 #include <boost/numeric/ublas/lu.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <memory>
-
+#include "dataset.hpp"
+#include "prob_distribution.hpp"
+#include "fileParser.hpp"
+#include "param_loader.hpp"
+#include<bayesopt/parameters.hpp>
+//Dirty fix for segfault in differences for case when B is fully contained within A and smaller 
+#include <stdexcept> 
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
 
-evaluate::evaluate(ContourPairs contour_pairs):contour_pairs_(contour_pairs)
+ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B)
 {   
-    for (auto contourpair : contour_pairs_)
-    {
-        Contour *c1 = contourpair.first;
-        Contour *c2 = contourpair.second;
-        spline_pairs_.push_back(std::make_pair(c1->getSplineInterpolant()[0],c2->getSplineInterpolant()[1]));
-    }
-  
-
-
+    f_parametric_A_.first = f_parametric_A.first;
+    f_parametric_A_.second = f_parametric_A.second;
+    f_parametric_B_.first = f_parametric_B.first;
+    f_parametric_B_.second = f_parametric_B.second;
 }   
-evaluate::~evaluate()
+ContourPairAnalyzer::~ContourPairAnalyzer()
 {
 }
-bool evaluate::polygonizeSpline( std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>>  &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
+void ContourPairAnalyzer::analyzeContours(){
+    Polygon_2 A;
+    Polygon_2 B;
+    polygonizeSpline(f_parametric_A_, A,1000);
+    std::cout << "AREA P:  = "<< A.area()<<std::endl;
+    polygonizeSpline(f_parametric_B_, B,1000);
+    std::cout << "AREA P:  = "<< B.area()<<std::endl;
+
+    computeFalseNegative(A,B);
+    computeFalsePositive(A,B);
+    computeTrueNegative(9.0, A,B);
+    computeTruePositive(A,B);
+    computeSensitiviy(A,B);
+    computeSpecificity(9.0,A,B);
+}
+bool ContourPairAnalyzer::polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
 {   
     
     std::cout<<"Number of vertices: "<<num_vertices<<std::endl;
-    std::unique_ptr<spline1dinterpolant> s1 = std::move(spline_pair.first);
-    std::unique_ptr<spline1dinterpolant> s2= std::move(spline_pair.second);
+    std::shared_ptr<spline1dinterpolant> s1 = spline_pair.first;
+    std::shared_ptr<spline1dinterpolant> s2= spline_pair.second;
     for (size_t i = 0; i < num_vertices; i++)
     {   
         //counter-clockwise 
@@ -47,18 +63,25 @@ bool evaluate::polygonizeSpline( std::pair<std::unique_ptr<spline1dinterpolant>,
 
     return 0;
 }
-double evaluate::computeArea(Polygon_2 &A)
+double ContourPairAnalyzer::computeArea(Polygon_2 &A)
 {
     return static_cast<double>(A.area().exact());
 }
-double evaluate::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
+double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {
      if ((CGAL::do_intersect (A, B))){
         std::cout << "The two polygons intersect in their interior." << std::endl;
             
         Pwh_list_2 symmR;
         Pwh_list_2::const_iterator it;
-        CGAL::difference(A, B,std::back_inserter(symmR) );
+        try{
+            CGAL::difference(A, B,std::back_inserter(symmR) );
+        }
+        catch(const std::runtime_error &e){
+            std::cerr << "Caught Segfault: " << e.what() << std::endl;
+            //TODO check for intersection and size
+            return computeArea(A);
+        }
         if (verbose){
             std::cout << "Difference: " <<  std::endl;
             for (it = symmR.begin(); it != symmR.end(); ++it) 
@@ -87,7 +110,7 @@ double evaluate::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose 
 
 }
 
-double evaluate::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
+double ContourPairAnalyzer::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {
      if ((CGAL::do_intersect (A, B))){
         std::cout << "The two polygons intersect in their interior." << std::endl;
@@ -120,7 +143,7 @@ double evaluate::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose = fals
     }
 
 }
-double  evaluate::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
+double ContourPairAnalyzer::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {  
     if ((CGAL::do_intersect (A, B)))
     {
@@ -151,41 +174,41 @@ double  evaluate::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose 
    
   
 }
-double evaluate::computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+double ContourPairAnalyzer::computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {   
     double area = computeDifferenceArea(Approximation,GroundTruth);
     std::cout << "FalseNegative Area: " << area << std::endl;
     return area;
 }
 
-double evaluate::computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+double ContourPairAnalyzer::computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double area = computeDifferenceArea(GroundTruth,Approximation);
     std::cout << "FalsePositive Area: " << area << std::endl;
     return area;
 }
-double evaluate::computeTruePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+double ContourPairAnalyzer::computeTruePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
 
     double area = computeIntersectArea(GroundTruth,Approximation);
     std::cout << "Intersect Area: " << area << std::endl;
     return area;
 }
-double evaluate::computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+double ContourPairAnalyzer::computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double area = computeJoinArea(GroundTruth,Approximation);
     std::cout << "Join Area: " << area << std::endl;
     return domainArea - area;
     
 }
-double evaluate::computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+double ContourPairAnalyzer::computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double true_negative = computeTrueNegative(domainArea, GroundTruth, Approximation);
     double specificity = true_negative/(true_negative+computeFalsePositive(GroundTruth,Approximation));
      std::cout<<"Specificity: "<< specificity<<std::endl;
     return specificity;
 }
-double evaluate::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+double ContourPairAnalyzer::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double true_positive = computeTruePositive(GroundTruth,Approximation);
     double sensitivity =  true_positive/(true_positive + computeFalseNegative(GroundTruth,Approximation));
@@ -202,6 +225,7 @@ double fy1(double x)
 {
     return cos(x);
 }
+
 double fx2(double x)
 {
     return 0.5+sin(x);
@@ -210,7 +234,15 @@ double fy2(double x)
 {
     return cos(x);
 }
-std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>> f_param(FunctionPtr f_x, FunctionPtr f_y, int n_samples_ = 10)
+double fx3(double x)
+{
+    return 0.5*sin(x);
+}
+double fy3(double x)
+{
+    return 0.5*cos(x);
+}
+std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(FunctionPtr f_x, FunctionPtr f_y, int n_samples_ = 10)
 {
     double t[n_samples_];
     std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
@@ -237,31 +269,69 @@ std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpola
     // Build B-spline
     alglib::spline1dbuildcubic(theta, x, s1);
     alglib::spline1dbuildcubic(theta, y, s2);
-
+    
     return std::make_pair(std::make_unique<alglib::spline1dinterpolant>(s1),std::make_unique<alglib::spline1dinterpolant>(s2));
 }
 
 int main(){
-    ContourPairs contourpairs;
-    evaluate evaluation_(contourpairs);
+    //COMPUTE CONTOUR
+    bayesopt::Parameters par;
+ 
+  
+  if (bayesopt::utils::ParamLoader::load("/home/raphael/robolab/displaygp/config/bo_parameters.txt", par))
+  {
+      std::cout << "Found bo_parameters.txt" << std::endl;
+      
+  }
+  else
+  {
+    par = initialize_parameters_to_default();
+    
+    par.n_iterations = 60;
+    par.n_init_samples = 10;
+    par.crit_name = "cEI";
+    par.epsilon = 3;
+    
+    
+    par.random_seed = 10;
+    par.init_method = 3;
+    
+    //par.crit_name = "cLCB";
+    //par.epsilon = 10;
+    par.mean.name = "mZero";
+    par.force_jump = 0;
+    par.kernel.name = "kSEARD";
+    par.kernel.hp_mean[0] = 0.08;
+    par.kernel.hp_std[0] = 1.0;
+    par.n_inner_iterations = 500;
+    //set_surrogate(&par,"sStudentTProcessNIG");
 
-    Polygon_2 A;
-    std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>>  f_A = f_param(fx1,fy1,1000);
-    evaluation_.polygonizeSpline(f_A, A);
-    std::cout << "AREA P:  = "<< A.area()<<std::endl;
+    //par.l_type = L_MCMC;
+    //par.sc_type = SC_MAP;
 
-    Polygon_2 B;
-    std::pair<std::unique_ptr<spline1dinterpolant>,std::unique_ptr<spline1dinterpolant>>  f_B = f_param(fx2,fy2,1000);
-    evaluation_.polygonizeSpline(f_B, B);
-    std::cout << "AREA P:  = "<< B.area()<<std::endl;
-
-    evaluation_.computeFalseNegative(A,B);
-    evaluation_.computeFalsePositive(A,B);
-    evaluation_.computeTrueNegative(9.0, A,B);
-    evaluation_.computeTruePositive(A,B);
-
-    evaluation_.computeSensitiviy(A,B);
-    evaluation_.computeSpecificity(9.0,A,B);
-
+    
+    par.verbose_level = 1;
+    
+    }
+    boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
+    Contour contour(twoCircles.get(),100);
+    //boost::scoped_ptr<Circle> circle(new Circle(par));
+    //Contour contour(circle.get(),100);
+    /*
+    //run bayesian optimization
+    contour.runGaussianProcess();
+    contour.computeCluster();
+    //dummy data
+    
+    contour.exploreContour();
+    contour.approximateContour();
+    */
+    SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
+    SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(fx1,fy1,1000));
+    SplineInterpolant_ptr_pair  test_spline = static_cast<SplineInterpolant_ptr_pair>(f_param(fx3,fy3,1000));
+    /*TODO: Contour Analyzer works at the moment only for single Conotur
+            -spline_vec may contour multiple countours -> correct ground truth must be assigned*/
+    ContourPairAnalyzer analyzer(test_spline,f_Groundtruth);
+    analyzer.analyzeContours();
     return 0;
 }

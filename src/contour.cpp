@@ -141,7 +141,7 @@ void Contour::exploreContour(){
         contours_.push_back(contour_vec);
     }
 }
-void Contour::approximateTContour()
+void Contour::approximateContour()
 {
     int file_num = 1;
     for(std::vector<Point> &contour : contours_)
@@ -172,7 +172,8 @@ void Contour::approximateTContour()
     // Build B-spline
     alglib::spline1dbuildcubic(theta, x, s1);
     alglib::spline1dbuildcubic(theta, y, s2);
-
+    //Save spline contour to contours_vector 
+    
     // Evaluate the B-spline at x=2.5
     double v1 = alglib::spline1dcalc(s1, 0.5);
     double v2 = alglib::spline1dcalc(s2, 0.5);
@@ -196,11 +197,17 @@ void Contour::approximateTContour()
 
     file.close();
     file_num++;
+
+    auto ptr1 = std::make_shared<alglib::spline1dinterpolant>(s1);
+    auto ptr2 = std::make_shared<alglib::spline1dinterpolant>(s2);
+
+// Move them into the vector
+    spline_contours_.push_back(std::make_pair(ptr1, ptr2));
     }
 }
-std::vector<alglib::spline1dinterpolant*> Contour::getSplineInterpolant()
+SplineInterpolant_ptr_pair_vec Contour::getSplineInterpolant()
 {
-    std::vector<alglib::spline1dinterpolant*> v ={&spline_1_,&spline_2_};
-    return v;
+    
+    return spline_contours_;
 }
 

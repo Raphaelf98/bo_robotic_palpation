@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     //dummy data
     
     contour.exploreContour();
-    contour.approximateTContour();
+    contour.approximateContour();
     return 0;
 }
 

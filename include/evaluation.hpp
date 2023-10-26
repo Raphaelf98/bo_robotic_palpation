@@ -50,21 +50,20 @@ void print_polygon_with_holes(const CGAL::Polygon_with_holes_2<Kernel, Container
   }
   std::cout << " }" << std::endl;
 }
-class evaluate
+class ContourPairAnalyzer
 {
 
-typedef std::vector<std::pair<alglib::spline1dinterpolant*, alglib::spline1dinterpolant*>> SplinePairs;
 private: 
-    ContourPairs contour_pairs_;
-    SplinePairs spline_pairs_;
+    
+    SplineInterpolant_ptr_pair f_parametric_A_,f_parametric_B_;
     
     /* data */
 public:
     
     //Constructor to compare multiple Contour(ground truth) Contour(approximation) pairs
-    evaluate(std::vector <std::pair<Contour*, Contour*>>);
-    
-    bool polygonizeSpline( std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>>   &spline_pair, Polygon_2 &P,size_t num_vertices);
+    ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B);
+    void analyzeContours();
+    bool polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P,size_t num_vertices);
     
     double computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
     double computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
@@ -77,6 +76,6 @@ public:
     double computeArea(Polygon_2 &A);
     double computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
     double computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
-    ~evaluate();
+    ~ContourPairAnalyzer();
 };
 #endif
