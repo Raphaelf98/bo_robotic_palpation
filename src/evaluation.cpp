@@ -27,7 +27,6 @@ evaluate::evaluate(ContourPairs contour_pairs):contour_pairs_(contour_pairs)
 
 
 }   
-
 evaluate::~evaluate()
 {
 }
@@ -88,6 +87,70 @@ double evaluate::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose 
 
 }
 
+double evaluate::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
+{
+     if ((CGAL::do_intersect (A, B))){
+        std::cout << "The two polygons intersect in their interior." << std::endl;
+            
+        Polygon_with_holes_2 unionR;
+
+        CGAL::join(A, B,unionR);
+        if (verbose){
+            std::cout << "Join: " <<  std::endl;
+            
+            print_polygon_with_holes(unionR);    
+            
+
+        }
+        
+    if (! unionR.is_unbounded())
+     {
+        double join_area = computeArea(unionR.outer_boundary());
+        
+        return join_area;
+     }
+    
+    }
+    
+    // AREA: Returns the signed area of the polygon.
+    //This means that the area is positive for counter clockwise polygons and negative for clockwise polygons.
+    else{
+        std::cout << "The two polygons do not intersect." << std::endl;
+        return 0;
+    }
+
+}
+double  evaluate::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
+{  
+    if ((CGAL::do_intersect (A, B)))
+    {
+        Pwh_list_2                  intR;
+        Pwh_list_2::const_iterator  it;
+        CGAL::intersection (A, B, std::back_inserter(intR));
+        if (verbose)
+        {
+            std::cout << "The intersection:" << std::endl;
+            for (it = intR.begin(); it != intR.end(); ++it) 
+            {
+                std::cout << "--> ";
+                print_polygon_with_holes (*it);    
+            }
+        }
+        if (! (*intR.begin()).is_unbounded())
+        {
+            double intersect_area = computeArea((*intR.begin()).outer_boundary());
+
+            return intersect_area;
+        }
+    }
+    else
+    {
+        std::cout << "The two polygons do not intersect." << std::endl;
+        return 0;
+    }
+   
+  
+}
 double evaluate::computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {   
     double area = computeDifferenceArea(Approximation,GroundTruth);
@@ -101,6 +164,36 @@ double evaluate::computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approxi
     std::cout << "FalsePositive Area: " << area << std::endl;
     return area;
 }
+double evaluate::computeTruePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+{
+
+    double area = computeIntersectArea(GroundTruth,Approximation);
+    std::cout << "Intersect Area: " << area << std::endl;
+    return area;
+}
+double evaluate::computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+{
+    double area = computeJoinArea(GroundTruth,Approximation);
+    std::cout << "Join Area: " << area << std::endl;
+    return domainArea - area;
+    
+}
+double evaluate::computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+{
+    double true_negative = computeTrueNegative(domainArea, GroundTruth, Approximation);
+    double specificity = true_negative/(true_negative+computeFalsePositive(GroundTruth,Approximation));
+     std::cout<<"Specificity: "<< specificity<<std::endl;
+    return specificity;
+}
+double evaluate::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+{
+    double true_positive = computeTruePositive(GroundTruth,Approximation);
+    double sensitivity =  true_positive/(true_positive + computeFalseNegative(GroundTruth,Approximation));
+    std::cout<<"Sensitivity: "<< sensitivity<<std::endl;
+    return sensitivity;
+}
+
+
 double fx1(double x)
 {
     return sin(x);
@@ -164,6 +257,11 @@ int main(){
 
     evaluation_.computeFalseNegative(A,B);
     evaluation_.computeFalsePositive(A,B);
+    evaluation_.computeTrueNegative(9.0, A,B);
+    evaluation_.computeTruePositive(A,B);
+
+    evaluation_.computeSensitiviy(A,B);
+    evaluation_.computeSpecificity(9.0,A,B);
 
     return 0;
 }

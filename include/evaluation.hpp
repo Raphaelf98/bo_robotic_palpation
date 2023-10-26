@@ -67,11 +67,16 @@ public:
     bool polygonizeSpline( std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>>   &spline_pair, Polygon_2 &P,size_t num_vertices);
     
     double computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
+    double computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
+    double computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
+
     double computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
     double computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeTruePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
     double computeArea(Polygon_2 &A);
-    bool computeSpecificity();
-    bool computeSensitiviy();
+    double computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
     ~evaluate();
 };
 #endif
