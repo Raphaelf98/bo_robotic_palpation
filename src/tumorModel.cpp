@@ -107,3 +107,50 @@ TwoCircles::TwoCircles(bayesopt::Parameters par):
 
 
 
+SmoothCircle::SmoothCircle(bayesopt::Parameters par):
+    ContinuousModel(2,par) {}
+
+  double SmoothCircle::smoothstep(double edge0, double edge1, double x) 
+  {
+    // Scale, bias and saturate x to 0..1 range
+    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
+    // Evaluate polynomial
+    return x * x * (3 - 2 * x);
+  } 
+  double SmoothCircle::clamp(double x, double lowerlimit, double upperlimit) {
+    if (x < lowerlimit)
+        x = lowerlimit;
+    if (x > upperlimit)
+        x = upperlimit;
+    return x;
+}
+
+  double SmoothCircle::evaluateSample( const vectord& xin)
+  {
+     if (xin.size() != 2)
+      {
+	std::cout << "WARNING: This only works for 2D inputs." << std::endl
+		  << "WARNING: Using only first two components." << std::endl;
+      }
+    double x = xin(0);
+    double y = xin(1);
+    double y_0 = 0.5;
+    double x_0 = 0.5;
+    double r = sqrt((x - x_0) * (x - x_0) + (y - y_0) * (y - y_0));
+    double radius = 0.1;
+    double epsilon = 0.1;
+    if (r <= radius) {
+        return 0.0;
+    } else if (r >= radius + epsilon) {
+        return 1.0;
+    } else {
+        // smoothstep to interpolate between 1 and 0 for the edge of the circle
+        return smoothstep(radius, radius + epsilon, r);
+    }
+
+    
+  }
+
+  bool SmoothCircle::checkReachability(const vectord &query)
+  {return true;};
+

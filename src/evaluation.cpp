@@ -21,7 +21,7 @@
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
 
-ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B)
+ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area):domain_area_(domain_area)
 {   
     f_parametric_A_.first = f_parametric_A.first;
     f_parametric_A_.second = f_parametric_A.second;
@@ -35,16 +35,18 @@ void ContourPairAnalyzer::analyzeContours(){
     Polygon_2 A;
     Polygon_2 B;
     polygonizeSpline(f_parametric_A_, A,1000);
-    std::cout << "AREA P:  = "<< A.area()<<std::endl;
+  
+    std::cout << "AREA OF GROUND TRUTH:  = "<< A.area()<<std::endl;
     polygonizeSpline(f_parametric_B_, B,1000);
-    std::cout << "AREA P:  = "<< B.area()<<std::endl;
+   
+    std::cout << "AREA OF APPROXIMATION:  = "<< B.area()<<std::endl;
 
     computeFalseNegative(A,B);
     computeFalsePositive(A,B);
-    computeTrueNegative(9.0, A,B);
+    computeTrueNegative(domain_area_, A,B);
     computeTruePositive(A,B);
     computeSensitiviy(A,B);
-    computeSpecificity(9.0,A,B);
+    computeSpecificity(domain_area_,A,B);
 }
 bool ContourPairAnalyzer::polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
 {   
@@ -74,14 +76,20 @@ double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bo
             
         Pwh_list_2 symmR;
         Pwh_list_2::const_iterator it;
-        try{
-            CGAL::difference(A, B,std::back_inserter(symmR) );
+        //Segmentation fault when A is smaller B and fully contained within B. The other way around works
+        //Check if A fully contained in B 
+        double join_area = computeJoinArea(A,B, false);
+        double area_A = computeArea(A);
+        double area_B = computeArea(B);
+        if (join_area == area_B ){
+            //TODO: THINK ABOUT VERBOSITY
+            std::cout << "Joined area exactly equal to: "<< join_area<<  std::endl;
+            return area_A ;
         }
-        catch(const std::runtime_error &e){
-            std::cerr << "Caught Segfault: " << e.what() << std::endl;
-            //TODO check for intersection and size
-            return computeArea(A);
-        }
+        
+        CGAL::difference(A, B,std::back_inserter(symmR) );
+        
+        
         if (verbose){
             std::cout << "Difference: " <<  std::endl;
             for (it = symmR.begin(); it != symmR.end(); ++it) 
@@ -228,15 +236,15 @@ double fy1(double x)
 
 double fx2(double x)
 {
-    return 0.5+sin(x);
+    return   0.5+0.1*sin(x);
 }
 double fy2(double x)
 {
-    return cos(x);
+    return 0.5 +  0.1*cos(x);
 }
 double fx3(double x)
 {
-    return 0.5*sin(x);
+    return  0.5*sin(x);
 }
 double fy3(double x)
 {
@@ -313,11 +321,13 @@ int main(){
     par.verbose_level = 1;
     
     }
-    boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
-    Contour contour(twoCircles.get(),100);
+    //boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
+    //Contour contour(twoCircles.get(),100);
+    boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
+    Contour contour(smoothCircle.get(),100);
     //boost::scoped_ptr<Circle> circle(new Circle(par));
     //Contour contour(circle.get(),100);
-    /*
+    
     //run bayesian optimization
     contour.runGaussianProcess();
     contour.computeCluster();
@@ -325,13 +335,13 @@ int main(){
     
     contour.exploreContour();
     contour.approximateContour();
-    */
+    
     SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
-    SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(fx1,fy1,1000));
+    SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(fx2,fy2,1000));
     SplineInterpolant_ptr_pair  test_spline = static_cast<SplineInterpolant_ptr_pair>(f_param(fx3,fy3,1000));
     /*TODO: Contour Analyzer works at the moment only for single Conotur
             -spline_vec may contour multiple countours -> correct ground truth must be assigned*/
-    ContourPairAnalyzer analyzer(test_spline,f_Groundtruth);
+    ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[0], 1.0);
     analyzer.analyzeContours();
     return 0;
 }

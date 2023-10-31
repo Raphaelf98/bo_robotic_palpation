@@ -43,11 +43,12 @@ int main(int argc, char **argv)
     par.verbose_level = 1;
     
     }
-    boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
-    Contour contour(twoCircles.get(),100);
+    //boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
+    //Contour contour(twoCircles.get(),100);
     //boost::scoped_ptr<Circle> circle(new Circle(par));
     //Contour contour(circle.get(),100);
- 
+    boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
+    Contour contour(smoothCircle.get(),100);
     //run bayesian optimization
     contour.runGaussianProcess();
     contour.computeCluster();

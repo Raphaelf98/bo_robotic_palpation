@@ -38,4 +38,16 @@ class TwoCircles: public bayesopt::ContinuousModel
   bool checkReachability(const vectord &query);
 
 };
+class SmoothCircle: public bayesopt::ContinuousModel
+  {
+  public:
+    SmoothCircle(bayesopt::Parameters par);
+  
+    double evaluateSample( const vectord& xin);
+    double smoothstep(double edge0, double edge1, double x);
+    double clamp(double x, double lowerlimit, double upperlimit);
+    
+  bool checkReachability(const vectord &query);
+
+};
 #endif

@@ -56,12 +56,13 @@ class ContourPairAnalyzer
 private: 
     
     SplineInterpolant_ptr_pair f_parametric_A_,f_parametric_B_;
+    double domain_area_;
     
     /* data */
 public:
     
     //Constructor to compare multiple Contour(ground truth) Contour(approximation) pairs
-    ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B);
+    ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area);
     void analyzeContours();
     bool polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P,size_t num_vertices);
     
