@@ -50,7 +50,7 @@ void Contour::runGaussianProcess(){
           {
             q(1) = y[i]; q(0) = x[j];
             bayesopt::ProbabilityDistribution* pd = bopt_model_->getPrediction(q);
-            c_[i][j] = pd->getMean();     //Criteria value
+            c_[i][j] = pd->getMean();   
             
           }
 

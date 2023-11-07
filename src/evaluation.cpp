@@ -16,8 +16,7 @@
 #include "fileParser.hpp"
 #include "param_loader.hpp"
 #include<bayesopt/parameters.hpp>
-//Dirty fix for segfault in differences for case when B is fully contained within A and smaller 
-#include <stdexcept> 
+
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
 
@@ -69,6 +68,8 @@ double ContourPairAnalyzer::computeArea(Polygon_2 &A)
 {
     return static_cast<double>(A.area().exact());
 }
+
+//Compute A - B
 double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {
      if ((CGAL::do_intersect (A, B))){
@@ -78,14 +79,7 @@ double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bo
         Pwh_list_2::const_iterator it;
         //Segmentation fault when A is smaller B and fully contained within B. The other way around works
         //Check if A fully contained in B 
-        double join_area = computeJoinArea(A,B, false);
-        double area_A = computeArea(A);
-        double area_B = computeArea(B);
-        if (join_area == area_B ){
-            //TODO: THINK ABOUT VERBOSITY
-            std::cout << "Joined area exactly equal to: "<< join_area<<  std::endl;
-            return area_A ;
-        }
+        
         
         CGAL::difference(A, B,std::back_inserter(symmR) );
         
@@ -183,7 +177,23 @@ double ContourPairAnalyzer::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, boo
   
 }
 double ContourPairAnalyzer::computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
-{   
+{
+    double join_area = computeJoinArea(GroundTruth,Approximation, false);
+    double area_A = computeArea(GroundTruth);
+    double area_B = computeArea(Approximation);
+        //check if A contained in B or vice versa
+    if (join_area == area_B )
+    {
+            //TODO: THINK ABOUT VERBOSITY
+            std::cout << "GroundTruth is fully contained in Approximation and Joined area exactly equal to: "<< join_area<<  std::endl;
+            return 0 ;
+    }
+    if (join_area == area_A )
+    {
+            //TODO: THINK ABOUT VERBOSITY
+            std::cout << "Approximation is fully contained in GroundTruth and Joined area exactly equal to: "<< join_area<<  std::endl;
+            return area_A-area_B ;
+    }
     double area = computeDifferenceArea(Approximation,GroundTruth);
     std::cout << "FalseNegative Area: " << area << std::endl;
     return area;
@@ -191,6 +201,22 @@ double ContourPairAnalyzer::computeFalseNegative(Polygon_2 &GroundTruth, Polygon
 
 double ContourPairAnalyzer::computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
+    double join_area = computeJoinArea(GroundTruth,Approximation, false);
+    double area_A = computeArea(GroundTruth);
+    double area_B = computeArea(Approximation);
+        //check if A contained in B or vice versa
+    if (join_area == area_B )
+    {
+            //TODO: THINK ABOUT VERBOSITY
+            std::cout << "GroundTruth is fully contained in Approximation and Joined area exactly equal to: "<< join_area<<  std::endl;
+            return area_B-area_A ;
+    }
+    if (join_area == area_A )
+    {
+            //TODO: THINK ABOUT VERBOSITY
+            std::cout << "Approximation is fully contained in GroundTruth and Joined area exactly equal to: "<< join_area<<  std::endl;
+            return 0.0;
+    }
     double area = computeDifferenceArea(GroundTruth,Approximation);
     std::cout << "FalsePositive Area: " << area << std::endl;
     return area;
@@ -244,11 +270,11 @@ double fy2(double x)
 }
 double fx3(double x)
 {
-    return  0.5*sin(x);
+    return  0.9*sin(x);
 }
 double fy3(double x)
 {
-    return 0.5*cos(x);
+    return 0.9*cos(x);
 }
 std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(FunctionPtr f_x, FunctionPtr f_y, int n_samples_ = 10)
 {
@@ -342,6 +368,7 @@ int main(){
     /*TODO: Contour Analyzer works at the moment only for single Conotur
             -spline_vec may contour multiple countours -> correct ground truth must be assigned*/
     ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[0], 1.0);
+    //ContourPairAnalyzer analyzer(f_Groundtruth,test_spline, 1.0);
     analyzer.analyzeContours();
     return 0;
 }
