@@ -53,9 +53,9 @@ int main(int argc, char **argv)
     contour.runGaussianProcess();
     contour.computeCluster();
     //dummy data
-    
-    contour.exploreContour();
-    contour.approximateContour();
+    contour.labelData();
+    //contour.exploreContour();
+    //contour.approximateContour();
     return 0;
 }
 

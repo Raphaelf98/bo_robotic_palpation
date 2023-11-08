@@ -39,12 +39,16 @@ private:
     alglib::spline1dinterpolant spline_1_, spline_2_;
     SplineInterpolant_ptr_pair_vec spline_contours_;
     size_t n_samples_;
+    //k-means variables
+    std::vector<double> y_values;
+    size_t total_number_of_iterations_;
 public:
     Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
     Contour(){}
     ~Contour();
     void runGaussianProcess();
     void computeCluster();
+    void labelData();
     void exploreContour();
     void approximateContour();
     SplineInterpolant_ptr_pair_vec getSplineInterpolant();

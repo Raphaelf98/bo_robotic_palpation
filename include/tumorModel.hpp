@@ -1,7 +1,16 @@
 #ifndef _TUMORMODEL_HPP_
 #define _TUMORMODEL_HPP_
 #include "bayesopt/bayesopt.hpp"
+#include <random>
+class GaussianNoise{
+  public:
+    GaussianNoise(double mean, double std);
+    double noise();
+  private:
+    std::default_random_engine generator_;
+    std::normal_distribution<double> dist_;
 
+};
 class Triangle: public bayesopt::ContinuousModel
   {
   public:
@@ -44,10 +53,12 @@ class SmoothCircle: public bayesopt::ContinuousModel
     SmoothCircle(bayesopt::Parameters par);
   
     double evaluateSample( const vectord& xin);
+    
     double smoothstep(double edge0, double edge1, double x);
     double clamp(double x, double lowerlimit, double upperlimit);
     
   bool checkReachability(const vectord &query);
-
+  private:
+    GaussianNoise gaussianNoise_;
 };
 #endif

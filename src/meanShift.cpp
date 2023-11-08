@@ -291,6 +291,24 @@ bool saveToCSV(const std::string& filename, const std::vector<std::vector<double
     file.close();
     return true;
 }
+
+K_means::K_means(const std::vector<double> &vals){
+    data_ = arma::mat(vals);
+    //data_.reshape(1,0);
+    data_.resize(1,1);
+    data_.print();
+    //pre-fill centroids_ with guesses for initial clusters
+    std::vector<double> cs = {0.5,0.6};
+    centroids_ = arma::mat(cs);
+    centroids_.resize(1,1);
+
+}
+void K_means::cluster(){
+    kmeans_.Cluster(data_,2,assignments_,centroids_);
+}
+std::vector<double> K_means::getCentroids(){
+    return std::vector<double>(centroids_.begin(), centroids_.end());
+}
 /*
 int main(){
     std::vector<std::vector<double>> mat;

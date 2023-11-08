@@ -22,7 +22,8 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         n_samples_(n_directions_+1),
         c_(c_points_,std::vector<double>(c_points_))
 {
-
+    total_number_of_iterations_ = bopt_model_->getParameters()->n_iterations + bopt_model_->getParameters()->n_init_samples;
+    y_values.reserve(total_number_of_iterations_);
 }
 
 Contour::~Contour()
@@ -75,6 +76,26 @@ void Contour::computeCluster()
         std::cout<<"Cluster #"<<j<< " X: "<<clusters_[j].x<< " Y: "<<clusters_[j].y<<std::endl;
     }
     
+}
+void Contour::labelData()
+{
+    bayesopt::Dataset* data = const_cast<bayesopt::Dataset*>(bopt_model_->getData());
+
+    data->plotData(logINFO);
+    std::cout <<"total_number_of_iterations_"<< total_number_of_iterations_<< std::endl;
+    for(size_t i = 0; i<total_number_of_iterations_; i++)
+    {
+        y_values.push_back(data->getSampleY(i));
+    }
+    for (auto &i : y_values){
+        std::cout<<"data # "<<i<< std::endl;
+    }
+    K_means kmeans(y_values);
+    kmeans.cluster();
+    std::vector<double> c = kmeans.getCentroids();
+    for (auto &i : c){
+        std::cout<<"Centroid # "<<i<< std::endl;
+    }
 }
 
 void Contour::exploreContour(){
@@ -144,65 +165,68 @@ void Contour::exploreContour(){
 void Contour::approximateContour()
 {
     int file_num = 1;
+    //Iterate over all 
     for(std::vector<Point> &contour : contours_)
     {
-    double t[n_samples_];
-    std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
-    double f_1[n_samples_];
-    double f_2[n_samples_];
-    for (size_t i = 0; i < n_samples_; i++)
-    {
-        f_1[i] =contour[i].x;
-        f_2[i] =contour[i].y;
-        t[i] = i * 1.0/((double)n_samples_-1);
-        std::cout<<"sample # "<<t[i] << " at X: " <<f_1[i]<< " Y: "<<f_2[i] <<std::endl;
-    }
+        double t[n_samples_];
+        std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
+        double f_1[n_samples_];
+        double f_2[n_samples_];
 
-    alglib::real_1d_array x ;
-    alglib::real_1d_array y ;
-    alglib::real_1d_array theta;
-    theta.setcontent(n_samples_, t);
-    x.setcontent(n_samples_, f_1);
-    y.setcontent(n_samples_, f_2);
-    alglib::real_1d_array x2;
-    alglib::real_1d_array y2;
-    alglib::spline1dinterpolant s1;
-    alglib::spline1dinterpolant s2;
+        for (size_t i = 0; i < n_samples_; i++)
+        {
+            f_1[i] =contour[i].x;
+            f_2[i] =contour[i].y;
+            t[i] = i * 1.0/((double)n_samples_-1);
+            std::cout<<"sample # "<<t[i] << " at X: " <<f_1[i]<< " Y: "<<f_2[i] <<std::endl;
+        }
 
-    // Build B-spline
-    alglib::spline1dbuildcubic(theta, x, s1);
-    alglib::spline1dbuildcubic(theta, y, s2);
-    //Save spline contour to contours_vector 
-    
-    // Evaluate the B-spline at x=2.5
-    double v1 = alglib::spline1dcalc(s1, 0.5);
-    double v2 = alglib::spline1dcalc(s2, 0.5);
-    std::cout << "Value at theta=0.5: "<<" X: " << v1 << " Y: "  << v2<< std::endl;
-    size_t n_plotting_samples = 1000;
-    std::string file_ = "/home/raphael/robolab/displaygp/config/contour_" + std::to_string(file_num) + ".csv";
-    std::ofstream file(file_);
+        alglib::real_1d_array x ;
+        alglib::real_1d_array y ;
+        alglib::real_1d_array theta;
+        theta.setcontent(n_samples_, t);
+        x.setcontent(n_samples_, f_1);
+        y.setcontent(n_samples_, f_2);
+        alglib::real_1d_array x2;
+        alglib::real_1d_array y2;
+        alglib::spline1dinterpolant s1;
+        alglib::spline1dinterpolant s2;
 
-    if (!file.is_open()) {
-        std::cerr << "Failed to open the file." << std::endl;
-    }
+        // Build B-spline
+        alglib::spline1dbuildcubic(theta, x, s1);
+        alglib::spline1dbuildcubic(theta, y, s2);
+        //Save spline contour to contours_vector 
 
-    file << "X,Y\n";
+        // Evaluate the B-spline at x=2.5
+        double v1 = alglib::spline1dcalc(s1, 0.5);
+        double v2 = alglib::spline1dcalc(s2, 0.5);
+        std::cout << "Value at theta=0.5: "<<" X: " << v1 << " Y: "  << v2<< std::endl;
+        size_t n_plotting_samples = 1000;
+        std::string file_ = "/home/raphael/robolab/displaygp/config/contour_" + std::to_string(file_num) + ".csv";
+        std::ofstream file(file_);
 
-    for (size_t i = 0; i < n_plotting_samples; i++) {
-        double increment = static_cast<double>(i)/static_cast<double>(n_plotting_samples-1);
-        double v1 = alglib::spline1dcalc(s1,increment);
-        double v2 = alglib::spline1dcalc(s2, increment);
-        file << v1  << "," << v2 << "\n";
-    }
+        if (!file.is_open()) {
+            std::cerr << "Failed to open the file." << std::endl;
+        }
 
-    file.close();
-    file_num++;
+        file << "X,Y\n";
 
-    auto ptr1 = std::make_shared<alglib::spline1dinterpolant>(s1);
-    auto ptr2 = std::make_shared<alglib::spline1dinterpolant>(s2);
+        for (size_t i = 0; i < n_plotting_samples; i++) 
+        {
+            double increment = static_cast<double>(i)/static_cast<double>(n_plotting_samples-1);
+            double v1 = alglib::spline1dcalc(s1,increment);
+            double v2 = alglib::spline1dcalc(s2, increment);
+            file << v1  << "," << v2 << "\n";
+        }
 
-// Move them into the vector
-    spline_contours_.push_back(std::make_pair(ptr1, ptr2));
+        file.close();
+        file_num++;
+
+        auto ptr1 = std::make_shared<alglib::spline1dinterpolant>(s1);
+        auto ptr2 = std::make_shared<alglib::spline1dinterpolant>(s2);
+
+        // Move them into the vector
+        spline_contours_.push_back(std::make_pair(ptr1, ptr2));
     }
 }
 SplineInterpolant_ptr_pair_vec Contour::getSplineInterpolant()
