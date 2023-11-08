@@ -53,6 +53,7 @@ class K_means{
     K_means(const std::vector<double> &vals);
     void cluster();
     std::vector<double> getCentroids();
+    std::vector<std::pair<double,size_t>> getAssignments();
     private:
     arma::mat data_;
     size_t clusters_;

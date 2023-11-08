@@ -20,10 +20,12 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         stiffness_threshold_(0.01),
         lim_steps_(1000),
         n_samples_(n_directions_+1),
-        c_(c_points_,std::vector<double>(c_points_))
+        c_(c_points_,std::vector<double>(c_points_)),
+        multiplier_(1)
+
 {
     total_number_of_iterations_ = bopt_model_->getParameters()->n_iterations + bopt_model_->getParameters()->n_init_samples;
-    y_values.reserve(total_number_of_iterations_);
+    y_values_.reserve(total_number_of_iterations_);
 }
 
 Contour::~Contour()
@@ -77,31 +79,62 @@ void Contour::computeCluster()
     }
     
 }
-void Contour::labelData()
+void Contour::labelData_()
 {
     bayesopt::Dataset* data = const_cast<bayesopt::Dataset*>(bopt_model_->getData());
-
-    data->plotData(logINFO);
-    std::cout <<"total_number_of_iterations_"<< total_number_of_iterations_<< std::endl;
     for(size_t i = 0; i<total_number_of_iterations_; i++)
     {
-        y_values.push_back(data->getSampleY(i));
+        y_values_.push_back(data->getSampleY(i));
     }
-    for (auto &i : y_values){
-        std::cout<<"data # "<<i<< std::endl;
-    }
-    K_means kmeans(y_values);
+
+    K_means kmeans(y_values_);
     kmeans.cluster();
     std::vector<double> c = kmeans.getCentroids();
-    for (auto &i : c){
+    //Assumes that centroid index corresponds to label
+    std::vector<double>::iterator min_idx_it = std::min_element(c.begin(), c.end());
+    size_t min_idx = std::distance(c.begin(), min_idx_it);
+    std::cout<<"Label/Index for max stiffness: "<<min_idx<<std::endl;
+    for (auto &i : c)
+    {
         std::cout<<"Centroid # "<<i<< std::endl;
+        
     }
-}
+    //retrieve cluster center of tumor stiffness
+    tumor_stiffness_mean_ = c[min_idx];
+    std::cout<<"Tumor Stiffness mean is  "<<tumor_stiffness_mean_<< std::endl;
+    std::vector<std::pair<double,size_t>> labels = kmeans.getAssignments();
+    for(auto &a : labels){
+        
+        if(a.second == min_idx){
 
+            tumor_stiffness_vec_.push_back(a.first);
+            std::cout<<"Stiffness in Tumor cluster "<< a.first<<std::endl;
+        }
+        else
+        {
+            std::cout<<"Surrounding stiffness"<< a.first<<std::endl;
+        }
+        
+    }
+    
+}
+void Contour::computeStiffnessThreshold_()
+{
+     std::cout<<"STD: "<<stddev(tumor_stiffness_vec_)<< std::endl;
+    threshold_ = multiplier_*stddev(tumor_stiffness_vec_)+tumor_stiffness_mean_;
+    std::cout<<"THRESHOLD: "<< threshold_<< std::endl;
+}
+bool Contour::contourPoint_(double &stiffness)
+{
+    return stiffness >= threshold_;
+}
 void Contour::exploreContour(){
     /*
     TODO: 
     */
+    labelData_();
+    computeStiffnessThreshold_();
+
     for(auto &p1 : clusters_)
     {
         
@@ -139,7 +172,7 @@ void Contour::exploreContour(){
                 stiffness_vec[i].push_back(new_stiffness);
                 if (j>0)
                 {
-                    if (abs(new_stiffness-old_stiffness) >= stiffness_threshold_)
+                    if (contourPoint_(new_stiffness))
                     {   
                         contour_vec[i] = p;
                         std::cout<<"Contour point at "<<theta<< " at: X: " <<p.x <<" Y: "<<p.y<< " with step: dx / dy "<< delta_x<< " / " << delta_y<<std::endl;
@@ -172,6 +205,13 @@ void Contour::approximateContour()
         std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
         double f_1[n_samples_];
         double f_2[n_samples_];
+        std::string file_contour_points = "/home/raphael/robolab/displaygp/config/contour_points_" + std::to_string(file_num) + ".csv";
+        std::ofstream file(file_contour_points);
+        if (!file.is_open()) {
+            std::cerr << "Failed to open the file." << std::endl;
+        }
+
+        file << "X,Y\n";
 
         for (size_t i = 0; i < n_samples_; i++)
         {
@@ -179,8 +219,9 @@ void Contour::approximateContour()
             f_2[i] =contour[i].y;
             t[i] = i * 1.0/((double)n_samples_-1);
             std::cout<<"sample # "<<t[i] << " at X: " <<f_1[i]<< " Y: "<<f_2[i] <<std::endl;
+            file <<f_1[i]  << "," << f_2[i]  << "\n";
         }
-
+        file.close();
         alglib::real_1d_array x ;
         alglib::real_1d_array y ;
         alglib::real_1d_array theta;
@@ -203,23 +244,23 @@ void Contour::approximateContour()
         std::cout << "Value at theta=0.5: "<<" X: " << v1 << " Y: "  << v2<< std::endl;
         size_t n_plotting_samples = 1000;
         std::string file_ = "/home/raphael/robolab/displaygp/config/contour_" + std::to_string(file_num) + ".csv";
-        std::ofstream file(file_);
+        std::ofstream file_c(file_);
 
-        if (!file.is_open()) {
+        if (!file_c.is_open()) {
             std::cerr << "Failed to open the file." << std::endl;
         }
 
-        file << "X,Y\n";
+        file_c << "X,Y\n";
 
         for (size_t i = 0; i < n_plotting_samples; i++) 
         {
             double increment = static_cast<double>(i)/static_cast<double>(n_plotting_samples-1);
             double v1 = alglib::spline1dcalc(s1,increment);
             double v2 = alglib::spline1dcalc(s2, increment);
-            file << v1  << "," << v2 << "\n";
+            file_c << v1  << "," << v2 << "\n";
         }
 
-        file.close();
+        file_c.close();
         file_num++;
 
         auto ptr1 = std::make_shared<alglib::spline1dinterpolant>(s1);

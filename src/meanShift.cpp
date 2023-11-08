@@ -294,20 +294,34 @@ bool saveToCSV(const std::string& filename, const std::vector<std::vector<double
 
 K_means::K_means(const std::vector<double> &vals){
     data_ = arma::mat(vals);
+    std::cout<<"DIMENSIONS: "<< data_.size()<< std::endl;
     //data_.reshape(1,0);
-    data_.resize(1,1);
-    data_.print();
+    data_.reshape(1,data_.size());
     //pre-fill centroids_ with guesses for initial clusters
-    std::vector<double> cs = {0.5,0.6};
+    std::vector<double> cs = {0.1,0.9,0.5};
     centroids_ = arma::mat(cs);
-    centroids_.resize(1,1);
+
 
 }
-void K_means::cluster(){
-    kmeans_.Cluster(data_,2,assignments_,centroids_);
+void K_means::cluster()
+{
+    kmeans_.Cluster(data_,3,assignments_,centroids_);
+    std::cout<<"DATA"<<std::endl;
+    data_.print();
+    std::cout<<"ASSIGNMENTS"<<std::endl;
+    assignments_.print();
 }
 std::vector<double> K_means::getCentroids(){
     return std::vector<double>(centroids_.begin(), centroids_.end());
+}
+std::vector<std::pair<double,size_t>> K_means::getAssignments()
+{   std::vector<std::pair<double,size_t>> v( data_.size());
+    for(size_t i = 0; i < data_.size(); i++)
+    {   
+        v[i].first = data_(0,i);
+        v[i].second = assignments_[i];
+    }
+    return v;
 }
 /*
 int main(){

@@ -114,7 +114,7 @@ TwoCircles::TwoCircles(bayesopt::Parameters par):
 
 
 SmoothCircle::SmoothCircle(bayesopt::Parameters par):
-    ContinuousModel(2,par), gaussianNoise_(0.0,0.1){}
+    ContinuousModel(2,par), gaussianNoise_(0.0,0.005){}
 
   double SmoothCircle::smoothstep(double edge0, double edge1, double x) 
   {

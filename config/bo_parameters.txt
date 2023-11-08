@@ -1,4 +1,4 @@
-n_iterations=20
+n_iterations=30
 n_inner_iterations=500
 n_init_samples=5
 n_iter_relearn=3
@@ -18,7 +18,7 @@ sc_type=SC_MAP
 l_type=L_EMPIRICAL
 l_all=0
 epsilon=10
-force_jump=0
+force_jump=2
 kernel.name=kSEISO
 kernel.hp_mean=[1](1)
 kernel.hp_std=[1](1)
