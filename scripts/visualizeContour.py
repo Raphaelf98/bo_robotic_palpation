@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def fx(t):
-    return 0.5 + 0.1*np.sin(t)
+    return 0.5 + 0.15*np.sin(t)
 def fy(t):
-    return 0.5 + 0.1*np.cos(t)
+    return 0.5 + 0.15*np.cos(t)
 
 
 # Read the CSV file

@@ -25,11 +25,11 @@ void keyboard(unsigned char key, int x, int y)
     GLOBAL_MATPLOT.keyboard(key, x, y); 
     if(key=='r')   //Toogle run/stop
       { 
-	GLOBAL_MATPLOT.toogleRUN();
+	  GLOBAL_MATPLOT.toogleRUN();
       }
     if(key=='s')   //Activate one step
       { 
-	GLOBAL_MATPLOT.setSTEP();
+	  GLOBAL_MATPLOT.setSTEP();
       }
 }
 

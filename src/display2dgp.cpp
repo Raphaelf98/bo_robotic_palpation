@@ -33,7 +33,7 @@
           low = val;
       }
     }
-    void DisplayHeatMap2D::prepareContourPlot()
+    void DisplayHeatMap2D::preparePlot()
     {
       cX=linspace(0,1,c_points);
       cY=linspace(0,1,c_points);
@@ -66,7 +66,7 @@
 	}
       
       bopt_model = bopt;
-      prepareContourPlot();
+      preparePlot();
       
       bopt->initializeOptimization();
       size_t n_points = bopt->getData()->getNSamples();
@@ -128,7 +128,7 @@
       subplot(2,2,1);
       title("Prediction and Samples");
       plot(cx,cy);set("g");set("o");set(4);         // Data points as black star
-	    plot(solx,soly);set("r"); set("o");set(4); 
+	    //plot(solx,soly);set("r"); set("o");set(4); 
     
         
 	    if ((status != STOP) && (state_ii < nruns))

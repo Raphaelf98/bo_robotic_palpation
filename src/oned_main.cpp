@@ -5,6 +5,10 @@
 #include "param_loader.hpp"
 #include "displaygp.hpp"
 #include "testfunctions.hpp"
+#include<thread>
+#include<mutex>
+#include <condition_variable>
+#include <chrono>
 using namespace bayesopt;
 
 class Example1D: public ContinuousModel
@@ -120,8 +124,7 @@ int menu()
     }
   return option;
 }
-
-int main(int nargs, char *args[])
+void dostuff(int nargs, char *args[])
 {
   bopt_params parameters = initialize_parameters_to_default();
   parameters.n_init_samples = 7;
@@ -167,6 +170,7 @@ int main(int nargs, char *args[])
 
   glutInit(&nargs, args);
   glutCreateWindow(50,50,800,650);
+  //Call is redirected to DISPLAY() function call
   glutDisplayFunc( display );
   glutReshapeFunc( reshape );
   glutIdleFunc( idle );
@@ -176,5 +180,118 @@ int main(int nargs, char *args[])
   glutKeyboardFunc( keyboard );        
   glutMainLoop();    
 
+
+
+}
+class opt{
+
+  std::mutex mtx;
+  int shared_data;
+  std::condition_variable cv;
+  bool received;
+  bool sent;
+  
+void sender(){
+  
+  int i = 0;
+  while(i != 10)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    shared_data++;
+    {
+      std::unique_lock<std::mutex> lock1(mtx);
+      
+      cv.wait(lock1, [&]{ return this->received; });
+      std::cout<<"Set data to " << shared_data<<std::endl;
+
+      sent = true;
+      received = false;
+    }
+    
+    cv.notify_one();
+   
+    i++;
+
+  }
+    
+}
+  bool waitsend(){
+    return sent;
+}
+void receiver()
+{
+
+  int i = 0;
+  std::cout<<"Wait for data..."<<std::endl;
+  while(true)
+  {
+    {
+    std::unique_lock<std::mutex> lock(mtx);
+    cv.wait(lock, [&]{ return this->sent; });
+    std::cout<<"Received data "<< shared_data<<std::endl;
+    i++;
+    received = true;
+    sent = false;
+     if (shared_data >= 10) break; 
+    lock.unlock();
+    }
+    cv.notify_one();
+  }
+    
+}
+void dostuff()
+{
+  bopt_params parameters = initialize_parameters_to_default();
+  parameters.n_init_samples = 7;
+  parameters.n_iterations = 100;
+  parameters.verbose_level = 2;
+
+  bayesopt::Parameters parameters_class(parameters);
+  boost::scoped_ptr<ExampleDiscrete> opt(new ExampleDiscrete(parameters_class));
+  GLOBAL_MATPLOT.init(opt.get(),1);
+  int nargs;
+  char *args[1];
+  glutInit(&nargs, args);
+  glutCreateWindow(50,50,800,650);
+  //Call is redirected to DISPLAY() function call
+  glutDisplayFunc( display );
+  glutReshapeFunc( reshape );
+  glutIdleFunc( idle );
+  glutMotionFunc( motion );
+  glutMouseFunc( mouse );
+  glutPassiveMotionFunc(passive);    
+  glutKeyboardFunc( keyboard );        
+  glutMainLoop();    
+
+
+
+}
+public:
+opt()
+  {
+    shared_data = 0;
+    received = true;
+    sent = false;
+  }
+void establish()
+{
+  std::thread t1(&opt::sender, this);
+  std::thread t2(&opt::receiver, this);
+  std::thread t3(&opt::dostuff, this);
+  t1.join();
+  t2.join();
+  t3.join();
+
+
+
+}
+};
+
+int main(int nargs, char *args[])
+{
+  
+  opt opt_;
+  opt_.establish();
+  
   return 0;
 }

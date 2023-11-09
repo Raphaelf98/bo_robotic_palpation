@@ -154,7 +154,7 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par):
     } else 
     {
       // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius, radius + epsilon, r);
+      return smoothstep(radius, radius + epsilon, r) + gaussianNoise_.noise();
     }
 
     

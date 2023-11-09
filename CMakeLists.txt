@@ -9,6 +9,7 @@ find_library(NLOPT_LIB nlopt)
 find_library(MLPACK_LIB mlpack)
 find_package(Boost)
 find_package(CGAL)
+find_package(Threads REQUIRED)
 message(bayeslibrarypath="${BAYESOPT_LIB}")
 message(nloptlibrarypath="${NLOPT_LIB}")
 message(cgullibrarypath="${CGAL_DIR}" )
@@ -169,7 +170,7 @@ ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
 
 
 target_link_libraries(oned_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
-${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
+${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib Threads::Threads)
 
 
 #target_link_libraries(compute_mean_shift ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}   OpenMP::OpenMP_CXX

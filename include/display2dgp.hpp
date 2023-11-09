@@ -6,7 +6,7 @@
 #include "matplotpp.h"
 #include "fileParser.hpp"
 #include "tumorModel.hpp"
-    
+
     enum RunningStatus
       {
 	    RUN, STEP, STOP, NOT_READY, RUN_MS, 
@@ -29,13 +29,19 @@
     public:
       DisplayHeatMap2D();
       void setSolution(vectord sol);
-      void prepareContourPlot();
+      void preparePlot();
       void init(bayesopt::BayesOptBase* bopt, size_t dim);
       void setSTEP();
       void toogleRUN();
       void DISPLAY();
-      //Methods for Mean Shift algorithm
+      
      
     };
-  
+    class DisplayProcess 
+    {
+      public:
+      DisplayProcess();
+
+
+    };
 #endif
