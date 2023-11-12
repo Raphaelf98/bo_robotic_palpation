@@ -6,10 +6,11 @@
 #include "matplotpp.h"
 #include "fileParser.hpp"
 #include "tumorModel.hpp"
-    
+#include "contour.hpp"
+
     enum RunningStatus
       {
-	    RUN, STEP, STOP, NOT_READY, RUN_MS, 
+	    RUN, STEP, STOP, NOT_READY, PLOT_CENTROIDS, PLOT_CONTOUR_POINTS, PLOT_CONTOUR_APPX
       };
 
     class DisplayHeatMap2D :public MatPlot
@@ -17,7 +18,7 @@
     private:
       RunningStatus status;
       size_t state_ii;
-      bayesopt::BayesOptBase* bopt_model;
+      Contour *contour_;
       std::vector<double> lx,ly;
       std::vector<double> cx, cy;
       std::vector<double> solx, soly;
@@ -26,13 +27,23 @@
       std::vector<std::vector<double> > cZ;
       double gTHigh, gTLow, PHigh, PLow, StdHigh, StdLow, CVHigh, CVLow;
       void setHighLow(double &low, double &high, double val);
+      //Cluster plot
+      std::vector<double> clusterx_, clsutery_;
+      bool computeClusters;
+      //Contour points plot
+      bool computeContourPoints;
+      std::vector<double> cpointsx_, cpointsy_;
+      //Contour approximation plot
+      bool computeSplinePoints;
+      std::vector<std::vector<double>> splinex_, spliney_;
     public:
       DisplayHeatMap2D();
       void setSolution(vectord sol);
-      void prepareContourPlot();
-      void init(bayesopt::BayesOptBase* bopt, size_t dim);
+      void loadGroundTruth();
+      void init(Contour *contour,size_t dim);
       void setSTEP();
       void toogleRUN();
+      
       void DISPLAY();
       //Methods for Mean Shift algorithm
      

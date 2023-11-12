@@ -5,11 +5,15 @@
 #include "meanShift.hpp"
 #include "interpolation.h"
 #include "stdafx.h"
+
 #include<numeric>
+
+
 typedef std::unique_ptr<alglib::spline1dinterpolant> SplineInterpolant1d_ptr;
 typedef std::pair<std::shared_ptr<alglib::spline1dinterpolant>,std::shared_ptr<alglib::spline1dinterpolant>> SplineInterpolant_ptr_pair;
 typedef std::vector<SplineInterpolant_ptr_pair> SplineInterpolant_ptr_pair_vec;
-inline std::vector<double> linspace(double min,double max,int n)
+
+inline std::vector<double> linSpace(double min, double max,int n)
 {
     std::vector<double> a;
     if(n<1){n=1;}
@@ -17,7 +21,8 @@ inline std::vector<double> linspace(double min,double max,int n)
     for(int i=0;i<n;++i){a[i]=min+(max-min)*i/(n-1);}
     return a;
 };
-inline double stddev(std::vector<double> v)
+
+inline double stdDev(std::vector<double> v)
 {
     double sum = std::accumulate(v.begin(), v.end(), 0.0);
     double m =  sum / v.size();
@@ -36,6 +41,7 @@ class Contour
 private:
     // Bayesian Optimization variables
     bayesopt::BayesOptBase* bopt_model_;
+    
     size_t n_exploration_directions_;
     size_t c_points_;
     std::vector<std::vector<double>> c_;
@@ -67,14 +73,34 @@ private:
     void labelData_();
     void computeStiffnessThreshold_();
 public:
+    size_t number_of_step_runs;
+    
     Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
     Contour(){}
     ~Contour();
+
+
+    bayesopt::vectord getLastSample();
+    bayesopt::ProbabilityDistribution* getPredictionGaussianProcess(const vectord &q);
+    void getInitialSamples( std::vector<double> &samples_x, std::vector<double> &samples_y );
+    double evaluateGaussianProcess(const bayesopt::vectord &q);
+    double evaluateCriteriaGaussianProcess(const bayesopt::vectord &q);
+    void prepareGaussianProcess();
+    void stepRunGaussianProcess();
+
     void runGaussianProcess();
     void computeCluster();
     void exploreContour();
     void approximateContour();
     void computeStiffnessThreshold();
+
+    void runProcess(std::mutex mtx_);
+
+    //plot clusters
+    std::vector<Point> getClusters();
+
+    //plot contour points
+    std::vector<Point> getContourPoints();
     
     SplineInterpolant_ptr_pair_vec getSplineInterpolant();
 };

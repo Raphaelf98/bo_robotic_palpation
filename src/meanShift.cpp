@@ -305,7 +305,7 @@ K_means::K_means(const std::vector<double> &vals){
 }
 void K_means::cluster()
 {
-    kmeans_.Cluster(data_,3,assignments_,centroids_);
+    kmeans_.Cluster(data_,2,assignments_,centroids_);
     std::cout<<"DATA"<<std::endl;
     data_.print();
     std::cout<<"ASSIGNMENTS"<<std::endl;

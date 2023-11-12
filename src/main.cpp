@@ -5,7 +5,7 @@
 #include "param_loader.hpp"
 #include "display2dgp.hpp"
 #include "testfunctions.hpp"
-
+#include "contour.hpp"
 using namespace bayesopt;
 
 // Unfortunately OpenGL functions require no parameters, so the object
@@ -24,13 +24,14 @@ void keyboard(unsigned char key, int x, int y)
 {
     GLOBAL_MATPLOT.keyboard(key, x, y); 
     if(key=='r')   //Toogle run/stop
-      { 
-	GLOBAL_MATPLOT.toogleRUN();
-      }
+    { 
+	    GLOBAL_MATPLOT.toogleRUN();
+    }
     if(key=='s')   //Activate one step
-      { 
-	GLOBAL_MATPLOT.setSTEP();
-      }
+    { 
+	    GLOBAL_MATPLOT.setSTEP();
+    }
+ 
 }
 
 
@@ -91,7 +92,8 @@ int main(int nargs, char *args[])
   //boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
   //GLOBAL_MATPLOT.init(twoCircles.get(),2);
  boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
-  GLOBAL_MATPLOT.init(smoothCircle.get(),2);
+ Contour contour(smoothCircle.get(),100);
+  GLOBAL_MATPLOT.init(&contour,2);
   //
   vectord sv(2);  
   sv(0) = 0.1239; sv(1) = 0.8183;

@@ -147,7 +147,7 @@ set(HEADERS
 #target_link_libraries(cgul_lib INTERFACE ${Boost_LIBRARIES} ${GMP_LIBRARY} ${GMPXX_LIBRARY})
 #create library from additional sources and include headers
 add_library(headers ${SRCS} ${HEADERS} )
-target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
+target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp ${MLPACK_LIB}
                     ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib alglib)
 
 add_library(utils_lib ${UTILS_SOURCES} ${UTILS_HEADERS} )
@@ -177,7 +177,7 @@ ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
 
 target_link_libraries(compute_contour alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} utils_lib  OpenMP::OpenMP_CXX)
 
-target_link_libraries(display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
+target_link_libraries(display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp alglib ${MLPACK_LIB} OpenMP::OpenMP_CXX
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib headers)
 
 

@@ -24,9 +24,11 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         multiplier_(1)
 
 {
-    total_number_of_iterations_ = bopt_model_->getParameters()->n_iterations + bopt_model_->getParameters()->n_init_samples;
+    number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
+    total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples;
     y_values_.reserve(total_number_of_iterations_);
 }
+
 
 Contour::~Contour()
 {
@@ -36,16 +38,22 @@ void Contour::runGaussianProcess(){
     
     bopt_model_->initializeOptimization();
     size_t nruns = bopt_model_->getParameters()->n_iterations;
-    std::vector<double> x,y;
-    vectord q(2);
-    x = linspace(0,1,c_points_);
-    y = linspace(0,1,c_points_);
+    
     while(state_ii < nruns)
     {
         ++state_ii;
         bopt_model_->stepOptimization();
 
     }
+
+}
+void Contour::computeCluster()
+{   
+
+    std::vector<double> x,y;
+    vectord q(2);
+    x = linSpace(0,1,c_points_);
+    y = linSpace(0,1,c_points_);
     for(size_t i=0; i<c_points_; ++i)
 	{
         
@@ -59,10 +67,6 @@ void Contour::runGaussianProcess(){
 
 	      
     }
-
-}
-void Contour::computeCluster()
-{   
     mean_shift_ = MeanShift(c_, bandwidth_, samples_);
     mean_shift_.meanshift_mlpack();
 
@@ -78,6 +82,11 @@ void Contour::computeCluster()
         std::cout<<"Cluster #"<<j<< " X: "<<clusters_[j].x<< " Y: "<<clusters_[j].y<<std::endl;
     }
     
+}
+std::vector<Point> Contour::getClusters()
+{   
+    return clusters_;
+
 }
 void Contour::labelData_()
 {
@@ -120,8 +129,8 @@ void Contour::labelData_()
 }
 void Contour::computeStiffnessThreshold_()
 {
-     std::cout<<"STD: "<<stddev(tumor_stiffness_vec_)<< std::endl;
-    threshold_ = multiplier_*stddev(tumor_stiffness_vec_)+tumor_stiffness_mean_;
+     std::cout<<"STD: "<<stdDev(tumor_stiffness_vec_)<< std::endl;
+    threshold_ = multiplier_*stdDev(tumor_stiffness_vec_)+tumor_stiffness_mean_;
     std::cout<<"THRESHOLD: "<< threshold_<< std::endl;
 }
 bool Contour::contourPoint_(double &stiffness)
@@ -194,6 +203,15 @@ void Contour::exploreContour(){
         }
         contours_.push_back(contour_vec);
     }
+}
+std::vector<Point> Contour::getContourPoints()
+{
+    std::vector<Point> contour_points;
+
+    for(auto &c : contours_){ 
+        contour_points.insert(contour_points.end(), c.begin(),c.end());
+    }
+    return contour_points;
 }
 void Contour::approximateContour()
 {
@@ -276,3 +294,45 @@ SplineInterpolant_ptr_pair_vec Contour::getSplineInterpolant()
     return spline_contours_;
 }
 
+bayesopt::vectord Contour::getLastSample()
+{
+    return bopt_model_->getData()->getLastSampleX();
+}
+
+void Contour::getInitialSamples( std::vector<double> &samples_x, std::vector<double> &samples_y )
+{
+     size_t n_points = bopt_model_->getData()->getNSamples();
+      for (size_t i = 0; i<n_points;++i)
+	    {
+	      const vectord last = bopt_model_->getData()->getSampleX(i);
+	      samples_x.push_back(last(0));
+	      samples_y.push_back(last(1));
+	    }
+
+}
+
+bayesopt::ProbabilityDistribution* Contour::getPredictionGaussianProcess(const bayesopt::vectord &q)
+{
+    return bopt_model_->getPrediction(q);
+}
+double Contour::evaluateGaussianProcess(const bayesopt::vectord &q)
+{
+    return bopt_model_->evaluateSample(q);
+
+}
+
+void Contour::prepareGaussianProcess()
+{
+    bopt_model_->initializeOptimization();
+    size_t nruns = bopt_model_->getParameters()->n_iterations;
+  
+}
+void  Contour::stepRunGaussianProcess()
+{
+    bopt_model_->stepOptimization();
+}
+double Contour::evaluateCriteriaGaussianProcess(const bayesopt::vectord &q)
+{
+    return bopt_model_->evaluateCriteria(q);
+
+}
