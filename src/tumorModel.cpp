@@ -10,9 +10,10 @@ double GaussianNoise::noise()
 PolarPolygon::PolarPolygon(size_t num_verices, double radius, double x_translation, double y_translation):
                 num_vertices_(num_verices),radius_(radius), x_trans_(x_translation), y_trans_(y_translation)
 {
-  computeVertices();
+  if(num_verices>2){
+      computeVertices();
+  }
   
-
 }
 void PolarPolygon::computeVertices()
 {
@@ -77,13 +78,43 @@ double r =  r_polar_(x-x_trans_,y-y_trans_);
  double rad = abs(evaluate(theta, radius_ + epsilon));
  return rad;
 }
+double PolarPolygon::insideCircle(const double &x, const double & y){
+ double r = r_polar_(x-x_trans_,y-y_trans_);
+ double theta = theta_polar_(x-x_trans_,y-y_trans_);
+ if(isnan(theta))
+ {
+  return 0.0;
+ }
+ //TODO Compare radius to line segment radius
+ double rad = abs(evaluateCircle(theta,radius_));
+ return rad;
+}
+double PolarPolygon::outsideCircle(const double &x, const double & y, double epsilon){
+double r =  r_polar_(x-x_trans_,y-y_trans_);
+ double theta =   theta_polar_(x-x_trans_,y-y_trans_);
+ if(isnan(theta))
+ {
+  return 0.0;
+ }
+ //TODO Compare radius to line segment radius
+ double rad = abs(evaluateCircle(theta, radius_ + epsilon));
+ return rad;
+}
+
+double PolarPolygon::evaluateCircle(const double & theta, double rad)
+{
+
+  return 1;
+
+}
 double PolarPolygon::evaluate(const double & theta, double rad)
 {
   int idx = 0;
   for (size_t i = 0; i < radians_lookup_.size(); i++)
   {
       
-      if (radians_lookup_[i] > theta){
+      if (radians_lookup_[i] > theta)
+      {
         idx = i; 
         break;
       }
@@ -233,7 +264,7 @@ double PolarPolygon::evaluate(const double & theta, double rad)
 
 
 TwoCircles::TwoCircles(bayesopt::Parameters par):
-    ContinuousModel(2,par), gaussianNoise_(0.0,0.005) {}
+    ContinuousModel(2,par), gaussianNoise_(0.0,0.005), circle_(PolarPolygon(1, 0.01,0.2,0.5)) {}
 
 
   double TwoCircles::smoothstep(double edge0, double edge1, double x) 
@@ -271,16 +302,19 @@ TwoCircles::TwoCircles(bayesopt::Parameters par):
 
     double epsilon = 0.1;
 
-    if (r0 <= radius_0) 
+    double radius_inner = circle_.insidePolygon(x,y);
+    double radius_outer = circle_.outsidePolygon(x,y, epsilon);
+
+    if(r0 < radius_inner){
+      return 0+ gaussianNoise_.noise();
+    }
+    else if (r0 >= radius_outer) 
     {
-      return 0.0 + gaussianNoise_.noise();
-    } else if (r0 >= radius_0 + epsilon) 
-    {
-      return 1.0 + gaussianNoise_.noise();
+      return 1.0+ gaussianNoise_.noise();
     } else 
     {
       // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius_0, radius_0 + epsilon, r0);
+      return smoothstep(radius_inner,radius_outer, r0);
     }
 
     /*

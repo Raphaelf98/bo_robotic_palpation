@@ -16,6 +16,9 @@ class PolarPolygon{
     PolarPolygon(){};
     PolarPolygon(size_t num_verices, double radius, double x_translation, double y_translation);
     double evaluate(const double & theta, double rad);
+    double evaluateCircle(const double & theta, double rad);
+    double insideCircle(const double &x, const double & y);
+    double outsideCircle(const double &x, const double & y, double epsilon);
     double insidePolygon(const double &x, const double & y);
     double outsidePolygon(const double &x, const double & y, double epsilon);
     private:
@@ -89,6 +92,7 @@ class TwoCircles: public bayesopt::ContinuousModel
     
   bool checkReachability(const vectord &query);
   private:
+  PolarPolygon circle_;
     GaussianNoise gaussianNoise_;
 };
 class SmoothCircle: public bayesopt::ContinuousModel
