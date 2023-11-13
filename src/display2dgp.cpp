@@ -262,7 +262,7 @@
           }
           for (size_t i = 0; i < splinex_.size(); i++)
             {
-              line(splinex_[i],spliney_[i]);
+              line(splinex_[i],spliney_[i]);set("k");
             }
         }
        

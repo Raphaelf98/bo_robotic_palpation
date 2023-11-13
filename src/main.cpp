@@ -84,6 +84,13 @@ int main(int nargs, char *args[])
   }
   bayesopt::utils::ParamLoader::save("triangle_display_params.txt", par);
   //boost::scoped_ptr<Triangle> triangle(new Triangle(par));
+
+  //Contour contour(triangle.get(),100);
+
+  //boost::scoped_ptr<Rectangle> rectangle(new Rectangle(par));
+  
+  //Contour contour(rectangle.get(),100);
+
   //GLOBAL_MATPLOT.init(triangle.get(),2);
   //boost::scoped_ptr<BraninNormalized> Branin(new BraninNormalized(par));
   //GLOBAL_MATPLOT.init(Branin.get(),2);
@@ -93,6 +100,7 @@ int main(int nargs, char *args[])
   //GLOBAL_MATPLOT.init(twoCircles.get(),2);
  boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
  Contour contour(smoothCircle.get(),100);
+
   GLOBAL_MATPLOT.init(&contour,2);
   //
   vectord sv(2);  
