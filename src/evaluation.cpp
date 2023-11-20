@@ -276,18 +276,21 @@ double fy3(double x)
 {
     return 0.9*cos(x);
 }
-std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(FunctionPtr f_x, FunctionPtr f_y, int n_samples_ = 10)
+std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 10)
 {
     double t[n_samples_];
     std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
     double f_1[n_samples_];
     double f_2[n_samples_];
+    
     for (size_t i = 0; i < n_samples_; i++)
     {
-        f_1[i] =f_x(2*M_PI*i/(n_samples_-1));
-        f_2[i] =f_y(2*M_PI*i/(n_samples_-1));;
-        t[i] = i * 1.0/((double)n_samples_-1);
+        f_1[i] =f_x(1-(double) i/((double) n_samples_-1));
         
+
+        f_2[i] =f_y(1-(double) i/((double) n_samples_-1));
+        std::cout<< "VALUE" << f_1[i]<<", "<< f_2[i] <<"at: "<< (double) i/((double) n_samples_-1)<<std::endl;
+        t[i] = i * 1.0/((double)n_samples_-1);
     }
 
     alglib::real_1d_array x ;
@@ -307,7 +310,24 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
     return std::make_pair(std::make_unique<alglib::spline1dinterpolant>(s1),std::make_unique<alglib::spline1dinterpolant>(s2));
 }
 
-int main(){
+
+
+enum ShapeType {
+    SHAPE_CIRCLE,
+    SHAPE_TRIANGLE,
+    SHAPE_RECTANGLE,
+    SHAPE_TWOCIRCLES,
+    SHAPE_UNKNOWN // for unrecognized strings
+};
+ShapeType getShapeType(const std::string& shape) {
+    if (shape == "Circle") return SHAPE_CIRCLE;
+    if (shape == "Triangle") return SHAPE_TRIANGLE;
+    if (shape == "Rectangle") return SHAPE_RECTANGLE;
+    if (shape == "TwoCircles") return SHAPE_TWOCIRCLES;
+    return SHAPE_UNKNOWN;
+}
+
+int main(int argc, char *argv[]){
     //COMPUTE CONTOUR
     bayesopt::Parameters par;
  
@@ -320,39 +340,65 @@ int main(){
   else
   {
     par = initialize_parameters_to_default();
-    
     par.n_iterations = 60;
     par.n_init_samples = 10;
     par.crit_name = "cEI";
     par.epsilon = 3;
-    
-    
     par.random_seed = 10;
     par.init_method = 3;
-    
-    //par.crit_name = "cLCB";
-    //par.epsilon = 10;
     par.mean.name = "mZero";
     par.force_jump = 0;
     par.kernel.name = "kSEARD";
     par.kernel.hp_mean[0] = 0.08;
     par.kernel.hp_std[0] = 1.0;
     par.n_inner_iterations = 500;
-    //set_surrogate(&par,"sStudentTProcessNIG");
-
-    //par.l_type = L_MCMC;
-    //par.sc_type = SC_MAP;
-
-    
     par.verbose_level = 1;
     
     }
-    //boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
-    //Contour contour(twoCircles.get(),100);
-    boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
-    Contour contour(smoothCircle.get(),100);
-    //boost::scoped_ptr<Circle> circle(new Circle(par));
-    //Contour contour(circle.get(),100);
+    /*if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <Shape>\n";
+        return 1;
+    }*/
+    
+    //std::string arg = argv[1];
+    std::string arg = "Triangle";
+    ShapeType type = getShapeType(arg);
+   
+    std::vector< std::pair <std::function<double (const double&)> ,std::function<double (const double&)>> > groundTruths;
+    std::unique_ptr<Shape> shape;
+
+    switch (type) {
+
+        case SHAPE_CIRCLE:
+            std::cout << "Running Experiment on Circle" << std::endl;
+            shape = std::make_unique<SmoothCircle>(par); 
+            
+            break;
+
+        case SHAPE_TRIANGLE:
+            std::cout << "Running Experiment on Triangle" << std::endl;
+            shape = std::make_unique<Triangle>(par); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            break;
+
+        case SHAPE_RECTANGLE:
+            std::cout << "Running Experiment on Rectangle" << std::endl;
+            shape = std::make_unique<Rectangle>(par); 
+            break;
+
+        case SHAPE_TWOCIRCLES:
+            std::cout << "Running Experiment on Two Circles" << std::endl;
+            shape = std::make_unique<TwoCircles>(par, 0.1,0.15,0.2,0.7,0.8,0.3,0.1); 
+            break;
+            
+        default:
+            std::cout << "Unknown Shape: " << arg << std::endl;
+    }
+    
+    
+
+    
+    Contour contour(shape.get(),100);
     
     //run bayesian optimization
     contour.runGaussianProcess();
@@ -363,8 +409,8 @@ int main(){
     contour.approximateContour();
     
     SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
-    SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(fx2,fy2,1000));
-    SplineInterpolant_ptr_pair  test_spline = static_cast<SplineInterpolant_ptr_pair>(f_param(fx3,fy3,1000));
+    SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(groundTruths[0].first, groundTruths[0].second,1000));
+    //SplineInterpolant_ptr_pair  test_spline = static_cast<SplineInterpolant_ptr_pair>(f_param(fx3,fy3,1000));
     /*TODO: Contour Analyzer works at the moment only for single Conotur
             -spline_vec may contour multiple countours -> correct ground truth must be assigned*/
     ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[0], 1.0);

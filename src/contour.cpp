@@ -16,7 +16,7 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         c_points_(100),
         bandwidth_(0.05),
         samples_(c_points_),
-        n_directions_(8),
+        n_directions_(10),
         stiffness_threshold_(0.01),
         lim_steps_(1000),
         n_samples_(n_directions_+1),
@@ -182,6 +182,7 @@ void Contour::exploreContour(){
                 if (j>0)
                 {
                     if (contourPoint_(new_stiffness))
+                    //if(new_stiffness > 1.5)
                     {   
                         contour_vec[i] = p;
                         std::cout<<"Contour point at "<<theta<< " at: X: " <<p.x <<" Y: "<<p.y<< " with step: dx / dy "<< delta_x<< " / " << delta_y<<std::endl;
@@ -208,7 +209,8 @@ std::vector<Point> Contour::getContourPoints()
 {
     std::vector<Point> contour_points;
 
-    for(auto &c : contours_){ 
+    for(auto &c : contours_)
+    { 
         contour_points.insert(contour_points.end(), c.begin(),c.end());
     }
     return contour_points;

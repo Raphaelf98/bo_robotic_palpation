@@ -1,7 +1,7 @@
 n_iterations=30
 n_inner_iterations=500
 n_init_samples=5
-n_iter_relearn=1
+n_iter_relearn=3
 init_method=0
 random_seed=10
 verbose_level=1

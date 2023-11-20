@@ -7,8 +7,8 @@ double GaussianNoise::noise()
   return dist_(generator_);
 }
 
-PolarPolygon::PolarPolygon(size_t num_verices, double radius, double x_translation, double y_translation):
-                num_vertices_(num_verices),radius_(radius), x_trans_(x_translation), y_trans_(y_translation)
+PolarPolygon::PolarPolygon(size_t num_verices, double radius, double x_translation, double y_translation, double epsilon):
+                num_vertices_(num_verices),radius_(radius), x_trans_(x_translation), y_trans_(y_translation), epsilon_(epsilon)
 {
   if(num_verices>2){
       computeVertices();
@@ -53,8 +53,6 @@ double PolarPolygon::theta_polar_(const double &x,const double &y)
       return angle;
     }
     
-
-
 }
 double PolarPolygon::insidePolygon(const double &x, const double & y){
  double r = r_polar_(x-x_trans_,y-y_trans_);
@@ -63,7 +61,7 @@ double PolarPolygon::insidePolygon(const double &x, const double & y){
  {
   return 0.0;
  }
- //TODO Compare radius to line segment radius
+
  double rad = abs(evaluate(theta,radius_));
  return rad;
 }
@@ -74,67 +72,77 @@ double r =  r_polar_(x-x_trans_,y-y_trans_);
  {
   return 0.0;
  }
- //TODO Compare radius to line segment radius
+
  double rad = abs(evaluate(theta, radius_ + epsilon));
  return rad;
 }
 double PolarPolygon::insideCircle(const double &x, const double & y){
- double r = r_polar_(x-x_trans_,y-y_trans_);
- double theta = theta_polar_(x-x_trans_,y-y_trans_);
- if(isnan(theta))
- {
-  return 0.0;
- }
- //TODO Compare radius to line segment radius
- double rad = abs(evaluateCircle(theta,radius_));
- return rad;
+
+ 
+ return radius_;
 }
 double PolarPolygon::outsideCircle(const double &x, const double & y, double epsilon){
-double r =  r_polar_(x-x_trans_,y-y_trans_);
- double theta =   theta_polar_(x-x_trans_,y-y_trans_);
- if(isnan(theta))
- {
-  return 0.0;
- }
- //TODO Compare radius to line segment radius
- double rad = abs(evaluateCircle(theta, radius_ + epsilon));
- return rad;
+
+ 
+ return radius_ + epsilon;
 }
 
-double PolarPolygon::evaluateCircle(const double & theta, double rad)
-{
 
-  return 1;
-
-}
 double PolarPolygon::evaluate(const double & theta, double rad)
 {
   int idx = 0;
+  //deals with undefined behaviour for theta = 0
+  if(theta == 0){
+    return rad;
+  }
+
   for (size_t i = 0; i < radians_lookup_.size(); i++)
   {
       
-      if (radians_lookup_[i] > theta)
+      if (radians_lookup_[i] >= theta)
       {
         idx = i; 
         break;
       }
 
   }
+  
  double rt = rTheta_(std::make_pair( polar_x_(radians_lookup_[idx-1], rad) ,polar_x_(radians_lookup_[idx],rad)), std::make_pair( polar_y_(radians_lookup_[idx-1],rad), polar_y_(radians_lookup_[idx],rad) ), theta);
   return rt;
 
 }
- Triangle::Triangle(bayesopt::Parameters par):
-    ContinuousModel(2,par), triangle_(PolarPolygon(3, 0.25, 0.5,0.5)),  gaussianNoise_(0.0,0.005) {}
+//s e [0,1] (parametric funtion variable)
+double  PolarPolygon::f_x_(const double& s)
+{
+ return x_trans_ + polar_x_(s*2*M_PI, evaluate(s*2*M_PI, radius_+0.5*epsilon_) );
+}
+double  PolarPolygon::f_y_(const double& s)
+{
+return y_trans_ + polar_y_(s*2*M_PI, evaluate(s*2*M_PI, radius_+0.5*epsilon_) );
+}
+std::function<double(const double&)> PolarPolygon::fParametric_x()
+{
+  return std::bind(&PolarPolygon::f_x_,this, std::placeholders::_1);
+}
 
-  double Triangle::smoothstep(double edge0, double edge1, double x) 
+std::function<double(const double&)> PolarPolygon::fParametric_y()
+{
+  return std::bind(&PolarPolygon::f_y_,this, std::placeholders::_1);
+}
+
+Shape::Shape(bayesopt::Parameters par):ContinuousModel(2,par){
+
+}
+
+double Shape::smoothstep(const double x_l, const double x_r, const double x, const double y_l, const double y_r )
   {
-    // Scale, bias and saturate x to 0..1 range
-    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
-    // Evaluate polynomial
-    return x * x * (3 - 2 * x);
-  } 
-  double Triangle::clamp(double x, double lowerlimit, double upperlimit) {
+    double a = (-2*y_l + 2*y_r)/(x_l*x_l*x_l - 3*x_l*x_l*x_r + 3*x_l*x_r*x_r - x_r*x_r*x_r);
+    double b = (3*x_l*y_l - 3*x_l*y_r + 3*x_r*y_l - 3*x_r*y_r)/(x_l*x_l*x_l - 3*x_l*x_l*x_r + 3*x_l*x_r*x_r - x_r*x_r*x_r);
+    double c = (-6*x_l*x_r*y_l + 6*x_l*x_r*y_r)/(x_l*x_l*x_l - 3*x_l*x_l*x_r + 3*x_l*x_r*x_r - x_r*x_r*x_r);
+    double d = (x_l*x_l*x_l*y_r - 3*x_l*x_l*x_r*y_r + 3*x_l*x_r*x_r*y_l - x_r*x_r*x_r*y_l)/(x_l*x_l*x_l - 3*x_l*x_l*x_r + 3*x_l*x_r*x_r - x_r*x_r*x_r);
+    return a*x*x*x + b*x*x + c*x + d;
+  }
+  double Shape::clamp(double x, double lowerlimit, double upperlimit) {
     if (x < lowerlimit)
         x = lowerlimit;
     if (x > upperlimit)
@@ -142,33 +150,51 @@ double PolarPolygon::evaluate(const double & theta, double rad)
     return x;
 }
 
+
+
+ Triangle::Triangle(bayesopt::Parameters par):
+   Shape(par), triangle_(PolarPolygon(3, 0.2, 0.5,0.5,0.1)),  gaussianNoise_(0.0,0.005) {}
+
+  std::function<double (const double&)> Triangle::f_x()
+  {
+    return triangle_.fParametric_x();
+  }
+  std::function<double (const double&)> Triangle::f_y()
+  {
+    return triangle_.fParametric_y();
+  }
+
+
   double Triangle::evaluateSample( const vectord& xin)
   {
      if (xin.size() != 2)
       {
-	std::cout << "WARNING: This only works for 2D inputs." << std::endl
+	    std::cout << "WARNING: This only works for 2D inputs." << std::endl
 		  << "WARNING: Using only first two components." << std::endl;
       }
-    double x = xin(0);
-    double y = xin(1);
-    double epsilon = 0.3;
-    double y_0 = 0.5;
-    double x_0 = 0.5;
-    double r = sqrt((x - x_0)*(x - x_0) + (y - y_0)*(y - y_0));
+      double low= 0.0;
+      double high = 1.0;
+      double x = xin(0);
+      double y = xin(1);
+      double epsilon = 0.1;
+      double y_0 = 0.5;
+      double x_0 = 0.5;
+      double r = sqrt((x - x_0)*(x - x_0) + (y - y_0)*(y - y_0));
 
-    double radius_inner = triangle_.insidePolygon(x,y);
-    double radius_outer = triangle_.outsidePolygon(x,y, epsilon);
-    if(r < radius_inner){
-      return 0+ gaussianNoise_.noise();
-    }
-    else if (r >= radius_outer) 
-    {
-      return 1.0+ gaussianNoise_.noise();
-    } else 
-    {
-      // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius_inner,radius_outer, r);
-    }
+      double radius_inner = triangle_.insidePolygon(x,y);
+      double radius_outer = triangle_.outsidePolygon(x,y, epsilon);
+
+      if(r < radius_inner){
+        return 0+ gaussianNoise_.noise();
+      }
+      else if (r >= radius_outer) 
+      {
+        return 1.0+ gaussianNoise_.noise();
+      } else 
+      {
+        // smoothstep to interpolate between 1 and 0 for the edge of the circle
+        return smoothstep(radius_inner,radius_outer, r,low,high);
+      }
 
    
   }
@@ -180,22 +206,9 @@ double PolarPolygon::evaluate(const double & theta, double rad)
 
 
  Rectangle::Rectangle(bayesopt::Parameters par):
-    ContinuousModel(2,par), rectangle_(PolarPolygon(4, 0.25, 0.5,0.5)),  gaussianNoise_(0.0,0.005) {}
+   Shape(par), rectangle_(PolarPolygon(4, 0.15, 0.5,0.5,0.1)),  gaussianNoise_(0.0,0.00) {}
 
-  double Rectangle::smoothstep(double edge0, double edge1, double x) 
-  {
-    // Scale, bias and saturate x to 0..1 range
-    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
-    // Evaluate polynomial
-    return x * x * (3 - 2 * x);
-  } 
-  double Rectangle::clamp(double x, double lowerlimit, double upperlimit) {
-    if (x < lowerlimit)
-        x = lowerlimit;
-    if (x > upperlimit)
-        x = upperlimit;
-    return x;
-}
+  
 
   double Rectangle::evaluateSample( const vectord& xin)
   {
@@ -204,9 +217,11 @@ double PolarPolygon::evaluate(const double & theta, double rad)
 	std::cout << "WARNING: This only works for 2D inputs." << std::endl
 		  << "WARNING: Using only first two components." << std::endl;
       }
+      double low= 1.0;
+      double high = 2.0;
     double x = xin(0);
     double y = xin(1);
-    double epsilon = 0.3;
+    double epsilon = 0.1;
     double y_0 = 0.5;
     double x_0 = 0.5;
     double r = sqrt((x - x_0)*(x - x_0) + (y - y_0)*(y - y_0));
@@ -214,27 +229,38 @@ double PolarPolygon::evaluate(const double & theta, double rad)
     double radius_inner = rectangle_.insidePolygon(x,y);
     double radius_outer = rectangle_.outsidePolygon(x,y, epsilon);
     if(r < radius_inner){
-      return 0+ gaussianNoise_.noise();
+      return 1 + gaussianNoise_.noise();
     }
     else if (r >= radius_outer) 
     {
-      return 1.0+ gaussianNoise_.noise();
+      return 2 + gaussianNoise_.noise();
     } else 
     {
       // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius_inner,radius_outer, r);
+      return smoothstep(radius_inner,radius_outer, r,low,high);
     }
 
    
   }
+ std::function<double (const double&)> Rectangle::f_x()
+  {
+    return rectangle_.fParametric_x();
+  }
+  std::function<double (const double&)> Rectangle::f_y()
+  {
+    return rectangle_.fParametric_y();
+  }
+
 
   bool Rectangle::checkReachability(const vectord &query)
   {
     return true;
     };
     
+
+    /*
   Circle::Circle(bayesopt::Parameters par):
-    ContinuousModel(2,par) {}
+   Shape(par) {}
 
   double Circle::evaluateSample( const vectord& xin)
   {
@@ -258,29 +284,28 @@ double PolarPolygon::evaluate(const double & theta, double rad)
    //return (x-0.5)*(x-0.5) + (y-0.5)*(y-0.5);
     
   }
+ std::function<double (const double&)> Circle::f_x()
+  {
+    return triangle_.fParametric_x();
+  }
+  std::function<double (const double&)> Circle::f_y()
+  {
+    return triangle_.fParametric_y();
+  }
 
   bool Circle::checkReachability(const vectord &query)
   {return true;};
 
+*/
+TwoCircles::TwoCircles(bayesopt::Parameters par,double r_1, double r_2,double x_t_1,double x_t_2,
+                        double y_t_1,double y_t_2,double epsilon):
+                        Shape(par),
+                       gaussianNoise_(0.0,0.005), 
+                      r_1_(r_1), r_2_(r_2), x_t_1_(x_t_1), x_t_2_(x_t_2), y_t_1_(y_t_1), y_t_2_(y_t_2),epsilon_(epsilon),
+                      circle_1_(PolarPolygon(1, r_1_,x_t_1_,y_t_1_,0.1)),circle_2_(PolarPolygon(1, r_2_,x_t_2_,y_t_2_, 0.1)) {}
 
-TwoCircles::TwoCircles(bayesopt::Parameters par):
-    ContinuousModel(2,par), gaussianNoise_(0.0,0.005), circle_(PolarPolygon(1, 0.01,0.2,0.5)) {}
 
-
-  double TwoCircles::smoothstep(double edge0, double edge1, double x) 
-  {
-    // Scale, bias and saturate x to 0..1 range
-    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
-    // Evaluate polynomial
-    return x * x * (3 - 2 * x);
-  } 
-  double TwoCircles::clamp(double x, double lowerlimit, double upperlimit) {
-    if (x < lowerlimit)
-        x = lowerlimit;
-    if (x > upperlimit)
-        x = upperlimit;
-    return x;
-}  
+  
   double TwoCircles::evaluateSample( const vectord& xin){
     if (xin.size() != 2)
       {
@@ -289,81 +314,65 @@ TwoCircles::TwoCircles(bayesopt::Parameters par):
       }
     double x = xin(0);
     double y = xin(1);
+     double low= 0.0;
+    double high = 1.0;
+    double r1 = sqrt((x - x_t_1_)*(x - x_t_1_) + (y - y_t_1_)*(y - y_t_1_));
+    double r2 = sqrt((x - x_t_2_)*(x - x_t_2_) + (y - y_t_2_)*(y - y_t_2_));
 
-    double y_0 = 0.5;
-    double x_0 = 0.2;
-    double y_1 = 0.5;
-    double x_1 = 0.8;
+    double radius_inner_1 = circle_1_.insideCircle(x,y);
+    double radius_outer_1 = circle_1_.outsideCircle(x,y, epsilon_);
+    double radius_inner_2 = circle_2_.insideCircle(x,y);
+    double radius_outer_2 = circle_2_.outsideCircle(x,y, epsilon_);
 
-    double r0 = sqrt((x - x_0)*(x - x_0) + (y - y_0)*(y - y_0));
-    double r1 = sqrt((x - x_1)*(x - x_1) + (y - y_1)*(y - y_1));
-    double radius_0 = 0.01;
-    double radius_1 = 0.03;
-
-    double epsilon = 0.1;
-
-    double radius_inner = circle_.insidePolygon(x,y);
-    double radius_outer = circle_.outsidePolygon(x,y, epsilon);
-
-    if(r0 < radius_inner){
-      return 0+ gaussianNoise_.noise();
-    }
-    else if (r0 >= radius_outer) 
+    if(r1 < r2)
     {
-      return 1.0+ gaussianNoise_.noise();
-    } else 
+    if(r1 < radius_inner_1 )
     {
-      // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius_inner,radius_outer, r0);
+      return 0 + gaussianNoise_.noise();
     }
-
-    /*
-    if ((x - 0.2)*(x - 0.2)+ (y-0.5)*(y-0.5) <= 0.01)
-
+    if (r1 >= radius_outer_1 ){
+      return 1.0 + gaussianNoise_.noise();
+    } 
+    if (r1 > radius_inner_1  && r1 < radius_outer_1)
     {
-      return 1.0;
+      return smoothstep(radius_inner_1,radius_outer_1, r1,low,high);
     }
-    if ((x-0.8)*(x-0.8)+ (y-0.5)*(y-0.5) <= 0.03)
-
-    {
-      return 1.0;
+   
     }
-    
     else
     {
-      return 2.0;
+      if(r2 < radius_inner_2)
+    {
+      return 0 + gaussianNoise_.noise();
     }
-    */
-  
+    if (r2 >= radius_outer_2 )
+    {
+      return 1.0 + gaussianNoise_.noise();
+    } 
+    if (r2 > radius_inner_2  && r2 < radius_outer_2)
+    {
+        return smoothstep(radius_inner_2,radius_outer_2, r2,low,high);
+    }
+    }
   }
-  
-
+  std::function<double (const double&)> TwoCircles::f_x()
+  {
+    return circle_1_.fParametric_x();
+  }
+  std::function<double (const double&)> TwoCircles::f_y()
+  {
+    return circle_1_.fParametric_y();
+  }
     
   bool TwoCircles::checkReachability(const vectord &query)
   {
     return true;
   };
 
-
-
-
 SmoothCircle::SmoothCircle(bayesopt::Parameters par):
-    ContinuousModel(2,par), gaussianNoise_(0.0,0.005){}
+    Shape(par), gaussianNoise_(0.0,0.005){}
 
-  double SmoothCircle::smoothstep(double edge0, double edge1, double x) 
-  {
-    // Scale, bias and saturate x to 0..1 range
-    x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
-    // Evaluate polynomial
-    return x * x * (3 - 2 * x);
-  } 
-  double SmoothCircle::clamp(double x, double lowerlimit, double upperlimit) {
-    if (x < lowerlimit)
-        x = lowerlimit;
-    if (x > upperlimit)
-        x = upperlimit;
-    return x;
-}
+  
 
   double SmoothCircle::evaluateSample( const vectord& xin)
   {
@@ -371,6 +380,8 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par):
     {
 	    std::cout << "WARNING: This only works for 2D inputs." << std::endl;
     }
+    double low= 0.0;
+    double high = 1.0;
     double x = xin(0);
     double y = xin(1);
     double y_0 = 0.5;
@@ -388,13 +399,19 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par):
     } else 
     {
       // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius, radius + epsilon, r);
+      return smoothstep(radius, radius + epsilon, r, low, high);
     }
 
     
   }
-  
-  
+std::function<double (const double&)> SmoothCircle::f_x()
+  {
+    return circle_.fParametric_x();
+  }
+  std::function<double (const double&)> SmoothCircle::f_y()
+  {
+    return circle_.fParametric_y();
+  }
   bool SmoothCircle::checkReachability(const vectord &query)
   {return true;};
 

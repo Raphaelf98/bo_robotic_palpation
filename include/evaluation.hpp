@@ -10,7 +10,7 @@
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Boolean_set_operations_2.h>
 #include <CGAL/Exact_rational.h>
-
+#include <functional>
 
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
 typedef Kernel::Point_2                                   Point_2;
@@ -21,7 +21,7 @@ typedef std::list<Polygon_with_holes_2>                   Pwh_list_2;
 
 //Custom types
 typedef std::vector<std::pair<Contour*, Contour*>> ContourPairs;
-typedef double (*FunctionPtr)(double);
+typedef std::function<double(const double&)> FunctionPtr;
 
 template<class Kernel, class Container>
 void print_polygon (const CGAL::Polygon_2<Kernel, Container>& P)

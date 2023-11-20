@@ -33,20 +33,28 @@ void keyboard(unsigned char key, int x, int y)
     }
  
 }
+enum ShapeType {
+    SHAPE_CIRCLE,
+    SHAPE_TRIANGLE,
+    SHAPE_RECTANGLE,
+    SHAPE_TWOCIRCLES,
+    SHAPE_UNKNOWN // for unrecognized strings
+};
+ShapeType getShapeType(const std::string& shape) {
+    if (shape == "Circle") return SHAPE_CIRCLE;
+    if (shape == "Triangle") return SHAPE_TRIANGLE;
+    if (shape == "Rectangle") return SHAPE_RECTANGLE;
+    if (shape == "TwoCircles") return SHAPE_TWOCIRCLES;
+    return SHAPE_UNKNOWN;
+}
 
 
-int main(int nargs, char *args[])
+
+int main(int argc, char* argv[])
 {
   bayesopt::Parameters par;
-  if(nargs > 1)
-  {
-    if(!bayesopt::utils::ParamLoader::load(args[1], par))
-    {
-        std::cout << "ERROR: provided file \"" << args[1] << "\" does not exist" << std::endl;
-        return -1;
-    }
-    
-  }
+  //Either load bayesian optimization parameters from file or set them manually
+  //TODO adjust file parsing
   if (bayesopt::utils::ParamLoader::load("/home/raphael/robolab/displaygp/config/bo_parameters.txt", par))
   {
       std::cout << "Found bo_parameters.txt" << std::endl;
@@ -60,60 +68,64 @@ int main(int nargs, char *args[])
     par.n_init_samples = 10;
     par.crit_name = "cEI";
     par.epsilon = 3;
-    
-    
     par.random_seed = 10;
     par.init_method = 3;
-    
-    //par.crit_name = "cLCB";
-    //par.epsilon = 10;
     par.mean.name = "mZero";
     par.force_jump = 0;
     par.kernel.name = "kSEARD";
     par.kernel.hp_mean[0] = 0.08;
     par.kernel.hp_std[0] = 1.0;
-    par.n_inner_iterations = 500;
-    //set_surrogate(&par,"sStudentTProcessNIG");
-
-    //par.l_type = L_MCMC;
-    //par.sc_type = SC_MAP;
-
-    
+    par.n_inner_iterations = 500; 
     par.verbose_level = 1;
     
   }
   bayesopt::utils::ParamLoader::save("triangle_display_params.txt", par);
-  //boost::scoped_ptr<Triangle> triangle(new Triangle(par));
 
-  //Contour contour(triangle.get(),100);
 
-  //boost::scoped_ptr<Rectangle> rectangle(new Rectangle(par));
-  
-  //Contour contour(rectangle.get(),100);
+  if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <Shape>\n";
+        return 1;
+    }
 
-  //GLOBAL_MATPLOT.init(triangle.get(),2);
-  //boost::scoped_ptr<BraninNormalized> Branin(new BraninNormalized(par));
-  //GLOBAL_MATPLOT.init(Branin.get(),2);
-  //boost::scoped_ptr<Circle> circle(new Circle(par));
-  //GLOBAL_MATPLOT.init(circle.get(),2);
-  //boost::scoped_ptr<TwoCircles> twoCircles(new TwoCircles(par));
-  //GLOBAL_MATPLOT.init(twoCircles.get(),2);
- boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
- Contour contour(smoothCircle.get(),100);
+    std::string arg = argv[1];
+    ShapeType type = getShapeType(arg);
+   
+   
+    std::unique_ptr<Shape> shape;
+    
+    switch (type) {
 
-  GLOBAL_MATPLOT.init(&contour,2);
-  //
-  vectord sv(2);  
-  sv(0) = 0.1239; sv(1) = 0.8183;
-  GLOBAL_MATPLOT.setSolution(sv);
-  
-  sv(0) = 0.5428; sv(1) = 0.1517;
-  GLOBAL_MATPLOT.setSolution(sv);
+        case SHAPE_CIRCLE:
+            std::cout << "Running Experiment on Circle" << std::endl;
+            shape = std::make_unique<SmoothCircle>(par); 
+            break;
 
-  sv(0) = 0.9617; sv(1) = 0.1650;
-  GLOBAL_MATPLOT.setSolution(sv);
-  
-  glutInit(&nargs, args);
+        case SHAPE_TRIANGLE:
+            std::cout << "Running Experiment on Triangle" << std::endl;
+            shape = std::make_unique<Triangle>(par); 
+            break;
+
+        case SHAPE_RECTANGLE:
+            std::cout << "Running Experiment on Rectangle" << std::endl;
+            shape = std::make_unique<Rectangle>(par); 
+            break;
+
+        case SHAPE_TWOCIRCLES:
+            std::cout << "Running Experiment on Two Circles" << std::endl;
+            shape = std::make_unique<TwoCircles>(par, 0.1,0.15,0.2,0.7,0.8,0.3,0.1); 
+            break;
+            
+        default:
+            std::cout << "Unknown Shape: " << arg << std::endl;
+    }
+    
+    
+
+    
+  Contour contour(shape.get(),100);
+    GLOBAL_MATPLOT.init(&contour,2);
+      
+  glutInit(&argc, argv);
   glutCreateWindow(50,50,800,650);
   glutDisplayFunc( display );
   glutReshapeFunc( reshape );

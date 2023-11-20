@@ -103,6 +103,7 @@ public:
     std::vector<Point> getContourPoints();
     
     SplineInterpolant_ptr_pair_vec getSplineInterpolant();
+    //function only relevant for evalu
 };
 
 #endif
