@@ -44,16 +44,16 @@
       gTHigh = contour_->evaluateGaussianProcess(q_);
 
       for(int i=0;i<c_points;++i)
-	    {   std::cout<<"[";
+	    {  
 	        for(int j=0;j<c_points;++j)
 	        {
 	            vectord q(2);
 	            q(0) = cX[j]; q(1) = cY[i];
 	            cZ[i][j]= contour_->evaluateGaussianProcess(q );
               setHighLow(gTLow,gTHigh,cZ[i][j]);
-              std::cout<<cZ[i][j]<< ", ";
+              
 	        }
-          std::cout<<"]"<<std::endl;
+          
 	    }
     }
 
@@ -65,12 +65,12 @@
 	      throw std::invalid_argument("This display only works "
 				      "for 2D problems"); 
 	    } 
-      
-      
-      loadGroundTruth();
-      
       contour_->prepareGaussianProcess();
-      contour_->getInitialSamples(lx,ly);
+     
+      loadGroundTruth();
+       contour_->getInitialSamples(lx,ly);
+  
+      
       state_ii = 0;    
       status = STOP;
     };
@@ -133,6 +133,7 @@
 	      ++state_ii;
           
 	      contour_->stepRunGaussianProcess(); 
+        
 	      const vectord last = contour_->getLastSample();
 	      //GP subplot
 	      cx[0] = last(0);
@@ -166,6 +167,7 @@
         PHigh = pd->getMean();
         PLow = pd->getMean();
         std::vector<std::vector<double>> c{c_points,std::vector<double>(c_points)};
+        //check 
         StdHigh = 2*pd->getStd();
         StdLow = 2*pd->getStd();
         std::vector<std::vector<double>> std{c_points,std::vector<double>(c_points)};
@@ -187,6 +189,7 @@
           }
 
 	      }
+
         if ((status != STOP) && (state_ii == contour_->number_of_step_runs))
         {
           std::cout<<"write file"<<std::endl;
@@ -196,6 +199,7 @@
           ++state_ii;
           status = PLOT_CENTROIDS;
         }
+
         if(status == PLOT_CENTROIDS | status == PLOT_CONTOUR_POINTS | status==PLOT_CONTOUR_APPX)
         {
           if(computeClusters)

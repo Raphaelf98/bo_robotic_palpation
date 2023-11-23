@@ -41,33 +41,7 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
     scatterData(scattered_points);
     savePointsToCSV("/home/raphael/robolab/displaygp/config/scattered_data.csv",scattered_points);
     scattered_points_ = scattered_points;
-    /*
-    double x = 0.0;
-    double y = 0.0;
-    double increment_x = 1.0/(double) samples;
-    double increment_y = 1.0/(double) samples;
-    for(size_t i=0; i<samples; ++i)
-	{       
-        
-          for (size_t j=0; j<samples; ++j)
-          {
-            data_->at(i).at(j) = data[i][j]; 
-            Point point(x,y, data[i][j]);
-            points.push_back(point);
-            x += increment_x;
-            std::cout<<"Point at: X:"<<point.x <<"  Y:"<<point.y<<" f:"<<point.f<< std::endl;
-          }
-          x=0;
-        y += increment_y;
-	}
-    for(auto& row:*data_){
-        std::cout<<"[";
-        for(auto& col:row){
-      std::cout<<col<< ", ";
-    }
-     std::cout<<"]"<<std::endl;
-}
-    */
+   
 }
 void MeanShift::meanshift_mlpack()
 {   
@@ -81,7 +55,7 @@ void MeanShift::meanshift_mlpack()
 
     mlpack::meanshift::MeanShift<> meanShift;
     std::cout<<"Compute clusters ..."<<std::endl;
-    meanShift.Cluster(data, assignments, centroids_, forceConvergence);
+    meanShift.Cluster(data, assignments, centroids_, forceConvergence, true);
 
 
     // Save the results, if needed.
@@ -95,8 +69,10 @@ void MeanShift::meanshift_mlpack()
 std::vector<std::vector<double>> MeanShift::getCentroids()
 {
     std::vector<std::vector<double>> centroids{centroids_.n_rows, std::vector<double>(centroids_.n_cols)};
-    for (size_t i = 0; i < centroids_.n_rows; i++) {
-    for (size_t j = 0; j < centroids_.n_cols; j++) {
+    for (size_t i = 0; i < centroids_.n_rows; i++) 
+    {
+    for (size_t j = 0; j < centroids_.n_cols; j++) 
+    {
         centroids[i][j] = centroids_(i, j);
         
     }
@@ -107,7 +83,6 @@ return centroids;
 MeanShift::~MeanShift()
 {
   
-    std::cout<<"data object removed from heap"<<std::endl;
 }
 bool MeanShift::pointNoPoint(float probabilityOfPoint)
 {
@@ -140,75 +115,7 @@ void MeanShift::scatterData(std::vector<Point>& scattered_points)
 
 
 }
-Point MeanShift::shiftPoint(const Point& p, const std::vector<Point>& data) {
-        Point shiftedPoint;
-        double totalWeight = 0;
-        
-        for (const auto& point : data) {
-            double distance = p.distance(point);
 
-            if (distance < bandwidth_ ) {
-                double weight = exp(-0.5*distance*distance);
-                shiftedPoint.x += point.x * weight;
-                shiftedPoint.y += point.y * weight;
-                totalWeight += weight;
-            }
-        }
-        shiftedPoint.x /= totalWeight;
-        shiftedPoint.y /= totalWeight;
-       
-        //std::cout<<"new point is: x/y "<< shiftedPoint.x <<" / " <<shiftedPoint.y<<std::endl;
-        return shiftedPoint;
-    }
-void MeanShift::cluster()
-{
-    std::cout <<"Cluster"<<  std::endl;
-    std::vector<Point> oldPoints = scattered_points_;
-    newPoints = std::vector<Point>(scattered_points_.size());
-    double maxShiftDistance;
-
-    do {
-            std::cout <<"shift..."<<  std::endl;
-            maxShiftDistance = 0;
-            for (size_t i = 0; i < scattered_points_.size(); ++i) {
-                newPoints[i] = shiftPoint(oldPoints[i], scattered_points_);
-                double shiftDistance = oldPoints[i].distance(newPoints[i]);
-                
-                if (shiftDistance > maxShiftDistance) 
-                {
-                    maxShiftDistance = shiftDistance;
-                }
-            }
-            oldPoints = newPoints;
-        } while (maxShiftDistance > 0.004);  // You can adjust this threshold as needed
-        savePointsToCSV("../config/centers.csv",newPoints);
-
-
-}
-std::vector<Point> MeanShift::mergeClusters(double threshold)
-{   
-    std::cout <<"Merge Clusters"<<  std::endl;
-    centers= newPoints;
-    
-    for (size_t i = 0; i < centers.size(); ++i) {
-        for (size_t j = i + 1; j < centers.size();) {   
-            if (centers[i].distance(centers[j]) < threshold) {
-                // Merge centers[j] into centers[i]
-                centers[i].x = (centers[i].x + centers[j].x) / 2;
-                centers[i].y = (centers[i].y + centers[j].y) / 2;
-                
-                // Remove centers[j]
-                centers.erase(centers.begin() + j);
-               
-            } else {
-                ++j; // Only increment if no merging was done
-            }
-        }
-        newCenters = centers;
-    }
-    return newCenters;
-    
-}
 void MeanShift::printClusters()
 { 
     std::cout <<"Centers: "<< newCenters.size() << std::endl;
@@ -311,7 +218,8 @@ void K_means::cluster()
     std::cout<<"ASSIGNMENTS"<<std::endl;
     assignments_.print();
 }
-std::vector<double> K_means::getCentroids(){
+std::vector<double> K_means::getCentroids()
+{
     return std::vector<double>(centroids_.begin(), centroids_.end());
 }
 std::vector<std::pair<double,size_t>> K_means::getAssignments()
@@ -320,6 +228,7 @@ std::vector<std::pair<double,size_t>> K_means::getAssignments()
     {   
         v[i].first = data_(0,i);
         v[i].second = assignments_[i];
+        
     }
     return v;
 }

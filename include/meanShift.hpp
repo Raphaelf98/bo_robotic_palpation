@@ -7,19 +7,12 @@
 #include"bayesopt/bayesopt.hpp"
 #include"fileParser.hpp"
 
-struct Point{
-    bool merged;
-    int id;
+struct Point
+{
     double x;
     double y;
-   
-    Point(): merged(false),x(0), y(0) {}
-    Point(double _x, double _y): x(_x), y(_y),merged(false) {}
-    
-    
-    double distance(const Point& other) const {
-        return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
-    }
+    Point(): x(0), y(0) {}
+    Point(double _x, double _y): x(_x), y(_y) {}
 };
 class MeanShift
 {
@@ -38,9 +31,6 @@ public:
     MeanShift();
     MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples);
     ~MeanShift();
-    void cluster();
-    std::vector<Point> mergeClusters(double threshold);
-    Point shiftPoint(const Point& p, const std::vector<Point>& data);
     void printClusters();
     bool saveDataToCSV();
     bool savePointsToCSV(std::string name, std::vector<Point>& points_);

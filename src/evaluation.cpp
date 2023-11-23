@@ -16,7 +16,7 @@
 #include "fileParser.hpp"
 #include "param_loader.hpp"
 #include<bayesopt/parameters.hpp>
-
+#include<fstream>
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
 
@@ -251,48 +251,32 @@ double ContourPairAnalyzer::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 
 }
 
 
-double fx1(double x)
-{
-    return sin(x);
-}
-double fy1(double x)
-{
-    return cos(x);
-}
 
-double fx2(double x)
-{
-    return   0.5+0.1*sin(x);
-}
-double fy2(double x)
-{
-    return 0.5 +  0.1*cos(x);
-}
-double fx3(double x)
-{
-    return  0.9*sin(x);
-}
-double fy3(double x)
-{
-    return 0.9*cos(x);
-}
-std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 10)
+std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 10)
 {
     double t[n_samples_];
-    std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
+    //std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
     double f_1[n_samples_];
     double f_2[n_samples_];
     
     for (size_t i = 0; i < n_samples_; i++)
     {
         f_1[i] =f_x(1-(double) i/((double) n_samples_-1));
-        
-
+       
         f_2[i] =f_y(1-(double) i/((double) n_samples_-1));
-        std::cout<< "VALUE" << f_1[i]<<", "<< f_2[i] <<"at: "<< (double) i/((double) n_samples_-1)<<std::endl;
+        //std::cout<< "VALUE" << f_1[i]<<", "<< f_2[i] <<"at: "<< (double) i/((double) n_samples_-1)<<std::endl;
         t[i] = i * 1.0/((double)n_samples_-1);
     }
+    
+    
 
+    // Write data to file
+    file.open("groundTruth.csv", std::ofstream::app);
+    for (int i = 0; i < n_samples_; ++i) {
+        file << f_1[i] << "," << f_2[i] << "\n";
+    }
+
+    file.close();
     alglib::real_1d_array x ;
     alglib::real_1d_array y ;
     alglib::real_1d_array theta;
@@ -327,7 +311,8 @@ ShapeType getShapeType(const std::string& shape) {
     return SHAPE_UNKNOWN;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     //COMPUTE CONTOUR
     bayesopt::Parameters par;
  
@@ -355,13 +340,13 @@ int main(int argc, char *argv[]){
     par.verbose_level = 1;
     
     }
-    /*if (argc != 2) {
+    if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <Shape>\n";
         return 1;
-    }*/
+    }
     
-    //std::string arg = argv[1];
-    std::string arg = "Triangle";
+    std::string arg = argv[1];
+    //std::string arg = "Circle";
     ShapeType type = getShapeType(arg);
    
     std::vector< std::pair <std::function<double (const double&)> ,std::function<double (const double&)>> > groundTruths;
@@ -371,24 +356,27 @@ int main(int argc, char *argv[]){
 
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
-            shape = std::make_unique<SmoothCircle>(par); 
-            
+            shape = std::make_unique<SmoothCircle>(par, 1,2, 0.1,0.5,0.5,0.1); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
 
         case SHAPE_TRIANGLE:
             std::cout << "Running Experiment on Triangle" << std::endl;
-            shape = std::make_unique<Triangle>(par); 
+            shape = std::make_unique<Triangle>(par,1,2, 0.1,0.5,0.5,0.2); 
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
 
         case SHAPE_RECTANGLE:
             std::cout << "Running Experiment on Rectangle" << std::endl;
-            shape = std::make_unique<Rectangle>(par); 
+            shape = std::make_unique<Rectangle>(par,1,2, 0.1,0.5,0.5,0.1); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
 
         case SHAPE_TWOCIRCLES:
             std::cout << "Running Experiment on Two Circles" << std::endl;
-            shape = std::make_unique<TwoCircles>(par, 0.1,0.15,0.2,0.7,0.8,0.3,0.1); 
+            shape = std::make_unique<TwoCircles>(par,1,2, 0.05,0.1,0.2,0.7,0.8,0.3,0.2); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
             
         default:
@@ -403,18 +391,29 @@ int main(int argc, char *argv[]){
     //run bayesian optimization
     contour.runGaussianProcess();
     contour.computeCluster();
-    //dummy data
-    
     contour.exploreContour();
     contour.approximateContour();
     
     SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
-    SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(groundTruths[0].first, groundTruths[0].second,1000));
+    //Iterate over contours approximated by Contour class, number of contours depends on how many centers could be detected by clustering algorithm,
+    //NOTE: When comparing against ground truth, number of detected centers has to match groundTruths vector
+    std::ofstream file("groundTruth.csv");
+    file << "X,Y\n";
+    file.close();
+    for (size_t i = 0; i< spline_vec.size(); i++)
+    {
+    
+    std::cout << "\nCOMPARE #"<< i+1<<"st  PAIR\n" << std::endl;
+    
+        SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, groundTruths[i].first, groundTruths[i].second,1000));
     //SplineInterpolant_ptr_pair  test_spline = static_cast<SplineInterpolant_ptr_pair>(f_param(fx3,fy3,1000));
     /*TODO: Contour Analyzer works at the moment only for single Conotur
             -spline_vec may contour multiple countours -> correct ground truth must be assigned*/
-    ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[0], 1.0);
+    ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0);
     //ContourPairAnalyzer analyzer(f_Groundtruth,test_spline, 1.0);
     analyzer.analyzeContours();
+
+    }
+    file.close();
     return 0;
 }

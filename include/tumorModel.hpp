@@ -28,6 +28,7 @@ class PolarPolygon{
     std::function<double(const double&)> fParametric_x();
     std::function<double(const double&)> fParametric_y();
     private:
+    bool circle_;
     double radius_, x_trans_, y_trans_;
     size_t num_vertices_;
     double epsilon_;
@@ -52,10 +53,14 @@ class Shape : public bayesopt::ContinuousModel{
   
   virtual std::function<double (const double&)> f_x()=0;
   virtual std::function<double (const double&)> f_y()=0;
+  
   virtual double evaluateSample( const vectord& xin){return 0;}
   double smoothstep(double edge0, double edge1, double x, double low, double high);
   double clamp(double x, double lowerlimit, double upperlimit);
-  
+  protected:
+  double low_stiffness_, high_stiffness_;
+  double x_trans_, y_trans_, radius_;
+  double epsilon_;
 };
 class Triangle: public Shape
   {
@@ -63,7 +68,7 @@ class Triangle: public Shape
     PolarPolygon triangle_;
   public:
 
-    Triangle(bayesopt::Parameters par);
+    Triangle(bayesopt::Parameters par, double low, double high, double radius, double x_trans, double y_trans, double epsilon);
   
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
@@ -77,7 +82,7 @@ class Rectangle: public Shape
     GaussianNoise gaussianNoise_;
     PolarPolygon rectangle_;
   public:
-    Rectangle(bayesopt::Parameters par);
+    Rectangle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon);
   
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
@@ -104,30 +109,33 @@ class Circle: public Shape
 class TwoCircles: public Shape
   {
   public:
-    TwoCircles(bayesopt::Parameters par,double r_1, double r_2,double x_t_1,double x_t_2,
+    TwoCircles(bayesopt::Parameters par,double low_stiffness, double high_stiffness , double r_1, double r_2,double x_t_1,double x_t_2,
                         double y_t_1,double y_t_2,double epsilon);
   
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
     virtual std::function<double (const double&)> f_y();
     
-  bool checkReachability(const vectord &query);
+    bool checkReachability(const vectord &query);
   private:
-  double r_1_, r_2_, x_t_1_, x_t_2_, y_t_1_, y_t_2_,epsilon_ ;
-  PolarPolygon circle_1_ ,circle_2_;
+    size_t circle_count_;
+
+    double r_1_, r_2_, x_t_1_, x_t_2_, y_t_1_, y_t_2_,epsilon_ ;
+    PolarPolygon circle_1_ ,circle_2_;
     GaussianNoise gaussianNoise_;
 };
 class SmoothCircle: public Shape
   {
   public:
-    SmoothCircle(bayesopt::Parameters par);
-  
+    SmoothCircle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon);
+
     double evaluateSample( const vectord& xin);
-   virtual std::function<double (const double&)> f_x();
+    virtual std::function<double (const double&)> f_x();
     virtual std::function<double (const double&)> f_y();
     
-  bool checkReachability(const vectord &query);
+    bool checkReachability(const vectord &query);
   private:
+   
     GaussianNoise gaussianNoise_;
     PolarPolygon circle_;
 };

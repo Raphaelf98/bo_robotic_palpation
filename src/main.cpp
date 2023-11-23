@@ -97,22 +97,22 @@ int main(int argc, char* argv[])
 
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
-            shape = std::make_unique<SmoothCircle>(par); 
+            shape = std::make_unique<SmoothCircle>(par,1,2, 0.1,0.5,0.5,0.1); 
             break;
 
         case SHAPE_TRIANGLE:
             std::cout << "Running Experiment on Triangle" << std::endl;
-            shape = std::make_unique<Triangle>(par); 
+            shape = std::make_unique<Triangle>(par,1,2, 0.05,0.5,0.5,0.2); 
             break;
 
         case SHAPE_RECTANGLE:
             std::cout << "Running Experiment on Rectangle" << std::endl;
-            shape = std::make_unique<Rectangle>(par); 
+            shape = std::make_unique<Rectangle>(par,1,2, 0.1,0.5,0.5,0.1); 
             break;
 
         case SHAPE_TWOCIRCLES:
             std::cout << "Running Experiment on Two Circles" << std::endl;
-            shape = std::make_unique<TwoCircles>(par, 0.1,0.15,0.2,0.7,0.8,0.3,0.1); 
+            shape = std::make_unique<TwoCircles>(par,1,2, 0.05,0.1,0.2,0.7,0.8,0.3,0.1); 
             break;
             
         default:
@@ -120,9 +120,7 @@ int main(int argc, char* argv[])
     }
     
     
-
-    
-  Contour contour(shape.get(),100);
+  Contour contour(shape.get(),10);
     GLOBAL_MATPLOT.init(&contour,2);
       
   glutInit(&argc, argv);

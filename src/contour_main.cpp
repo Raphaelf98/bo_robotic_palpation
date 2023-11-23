@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     //Contour contour(twoCircles.get(),100);
     //boost::scoped_ptr<Circle> circle(new Circle(par));
     //Contour contour(circle.get(),100);
-    boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par));
+    boost::scoped_ptr<SmoothCircle> smoothCircle(new SmoothCircle(par,1,2, 0.1,0.5,0.5,0.1));
     Contour contour(smoothCircle.get(),100);
     //run bayesian optimization
     contour.runGaussianProcess();

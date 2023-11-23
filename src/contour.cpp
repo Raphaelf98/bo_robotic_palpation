@@ -14,19 +14,20 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         bopt_model_(bopt_model),
         n_exploration_directions_(n_exploration_directions),
         c_points_(100),
-        bandwidth_(0.05),
+        bandwidth_(0.1),
         samples_(c_points_),
         n_directions_(10),
         stiffness_threshold_(0.01),
         lim_steps_(1000),
         n_samples_(n_directions_+1),
         c_(c_points_,std::vector<double>(c_points_)),
-        multiplier_(1)
+        multiplier_(3)
 
 {
     number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
-    total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples;
+    total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
     y_values_.reserve(total_number_of_iterations_);
+     bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model->getParameters()));
 }
 
 
@@ -90,14 +91,16 @@ std::vector<Point> Contour::getClusters()
 }
 void Contour::labelData_()
 {
+    //collect all sampled stiffness values from gaussian process
     bayesopt::Dataset* data = const_cast<bayesopt::Dataset*>(bopt_model_->getData());
     for(size_t i = 0; i<total_number_of_iterations_; i++)
     {
         y_values_.push_back(data->getSampleY(i));
     }
-
+    //cluster them to filter stiffness values associated with tumor
     K_means kmeans(y_values_);
     kmeans.cluster();
+    //identify label for centroid with lowest stiffness values
     std::vector<double> c = kmeans.getCentroids();
     //Assumes that centroid index corresponds to label
     std::vector<double>::iterator min_idx_it = std::min_element(c.begin(), c.end());
