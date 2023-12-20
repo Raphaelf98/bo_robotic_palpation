@@ -268,11 +268,10 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
         t[i] = i * 1.0/((double)n_samples_-1);
     }
     
-    
-
     // Write data to file
     file.open("groundTruth.csv", std::ofstream::app);
-    for (int i = 0; i < n_samples_; ++i) {
+    for (int i = 0; i < n_samples_; ++i) 
+    {
         file << f_1[i] << "," << f_2[i] << "\n";
     }
 
@@ -403,15 +402,13 @@ int main(int argc, char *argv[])
     for (size_t i = 0; i< spline_vec.size(); i++)
     {
     
-    std::cout << "\nCOMPARE #"<< i+1<<"st  PAIR\n" << std::endl;
-    
+        std::cout << "\nCOMPARE #"<< i+1<<"st  PAIR\n" << std::endl;
+
         SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, groundTruths[i].first, groundTruths[i].second,1000));
-    //SplineInterpolant_ptr_pair  test_spline = static_cast<SplineInterpolant_ptr_pair>(f_param(fx3,fy3,1000));
-    /*TODO: Contour Analyzer works at the moment only for single Conotur
-            -spline_vec may contour multiple countours -> correct ground truth must be assigned*/
-    ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0);
-    //ContourPairAnalyzer analyzer(f_Groundtruth,test_spline, 1.0);
-    analyzer.analyzeContours();
+        
+        ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0);
+        
+        analyzer.analyzeContours();
 
     }
     file.close();

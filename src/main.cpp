@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
 
         case SHAPE_TRIANGLE:
             std::cout << "Running Experiment on Triangle" << std::endl;
-            shape = std::make_unique<Triangle>(par,1,2, 0.05,0.5,0.5,0.2); 
+            shape = std::make_unique<Triangle>(par,1,2, 0.1,0.5,0.5,0.2); 
             break;
 
         case SHAPE_RECTANGLE:

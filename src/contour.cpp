@@ -57,16 +57,12 @@ void Contour::computeCluster()
     y = linSpace(0,1,c_points_);
     for(size_t i=0; i<c_points_; ++i)
 	{
-        
           for (size_t j=0; j<c_points_; ++j)
           {
             q(1) = y[i]; q(0) = x[j];
             bayesopt::ProbabilityDistribution* pd = bopt_model_->getPrediction(q);
             c_[i][j] = pd->getMean();   
-            
           }
-
-	      
     }
     mean_shift_ = MeanShift(c_, bandwidth_, samples_);
     mean_shift_.meanshift_mlpack();
@@ -222,6 +218,7 @@ void Contour::approximateContour()
 {
     int file_num = 1;
     //Iterate over all 
+    //TODO implement file write in extra function
     for(std::vector<Point> &contour : contours_)
     {
         double t[n_samples_];
@@ -230,7 +227,8 @@ void Contour::approximateContour()
         double f_2[n_samples_];
         std::string file_contour_points = "/home/raphael/robolab/displaygp/config/contour_points_" + std::to_string(file_num) + ".csv";
         std::ofstream file(file_contour_points);
-        if (!file.is_open()) {
+        if (!file.is_open()) 
+        {
             std::cerr << "Failed to open the file." << std::endl;
         }
 
@@ -269,7 +267,8 @@ void Contour::approximateContour()
         std::string file_ = "/home/raphael/robolab/displaygp/config/contour_" + std::to_string(file_num) + ".csv";
         std::ofstream file_c(file_);
 
-        if (!file_c.is_open()) {
+        if (!file_c.is_open()) 
+        {
             std::cerr << "Failed to open the file." << std::endl;
         }
 

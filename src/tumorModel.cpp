@@ -21,7 +21,6 @@ PolarPolygon::PolarPolygon(size_t num_verices, double radius, double x_translati
     circle_ = true;
   }
   
-  
 }
 void PolarPolygon::computeVertices()
 {
