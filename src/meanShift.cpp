@@ -1,10 +1,10 @@
 
 #include "meanShift.hpp"
 #include "prob_distribution.hpp"
-#include<iostream>
+#include <iostream>
 #include <fstream>
 #include <random>
-#include<math.h>
+#include <math.h>
 
 MeanShift::MeanShift(){}
 MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples)
@@ -71,11 +71,11 @@ std::vector<std::vector<double>> MeanShift::getCentroids()
     std::vector<std::vector<double>> centroids{centroids_.n_rows, std::vector<double>(centroids_.n_cols)};
     for (size_t i = 0; i < centroids_.n_rows; i++) 
     {
-    for (size_t j = 0; j < centroids_.n_cols; j++) 
-    {
-        centroids[i][j] = centroids_(i, j);
-        
-    }
+        for (size_t j = 0; j < centroids_.n_cols; j++) 
+        {
+            centroids[i][j] = centroids_(i, j);
+
+        }
     
 }
 return centroids;
@@ -101,6 +101,7 @@ void MeanShift::scatterData(std::vector<Point>& scattered_points)
         for (size_t j=0; j<data_[0].size(); ++j)
         {
             x += increment_x;
+            // ****************** ERROR
             if(pointNoPoint(1.0-data_[i][j]))
             {
                 Point p(x,y);
@@ -198,6 +199,9 @@ bool saveToCSV(const std::string& filename, const std::vector<std::vector<double
     file.close();
     return true;
 }
+
+
+
 
 K_means::K_means(const std::vector<double> &vals){
     data_ = arma::mat(vals);

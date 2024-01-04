@@ -14,7 +14,7 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         bopt_model_(bopt_model),
         n_exploration_directions_(n_exploration_directions),
         c_points_(100),
-        bandwidth_(0.1),
+        bandwidth_(0.05),
         samples_(c_points_),
         n_directions_(10),
         stiffness_threshold_(0.01),
