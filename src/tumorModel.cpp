@@ -1,6 +1,10 @@
 #include "tumorModel.hpp"
 #include <random>
-
+/*
+****TODO*****
+-Implement Enum class for vertice count Triangle,Rectangle, Circle etc.
+-
+*/
 GaussianNoise::GaussianNoise(double mean, double std):dist_(mean,std){}
 double GaussianNoise::noise()
 {

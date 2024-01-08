@@ -22,6 +22,7 @@
       std::vector<double> lx,ly;
       std::vector<double> cx, cy;
       std::vector<double> solx, soly;
+      std::vector<std::vector<double>> z_, c_, std_;
       size_t c_points;
       std::vector<double> cX,cY;
       std::vector<std::vector<double> > cZ;
@@ -43,7 +44,8 @@
       void init(Contour *contour,size_t dim);
       void setSTEP();
       void toogleRUN();
-      
+      void updateData();
+      void plotData();
       void DISPLAY();
       //Methods for Mean Shift algorithm
      

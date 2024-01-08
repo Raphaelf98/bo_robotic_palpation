@@ -58,7 +58,6 @@ int main(int argc, char* argv[])
   if (bayesopt::utils::ParamLoader::load("/home/raphael/robolab/displaygp/config/bo_parameters.txt", par))
   {
       std::cout << "Found bo_parameters.txt" << std::endl;
-      
   }
   else
   {
@@ -81,13 +80,15 @@ int main(int argc, char* argv[])
   }
   bayesopt::utils::ParamLoader::save("triangle_display_params.txt", par);
 
-
+/*
   if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <Shape>\n";
         return 1;
     }
 
     std::string arg = argv[1];
+    */
+   std::string arg = "Triangle";
     ShapeType type = getShapeType(arg);
    
    
@@ -97,7 +98,7 @@ int main(int argc, char* argv[])
 
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
-            shape = std::make_unique<SmoothCircle>(par,1,2, 0.1,0.5,0.5,0.1); 
+            shape = std::make_unique<SmoothCircle>(par,1,2,0.1,0.5,0.5,0.1); 
             break;
 
         case SHAPE_TRIANGLE:
@@ -120,7 +121,7 @@ int main(int argc, char* argv[])
     }
     
     
-  Contour contour(shape.get(),10);
+  Contour contour(shape.get(),20);
     GLOBAL_MATPLOT.init(&contour,2);
       
   glutInit(&argc, argv);

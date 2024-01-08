@@ -2,13 +2,16 @@ cmake_minimum_required(VERSION 3.16)
 project(display_gp)
 #https://stackoverflow.com/questions/8774593/cmake-link-to-external-library
 #add_library(bayesopt_tut_libs main.cpp)
-find_package(OpenMP)
-
+find_package(OpenMP REQUIRED)
+if(OpenMP_CXX_FOUND)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
 find_library(BAYESOPT_LIB bayesopt)
 find_library(NLOPT_LIB nlopt)
 find_library(MLPACK_LIB mlpack)
 find_package(Boost)
 find_package(CGAL)
+message(OpenMPlibrarypath="${OpenMP_CXX_LIBRARIES}")
 message(bayeslibrarypath="${BAYESOPT_LIB}")
 message(nloptlibrarypath="${NLOPT_LIB}")
 message(cgullibrarypath="${CGAL_DIR}" )
@@ -153,38 +156,23 @@ target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp ${MLPACK_LI
 add_library(utils_lib ${UTILS_SOURCES} ${UTILS_HEADERS} )
 target_include_directories(utils_lib PUBLIC /home/raphael/robolab/displaygp/utils)
 
-
-add_executable(twod_display_gp src/twod_main.cpp )
-add_executable(oned_display_gp src/oned_main.cpp )
 add_executable(display_gp src/main.cpp )
 #add_executable(compute_mean_shift src/meanShift.cpp )
 add_executable(compute_contour src/contour_main.cpp)
-add_executable(test_display_gp src/test.cpp )
 add_executable(evaluate src/evaluation.cpp)
 #target_link_libraries(bayesopt_tut bayesopt_tut_libs)
 include_directories(include ${BAYESOPT_LIB_INCLUDE_DIRS}${NLOPT_LIB_INCLUDE_DIRS})
-
-target_link_libraries(twod_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
-${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
-
-
-target_link_libraries(oned_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
-${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
 
 
 #target_link_libraries(compute_mean_shift ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}   OpenMP::OpenMP_CXX
 #${GLUT_LIBRARY} ${OPENGL_LIBRARY}  headers)
 
-target_link_libraries(compute_contour alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} utils_lib  OpenMP::OpenMP_CXX)
+target_link_libraries(compute_contour alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} utils_lib ${OpenMP_CXX_LIBRARIES})
 
-target_link_libraries(display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp alglib ${MLPACK_LIB} OpenMP::OpenMP_CXX
+target_link_libraries(display_gp ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp alglib ${MLPACK_LIB} 
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib headers)
+#target_compile_options(display_gp PRIVATE -fopenmp)
 
-
-target_link_libraries(test_display_gp ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp
-${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib)
-
-
-target_link_libraries(evaluate alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} utils_lib  )
-
+target_link_libraries(evaluate alglib headers ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} utils_lib  )
+target_compile_options(evaluate PRIVATE -fopenmp)
 endif()
