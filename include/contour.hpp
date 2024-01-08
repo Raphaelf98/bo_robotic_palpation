@@ -5,7 +5,7 @@
 #include "meanShift.hpp"
 #include "interpolation.h"
 #include "stdafx.h"
-
+#include "parameters.hpp"
 #include<numeric>
 
 
@@ -76,6 +76,7 @@ public:
     size_t number_of_step_runs;
     
     Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
+    Contour(bayesopt::BayesOptBase* bopt_model,ContourParamters cp);
     Contour(){}
     ~Contour();
 

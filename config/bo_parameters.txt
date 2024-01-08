@@ -1,4 +1,4 @@
-n_iterations=2
+n_iterations=20
 n_inner_iterations=500
 n_init_samples=5
 n_iter_relearn=1

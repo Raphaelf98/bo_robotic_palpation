@@ -25,7 +25,6 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         bandwidth_(0.05),
         samples_(c_points_),
         n_directions_(n_exploration_directions),
-        //stiffness_threshold_(0.01),
         lim_steps_(1000),
         n_samples_(n_directions_+1),
         c_(c_points_,std::vector<double>(c_points_)),
@@ -37,6 +36,25 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
     y_values_.reserve(total_number_of_iterations_);
      bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model->getParameters()));
 }
+Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp):
+        bopt_model_(bopt_model),
+        c_points_(cp.c_points),
+        bandwidth_(cp.means_shift_bandwidth),
+        samples_(c_points_),
+        n_directions_(cp.n_exploration_directions),
+        lim_steps_(cp.lim_steps),
+        n_samples_(n_directions_+1),
+        c_(c_points_,std::vector<double>(c_points_)),
+        multiplier_(cp.threshold_multiplier)
+
+{
+    std::cout<<"cp.n_exploration_directions"<<cp.n_exploration_directions<<std::endl;
+    number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
+    total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
+    y_values_.reserve(total_number_of_iterations_);
+     bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model->getParameters()));
+}
+
 
 
 Contour::~Contour()

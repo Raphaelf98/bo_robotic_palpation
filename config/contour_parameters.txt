@@ -1,0 +1,5 @@
+n_exploration_directions=20
+c_points=101
+means_shift_bandwidth=0.04
+lim_steps=1000
+threshold_multiplier=3

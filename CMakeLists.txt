@@ -138,7 +138,8 @@ set(HEADERS
     include/fileParser.hpp
     include/contour.hpp
     include/tumorModel.hpp
-    include/evaluation.hpp)
+    include/evaluation.hpp
+    include/parameters.hpp)
 
 
 #create cgul lib
