@@ -4,9 +4,11 @@
 
 
 #include "matplotpp.h"
-#include "fileParser.hpp"
+//#include "fileParser.hpp"
+
 #include "tumorModel.hpp"
 #include "contour.hpp"
+
 
     enum RunningStatus
       {

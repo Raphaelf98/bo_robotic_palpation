@@ -13,14 +13,14 @@
 #include <memory>
 #include "dataset.hpp"
 #include "prob_distribution.hpp"
-#include "fileParser.hpp"
+#include "fileparser.hpp"
 #include "param_loader.hpp"
 #include<bayesopt/parameters.hpp>
 #include<fstream>
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
 
-ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area):domain_area_(domain_area)
+ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area, std::string experiment_path):domain_area_(domain_area), experiment_path_(experiment_path)
 {   
     f_parametric_A_.first = f_parametric_A.first;
     f_parametric_A_.second = f_parametric_A.second;
@@ -44,8 +44,13 @@ void ContourPairAnalyzer::analyzeContours(){
     computeFalsePositive(A,B);
     computeTrueNegative(domain_area_, A,B);
     computeTruePositive(A,B);
-    computeSensitiviy(A,B);
-    computeSpecificity(domain_area_,A,B);
+    double sens = computeSensitiviy(A,B);
+    double spec = computeSpecificity(domain_area_,A,B);
+    
+    std::string posterior_path = FILE_METRICS;
+    posterior_path = experiment_path_+posterior_path;
+    std::cout<<"posterior_path:   " << posterior_path<<std::endl;
+    saveMetricsToFile(spec,sens,posterior_path);
 }
 bool ContourPairAnalyzer::polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
 {   
@@ -100,6 +105,9 @@ double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bo
         
         return diff_area;
      }
+     else{
+        return 0.0;
+     }
     
     }
     
@@ -107,7 +115,7 @@ double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bo
     //This means that the area is positive for counter clockwise polygons and negative for clockwise polygons.
     else{
         std::cout << "The two polygons do not intersect." << std::endl;
-        return 0;
+        return 0.0;
     }
 
 }
@@ -134,14 +142,16 @@ double ContourPairAnalyzer::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool ver
         
         return join_area;
      }
-    
+    else{
+        return 0.0;
+    }
     }
     
     // AREA: Returns the signed area of the polygon.
     //This means that the area is positive for counter clockwise polygons and negative for clockwise polygons.
     else{
         std::cout << "The two polygons do not intersect." << std::endl;
-        return 0;
+        return 0.0;
     }
 
 }
@@ -167,11 +177,14 @@ double ContourPairAnalyzer::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, boo
 
             return intersect_area;
         }
+        else{
+            return 0.0;
+        }
     }
     else
     {
         std::cout << "The two polygons do not intersect." << std::endl;
-        return 0;
+        return 0.0;
     }
    
   
@@ -186,7 +199,7 @@ double ContourPairAnalyzer::computeFalseNegative(Polygon_2 &GroundTruth, Polygon
     {
             //TODO: THINK ABOUT VERBOSITY
             std::cout << "GroundTruth is fully contained in Approximation and Joined area exactly equal to: "<< join_area<<  std::endl;
-            return 0 ;
+            return 0.0 ;
     }
     if (join_area == area_A )
     {
@@ -269,7 +282,8 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
     }
     
     // Write data to file
-    file.open("groundTruth.csv", std::ofstream::app);
+    std::string path = generateFilePath(DATA_PATH,FILE_EVAL_GROUND_TRUTH);
+    file.open(path, std::ofstream::app);
     for (int i = 0; i < n_samples_; ++i) 
     {
         file << f_1[i] << "," << f_2[i] << "\n";
@@ -293,8 +307,6 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
     return std::make_pair(std::make_unique<alglib::spline1dinterpolant>(s1),std::make_unique<alglib::spline1dinterpolant>(s2));
 }
 
-
-
 enum ShapeType {
     SHAPE_CIRCLE,
     SHAPE_TRIANGLE,
@@ -312,6 +324,7 @@ ShapeType getShapeType(const std::string& shape) {
 
 int main(int argc, char *argv[])
 {
+    /*
     //COMPUTE CONTOUR
     bayesopt::Parameters par;
  
@@ -386,7 +399,129 @@ int main(int argc, char *argv[])
 
     
     Contour contour(shape.get(),100);
+    */
+
+  bayesopt::Parameters par;
+  TumorModelParameters model_parameters;
+  ContourParamters contour_parameters;
+  //Either load bayesian optimization parameters from file or set them manually
+  //TODO adjust file parsing
+  std::string config_path = generateFilePath(CONFIG_PATH,"");
+  std::string bo_parameters = FILE_BO_PARAMETERS;
+  bo_parameters = config_path+bo_parameters;
+  if (bayesopt::utils::ParamLoader::load(bo_parameters, par))
+  {
+      std::cout << "Found "+ bo_parameters << std::endl;
+  }
+  else
+  {
+    par = initialize_parameters_to_default();
     
+    par.n_iterations = 60;
+    par.n_init_samples = 10;
+    par.crit_name = "cEI";
+    par.epsilon = 3;
+    par.random_seed = 10;
+    par.init_method = 3;
+    par.mean.name = "mZero";
+    par.force_jump = 0;
+    par.kernel.name = "kSEARD";
+    par.kernel.hp_mean[0] = 0.08;
+    par.kernel.hp_std[0] = 1.0;
+    par.n_inner_iterations = 500; 
+    par.verbose_level = 1;
+     std::cout << "Using default paramters" << std::endl;
+  }
+  std::string contour_params_path = FILE_CONTOUR_PARAMETERS;
+  contour_params_path = config_path+contour_params_path;
+  if (contour_parameters.loadContourParameters(contour_params_path, contour_parameters))
+  {
+      std::cout << "Found contour_parameters.txt" << std::endl;
+      
+  }
+  else
+  {
+    std::cout<<"Could not load contour_parameters.txt"<< std::endl;
+  }
+  std::string tumor_params_path = FILE_TUMOR_MODEL_PARAMETERS;
+  tumor_params_path = config_path+tumor_params_path;
+  if (model_parameters.loadModelParameters(tumor_params_path, model_parameters))
+  {
+      std::cout << "Found tumor_model_parameters.txt" << std::endl;
+  }
+  else
+  {
+    std::cout<<"Could not load tumor_model_parameters"<< std::endl;
+  }
+
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <Shape>\n";
+        return 1;
+    }
+
+    std::string arg = argv[1];
+    std::string experiment_path = generateFilePath(DATA_PATH,"");
+    std::string dirName = createShapeDirectory(experiment_path,arg);
+    std::string log_dir = LOG_PATH;
+    log_dir = dirName + log_dir;
+    createOrOverwriteDirectory(log_dir);
+    std::string results_dir = RESULTS_PATH;
+    results_dir = dirName + results_dir;
+    createOrOverwriteDirectory(results_dir);
+    //std::string arg = "TwoCircles";
+
+
+    std::string contour_params_file = FILE_CONTOUR_PARAMETERS;
+    
+    std::string model_params_file = FILE_TUMOR_MODEL_PARAMETERS;
+    model_params_file = log_dir + model_params_file;
+    copyFileToDirectory(contour_params_path, log_dir,contour_params_file);
+    copyFileToDirectory(tumor_params_path, log_dir,model_params_file);
+
+
+    ShapeType type = getShapeType(arg);
+   
+    
+    std::unique_ptr<Shape> shape;
+    std::vector< std::pair <std::function<double (const double&)> ,std::function<double (const double&)>> > groundTruths;
+    switch (type) {
+
+        case SHAPE_CIRCLE:
+            std::cout << "Running Experiment on Circle" << std::endl;
+            shape = std::make_unique<SmoothCircle>(par,model_parameters.circle_low,model_parameters.circle_high,model_parameters.circle_radius,
+                                                    model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            break;
+
+        case SHAPE_TRIANGLE:
+            std::cout << "Running Experiment on Triangle" << std::endl;
+            shape = std::make_unique<Triangle>(par,model_parameters.triangle_low,model_parameters.triangle_high,model_parameters.triangle_radius,
+                                                    model_parameters.triangle_x_trans,model_parameters.triangle_y_trans,model_parameters.triangle_epsilon); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            break;
+
+        case SHAPE_RECTANGLE:
+            std::cout << "Running Experiment on Rectangle" << std::endl;
+            shape = std::make_unique<Rectangle>(par,model_parameters.rectangle_low,model_parameters.rectangle_high,model_parameters.rectangle_radius,
+                                                    model_parameters.rectangle_x_trans,model_parameters.rectangle_y_trans,model_parameters.rectangle_epsilon); 
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            break;
+
+        case SHAPE_TWOCIRCLES:
+            std::cout << "Running Experiment on Two Circles" << std::endl;
+            shape = std::make_unique<TwoCircles>(par,model_parameters.two_circles_low,model_parameters.two_circles_high,model_parameters.two_circles_radius_1,model_parameters.two_circles_radius_2,
+                                                    model_parameters.two_circles_x_trans_1,model_parameters.two_circles_x_trans_2,  model_parameters.two_circles_y_trans_1, model_parameters.two_circles_y_trans_2,
+                                                            model_parameters.rectangle_epsilon);
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
+            break;
+            
+        default:
+            std::cout << "Unknown Shape: " << arg << std::endl;
+    }
+    
+    
+  Contour contour(shape.get(),contour_parameters, dirName);
     //run bayesian optimization
     contour.runGaussianProcess();
     contour.computeCluster();
@@ -396,7 +531,8 @@ int main(int argc, char *argv[])
     SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
     //Iterate over contours approximated by Contour class, number of contours depends on how many centers could be detected by clustering algorithm,
     //NOTE: When comparing against ground truth, number of detected centers has to match groundTruths vector
-    std::ofstream file("groundTruth.csv");
+    std::string path = generateFilePath(LOG_PATH,FILE_EVAL_GROUND_TRUTH);
+    std::ofstream file(path);
     file << "X,Y\n";
     file.close();
     for (size_t i = 0; i< spline_vec.size(); i++)
@@ -406,7 +542,7 @@ int main(int argc, char *argv[])
 
         SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, groundTruths[i].first, groundTruths[i].second,1000));
         
-        ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0);
+        ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0,results_dir );
         
         analyzer.analyzeContours();
 

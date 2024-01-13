@@ -5,6 +5,8 @@
 #include "meanShift.hpp"
 #include "interpolation.h"
 #include "stdafx.h"
+//#include "fileParser.hpp"
+#include "param_loader.hpp"
 #include "parameters.hpp"
 #include<numeric>
 
@@ -39,6 +41,8 @@ inline double stdDev(std::vector<double> v)
 class Contour
 {
 private:
+    //File handling
+    std::string experiment_path_; 
     // Bayesian Optimization variables
     bayesopt::BayesOptBase* bopt_model_;
     
@@ -76,11 +80,11 @@ public:
     size_t number_of_step_runs;
     
     Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
-    Contour(bayesopt::BayesOptBase* bopt_model,ContourParamters cp);
+    Contour(bayesopt::BayesOptBase* bopt_model,ContourParamters cp, std::string experiment_path);
     Contour(){}
     ~Contour();
 
-
+    size_t getCPoints();
     bayesopt::vectord getLastSample();
     bayesopt::ProbabilityDistribution* getPredictionGaussianProcess(const vectord &q);
     void getInitialSamples( std::vector<double> &samples_x, std::vector<double> &samples_y );
@@ -95,8 +99,6 @@ public:
     void approximateContour();
     void computeStiffnessThreshold();
 
-    void runProcess(std::mutex mtx_);
-
     //plot clusters
     std::vector<Point> getClusters();
 
@@ -105,6 +107,8 @@ public:
     
     SplineInterpolant_ptr_pair_vec getSplineInterpolant();
     //function only relevant for evalu
+    std::string getResultsPath();
+    bool writePosterior();
 };
 
 #endif

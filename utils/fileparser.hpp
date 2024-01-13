@@ -99,10 +99,7 @@ namespace bayesopt
         void readOrWrite(std::string name, boost::numeric::ublas::vector<double> &values);
         
         void write_vecOfvec(std::string name, std::vector<boost::numeric::ublas::vector<double> > &values);
-        void write_stdvecOfvec(std::string name, std::vector<std::vector<double> > &values);
         void read_vecOfvec(std::string name, std::vector<boost::numeric::ublas::vector<double> > &values);
-        void read_stdvecOfvec(std::string name, std::vector<std::vector<double> > &values);
-
         void readOrWrite(std::string name, std::vector<boost::numeric::ublas::vector<double> > &values);
         
         void write_double_array(std::string name, double values[], size_t length);

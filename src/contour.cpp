@@ -6,9 +6,9 @@
 #include <fstream>
 #include "dataset.hpp"
 #include "prob_distribution.hpp"
-#include "fileParser.hpp"
-#include "param_loader.hpp"
+
 #include<bayesopt/parameters.hpp>
+#include "helper.hpp"
 /*
 TODO
 -manage parameter parsing for:
@@ -18,6 +18,8 @@ TODO
     -lim_steps_
     -multiplier_
 */
+
+
 Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions):
         bopt_model_(bopt_model),
         n_exploration_directions_(n_exploration_directions),
@@ -34,9 +36,11 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
     number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
     total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
     y_values_.reserve(total_number_of_iterations_);
-     bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model->getParameters()));
+    std::string path = generateFilePath(LOG_PATH, FILE_PARAMETERS_STORED);
+    bayesopt::utils::ParamLoader::save(path, *(bopt_model->getParameters()));
 }
-Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp):
+
+Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp, std::string experiment_path):
         bopt_model_(bopt_model),
         c_points_(cp.c_points),
         bandwidth_(cp.means_shift_bandwidth),
@@ -45,14 +49,16 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp):
         lim_steps_(cp.lim_steps),
         n_samples_(n_directions_+1),
         c_(c_points_,std::vector<double>(c_points_)),
-        multiplier_(cp.threshold_multiplier)
+        multiplier_(cp.threshold_multiplier),
+        experiment_path_(experiment_path)
 
 {
-    std::cout<<"cp.n_exploration_directions"<<cp.n_exploration_directions<<std::endl;
+    std::cout<<"experiment_path_: "<<experiment_path_<<std::endl;
     number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
     total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
     y_values_.reserve(total_number_of_iterations_);
-     bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model->getParameters()));
+    std::string path = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_PARAMETERS_STORED);
+    bayesopt::utils::ParamLoader::save(path, *(bopt_model->getParameters()));
 }
 
 
@@ -90,7 +96,7 @@ void Contour::computeCluster()
             c_[i][j] = pd->getMean();   
           }
     }
-    mean_shift_ = MeanShift(c_, bandwidth_, samples_);
+    mean_shift_ = MeanShift(c_, bandwidth_, samples_, experiment_path_);
     mean_shift_.meanshift_mlpack();
 
     std::vector<std::vector<double>> vec = mean_shift_.getCentroids();
@@ -251,7 +257,9 @@ void Contour::approximateContour()
         std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
         double f_1[n_samples_];
         double f_2[n_samples_];
-        std::string file_contour_points = "/home/raphael/robolab/displaygp/config/contour_points_" + std::to_string(file_num) + ".csv";
+        std::string path_cp = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_CONTOUR_POINTS);
+        
+        std::string file_contour_points = path_cp + std::to_string(file_num) + ".csv";
         std::ofstream file(file_contour_points);
         if (!file.is_open()) 
         {
@@ -290,7 +298,8 @@ void Contour::approximateContour()
         double v2 = alglib::spline1dcalc(s2, 0.5);
         std::cout << "Value at theta=0.5: "<<" X: " << v1 << " Y: "  << v2<< std::endl;
         size_t n_plotting_samples = 1000;
-        std::string file_ = "/home/raphael/robolab/displaygp/config/contour_" + std::to_string(file_num) + ".csv";
+        std::string path_cappx = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_CONTOUR_APPRX);
+        std::string file_ = path_cappx + std::to_string(file_num) + ".csv";
         std::ofstream file_c(file_);
 
         if (!file_c.is_open()) 
@@ -328,7 +337,10 @@ bayesopt::vectord Contour::getLastSample()
 {
     return bopt_model_->getData()->getLastSampleX();
 }
-
+size_t Contour::getCPoints()
+{
+    return c_points_;
+}
 void Contour::getInitialSamples( std::vector<double> &samples_x, std::vector<double> &samples_y )
 {
      size_t n_points = bopt_model_->getData()->getNSamples();
@@ -365,4 +377,8 @@ double Contour::evaluateCriteriaGaussianProcess(const bayesopt::vectord &q)
 {
     return bopt_model_->evaluateCriteria(q);
 
+}
+std::string Contour::getResultsPath()
+{
+    return experiment_path_;
 }

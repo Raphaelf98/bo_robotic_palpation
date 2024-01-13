@@ -45,7 +45,7 @@ namespace bayesopt
         loadOrSave(fp, par);
     }
     
-    void ParamLoader::loadOrSave(FileParser &fp, Parameters &par){
+    void ParamLoader::loadOrSave(utils::FileParser &fp, Parameters &par){
         fp.readOrWrite("n_iterations", par.n_iterations);
         fp.readOrWrite("n_inner_iterations", par.n_inner_iterations);
         fp.readOrWrite("n_init_samples", par.n_init_samples);

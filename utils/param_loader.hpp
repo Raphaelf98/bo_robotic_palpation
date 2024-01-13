@@ -50,7 +50,7 @@ namespace bayesopt {
             ParamLoader(){}
         
             /* private function to be used by load and save functions */
-            static void loadOrSave(FileParser &fp, Parameters &par);   
+            static void loadOrSave(utils::FileParser &fp, Parameters &par);   
         };
     }
 } //namespace bayesopt

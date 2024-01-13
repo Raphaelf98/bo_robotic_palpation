@@ -3,7 +3,7 @@
 #include "prob_distribution.hpp"
 #include <stdlib.h>
 #include "meanShift.hpp"
-
+#include "helper.hpp"
 /*
 ***TODO***
 -simplify DISPLAY state-machine 
@@ -16,16 +16,12 @@
 
 
     DisplayHeatMap2D::DisplayHeatMap2D(): 
-      MatPlot(), cx(1), cy(1), c_points(100), cX(c_points), 
-      cY(c_points), 
-      cZ(100,std::vector<double>(100)), 
-      z_(100,std::vector<double>(100)),
-      c_(100,std::vector<double>(100)),
-      std_(100,std::vector<double>(100)),
+      MatPlot(), cx(1), cy(1), 
       computeClusters(1), 
       computeContourPoints(1), 
       computeSplinePoints(1)
     {
+      
       status = NOT_READY;
     }
 
@@ -73,6 +69,13 @@
     void DisplayHeatMap2D::init(Contour *contour, size_t dim)
     {
       contour_ = contour;
+      c_points = contour_->getCPoints();
+      cX = std::vector<double>(c_points); 
+      cY = std::vector<double>(c_points); 
+      cZ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
+      z_ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
+      c_ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
+      std_ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
       if (dim != 2) 
 	    { 
 	      throw std::invalid_argument("This display only works "
@@ -231,9 +234,15 @@
         if ((status != STOP) && (state_ii == contour_->number_of_step_runs))
         {
           std::cout<<"write file"<<std::endl;
-          FileParser fp("/home/raphael/robolab/displaygp/build/posterior.txt");
+          std::string results_path = RESULTS_PATH;
+          std::string posterior_path = FILE_POSTERIOR;
+          std::string experiment_dir = contour_->getResultsPath();
+          posterior_path = experiment_dir+results_path+posterior_path;
+
+          bayesopt::utils::FileParser fp(posterior_path);
           fp.open(0);
-          fp.write_stdvecOfvec("posterior", z_);
+          std::vector<boost::numeric::ublas::vector<double>> ublasVecs = convertStdToUblas(z_);
+          fp.write_vecOfvec("posterior", ublasVecs);
           ++state_ii;
           status = PLOT_CENTROIDS;
         }

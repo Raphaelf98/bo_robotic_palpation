@@ -3,3 +3,4 @@ build/
 .csv
 scripts/.csv
 src/wastecode.cpp
+data/

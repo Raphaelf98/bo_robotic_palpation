@@ -1,6 +1,29 @@
 #ifndef _PARAMETERS_HPP_
 #define _PARAMETERS_HPP_
-#include<stdlib.h>
+#include<iostream>
+#include"fileparser.hpp"
+#include <string>
+//#include "contour.hpp"
+
+#define DATA_PATH "/data"
+#define LOG_PATH "/log/"
+#define CONFIG_PATH "/config/"
+#define RESULTS_PATH "/results/"
+#define FILE_METRICS "metrics.txt"
+#define FILE_BO_PARAMETERS "bo_parameters.txt"
+#define FILE_CONTOUR_PARAMETERS "contour_parameters.txt"
+#define FILE_TUMOR_MODEL_PARAMETERS "tumor_model_parameters.txt"
+#define FILE_PARAMETERS_STORED "parameters_stored.txt"
+#define FILE_SCATTERED_DATA "scattered_data.csv"
+#define FILE_NORMALIZED_DATA "normalized_data.csv"
+#define FILE_MS_ASSIGNMENTS "ms_assignments.csv"
+#define FILE_MS_CENTROIDS "ms_centroids.csv"
+#define FILE_CONTOUR_POINTS "contour_points_"
+#define FILE_CONTOUR_APPRX "contour_"
+#define FILE_EVAL_GROUND_TRUTH "groundTruth.csv"
+#define FILE_POSTERIOR "posterior.txt"
+
+
 struct TumorModelParameters
 {
     //Triangle Parameters
@@ -35,6 +58,8 @@ struct TumorModelParameters
     double two_circles_y_trans_1=0.7;
     double two_circles_y_trans_2=0.8;
     double two_circles_epsilon=0.1;
+    void loadModel(bayesopt::utils::FileParser &fp, TumorModelParameters &cp);
+    bool loadModelParameters(std::string filename, TumorModelParameters &cp);
 };
 struct ContourParamters{
     size_t n_exploration_directions=10;
@@ -42,6 +67,9 @@ struct ContourParamters{
     double means_shift_bandwidth=0.05;
     size_t lim_steps=1000;
     double threshold_multiplier=3.0;
+    void loadContour(bayesopt::utils::FileParser &fp, ContourParamters &cp);
+    bool loadContourParameters(std::string filename, ContourParamters &cp);
+
 };
 
 #endif

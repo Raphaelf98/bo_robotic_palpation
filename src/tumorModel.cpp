@@ -3,7 +3,7 @@
 /*
 ****TODO*****
 -Implement Enum class for vertice count Triangle,Rectangle, Circle etc.
--
+-Fix Two Circles Epsilon Parameter
 */
 GaussianNoise::GaussianNoise(double mean, double std):dist_(mean,std){}
 double GaussianNoise::noise()
@@ -343,7 +343,7 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
                         Shape(par), circle_count_(1),
                        gaussianNoise_(0.0,0.01), 
                       r_1_(r_1), r_2_(r_2), x_t_1_(x_t_1), x_t_2_(x_t_2), y_t_1_(y_t_1), y_t_2_(y_t_2),epsilon_(epsilon),
-                      circle_1_(PolarPolygon(1, r_1_,x_t_1_,y_t_1_,0.1)),circle_2_(PolarPolygon(1, r_2_,x_t_2_,y_t_2_, 0.1)) 
+                      circle_1_(PolarPolygon(1, r_1_,x_t_1_,y_t_1_,epsilon_)),circle_2_(PolarPolygon(1, r_2_,x_t_2_,y_t_2_, epsilon_)) 
                       {
 
                           low_stiffness_ = low_stiffness;

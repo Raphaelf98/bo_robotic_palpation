@@ -5,7 +5,11 @@
 #include<mlpack/methods/kmeans/kmeans.hpp>
 #include<vector>
 #include"bayesopt/bayesopt.hpp"
-#include"fileParser.hpp"
+//#include"bayesopt/bayesoptbase.hpp"
+#include"fileparser.hpp"
+#include"parameters.hpp"
+//#include<fileparser.hpp>
+#include "helper.hpp"
 
 struct Point
 {
@@ -17,6 +21,8 @@ struct Point
 class MeanShift
 {
 private:
+
+    std::string experiment_path_;
     std::vector<std::vector<double>> data_;
     
     std::vector<Point> newPoints, newCenters;
@@ -25,11 +31,11 @@ private:
     double bandwidth_;
     int samples_;
     arma::mat centroids_;
-
+    std::string working_dir_path_;
     bool pointNoPoint(float probabilityOfPoint);
 public:
     MeanShift();
-    MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples);
+    MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples, std::string experiment_path);
     ~MeanShift();
     void printClusters();
     bool saveDataToCSV();

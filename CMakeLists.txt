@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
+set (CMAKE_CXX_FLAGS "-lstdc++fs -std=c++17")
+
 project(display_gp)
 #https://stackoverflow.com/questions/8774593/cmake-link-to-external-library
 #add_library(bayesopt_tut_libs main.cpp)
@@ -12,7 +14,8 @@ find_library(MLPACK_LIB mlpack)
 find_package(Boost)
 find_package(CGAL)
 message(OpenMPlibrarypath="${OpenMP_CXX_LIBRARIES}")
-message(bayeslibrarypath="${BAYESOPT_LIB}")
+message(bayeslibrarypath="${BAYESOPT_INCLUDE_DIRS}")
+message(bayeslibraryutilspath="${CMAKE_CURRENT_SOURCE_DIR}/include")
 message(nloptlibrarypath="${NLOPT_LIB}")
 message(cgullibrarypath="${CGAL_DIR}" )
 enable_language(C)  #For OpenGL and bo_display demo
@@ -103,6 +106,7 @@ set(UTILS_SOURCES
     utils/param_loader.cpp
     utils/parser.cpp
     utils/ublas_extra.cpp
+   
    )
 set(UTILS_HEADERS
     utils/boundingbox.hpp
@@ -123,23 +127,29 @@ set(UTILS_HEADERS
     utils/ublas_trace.hpp
     utils/prob_distribution.hpp
     utils/randgen.hpp
+    utils/helper.hpp
    
 )   
+
 set(SRCS
     src/display2dgp.cpp
     src/tumorModel.cpp
-    src/fileParser.cpp
+   # src/fileParser.cpp
     src/meanShift.cpp
     src/contour.cpp
+    src/helper.cpp
+    src/parameters.cpp
     )
 set(HEADERS
     include/display2dgp.hpp
     include/meanShift.hpp
-    include/fileParser.hpp
+ #  include/fileParser.hpp
     include/contour.hpp
     include/tumorModel.hpp
     include/evaluation.hpp
-    include/parameters.hpp)
+    include/helper.hpp
+    include/parameters.hpp
+    )
 
 
 #create cgul lib
@@ -150,30 +160,35 @@ set(HEADERS
 
 #target_link_libraries(cgul_lib INTERFACE ${Boost_LIBRARIES} ${GMP_LIBRARY} ${GMPXX_LIBRARY})
 #create library from additional sources and include headers
-add_library(headers ${SRCS} ${HEADERS} )
-target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp ${MLPACK_LIB}
-                    ${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib alglib)
 
-add_library(utils_lib ${UTILS_SOURCES} ${UTILS_HEADERS} )
-target_include_directories(utils_lib PUBLIC /home/raphael/robolab/displaygp/utils)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include )
+
+add_library(utils_lib ${UTILS_SOURCES})
+target_include_directories(utils_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/utils)
+#target_link_libraries(utils_lib ${BAYESOPT_LIB} ${NLOPT_LIB} )
+
+add_library(headers ${SRCS} )
+
+target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp ${MLPACK_LIB}
+                    ${GLUT_LIBRARY} ${OPENGL_LIBRARY}  alglib utils_lib)
 
 add_executable(display_gp src/main.cpp )
 #add_executable(compute_mean_shift src/meanShift.cpp )
 add_executable(compute_contour src/contour_main.cpp)
 add_executable(evaluate src/evaluation.cpp)
 #target_link_libraries(bayesopt_tut bayesopt_tut_libs)
-include_directories(include ${BAYESOPT_LIB_INCLUDE_DIRS}${NLOPT_LIB_INCLUDE_DIRS})
+#
 
 
 #target_link_libraries(compute_mean_shift ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}   OpenMP::OpenMP_CXX
 #${GLUT_LIBRARY} ${OPENGL_LIBRARY}  headers)
 
-target_link_libraries(compute_contour alglib headers ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} utils_lib ${OpenMP_CXX_LIBRARIES})
+target_link_libraries(compute_contour alglib ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}  ${OpenMP_CXX_LIBRARIES})#headers utils_lib)
 
 target_link_libraries(display_gp ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp alglib ${MLPACK_LIB} 
-${GLUT_LIBRARY} ${OPENGL_LIBRARY} utils_lib headers)
+${GLUT_LIBRARY} ${OPENGL_LIBRARY} headers utils_lib)
 #target_compile_options(display_gp PRIVATE -fopenmp)
 
-target_link_libraries(evaluate alglib headers ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} utils_lib  )
+target_link_libraries(evaluate alglib  ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} headers utils_lib  )
 target_compile_options(evaluate PRIVATE -fopenmp)
 endif()

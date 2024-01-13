@@ -5,17 +5,18 @@
 #include <fstream>
 #include <random>
 #include <math.h>
-
 MeanShift::MeanShift(){}
-MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples)
+MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples, std::string experiment_path)
 {
     bandwidth_ = bandwidth;
+    experiment_path_ = experiment_path;
     samples_ = samples;
     data_ = data;
     
     std::vector<Point> scattered_points;
     std::vector<double> max_row;
     std::vector<double> min_row;
+    //Find highest and lowest value in data set
     for (auto& row :data_)
     {
         double max = *max_element(row.begin(), row.end());
@@ -27,45 +28,57 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
     }
     double max_value = *max_element(max_row.begin(), max_row.end());
     double min_value = *min_element(min_row.begin(), min_row.end());
+    //Normalize data
     for(size_t i=0; i<data_.size(); ++i)
 	{       
         
         for (size_t j=0; j<data[0].size(); ++j)
         {
-            data_[i][j] = (data[i][j]-min_value) / max_value;
+            //data_[i][j] = (data[i][j]-min_value) / max_value;
+            data_[i][j] = (data[i][j]) / max_value;
         }
        
 	}
 
+
     saveDataToCSV();
     scatterData(scattered_points);
-    savePointsToCSV("/home/raphael/robolab/displaygp/config/scattered_data.csv",scattered_points);
+    //savePointsToCSV("/home/raphael/robolab/displaygp/config/scattered_data.csv",scattered_points);
+    std::string path = generateExperimentFilePath(experiment_path_,LOG_PATH, FILE_SCATTERED_DATA);
+    
+    savePointsToCSV(path,scattered_points);
     scattered_points_ = scattered_points;
    
 }
+
 void MeanShift::meanshift_mlpack()
 {   
     //Load your dataset.
     arma::mat data;
-    mlpack::data::Load("/home/raphael/robolab/displaygp/config/scattered_data.csv", data, true);
+    std::string path = generateExperimentFilePath(experiment_path_,LOG_PATH, FILE_SCATTERED_DATA);
+    mlpack::data::Load(path, data, true);
     bool forceConvergence = true; // Flag whether to force each centroid seed  to converge regardless of maxIterations.
     // Create a Mean Shift object. 
     // Perform Mean Shift clustering.
     arma::Row<size_t> assignments;  // Cluster assignments.
 
     mlpack::meanshift::MeanShift<> meanShift;
+    meanShift.Radius(bandwidth_);
     std::cout<<"Compute clusters ..."<<std::endl;
     meanShift.Cluster(data, assignments, centroids_, forceConvergence, true);
 
 
     // Save the results, if needed.
-    mlpack::data::Save("assignments.csv", assignments, true);
-    mlpack::data::Save("centroids.csv", centroids_, true); 
+    std::string assignemnents_file = generateExperimentFilePath(experiment_path_,LOG_PATH,FILE_MS_ASSIGNMENTS);
+    std::string centroids_file = generateExperimentFilePath(experiment_path_, LOG_PATH,FILE_MS_CENTROIDS);
+    mlpack::data::Save(assignemnents_file, assignments, true);
+    mlpack::data::Save(centroids_file, centroids_, true); 
     centroids_.print();
     
     
   
 }
+
 std::vector<std::vector<double>> MeanShift::getCentroids()
 {
     std::vector<std::vector<double>> centroids{centroids_.n_rows, std::vector<double>(centroids_.n_cols)};
@@ -127,7 +140,8 @@ void MeanShift::printClusters()
 }
 bool MeanShift::saveDataToCSV()
 {   
-  std::ofstream file("/home/raphael/robolab/displaygp/config/normalized_data.csv");
+     std::string path = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_NORMALIZED_DATA);
+  std::ofstream file(path);
 
     if (!file.is_open()) {
         std::cerr << "Failed to open the file." << std::endl;
@@ -157,7 +171,6 @@ bool MeanShift::savePointsToCSV(std::string name, std::vector<Point>& points_)
         return false;
     }
 
-    // Optionally, you can write headers
     file << "x,y\n";
 
     for (const auto& point : points_) {
@@ -173,9 +186,12 @@ bool MeanShift::savePointsToCSV(std::string name, std::vector<Point>& points_)
 
 void loadData(std::string filename, std::vector<std::vector<double>> &data)
 {
-    FileParser fp(filename);
+    bayesopt::utils::FileParser fp(filename);
     fp.open(1);
-    fp.read_stdvecOfvec("posterior", data);
+     std::vector<boost::numeric::ublas::vector<double>> ublasVecs;
+     ublasVecs = convertStdToUblas(data);
+    fp.read_vecOfvec("posterior", ublasVecs);
+    data = convertUblasToStd(ublasVecs);
 }
 
 bool saveToCSV(const std::string& filename, const std::vector<std::vector<double>>& data) {

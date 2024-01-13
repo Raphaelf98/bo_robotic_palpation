@@ -102,6 +102,12 @@ namespace bayesopt
 		      << std::endl;
 	  }
     }
+    std::string FileParser::read(std::string name){
+        std::string ret;
+        read(name, ret);
+        return ret;
+    }
+        
     /* Array write/read function */
     void FileParser::write(std::string name, 
 			   const std::vector<std::string> &arr, 
@@ -214,39 +220,7 @@ namespace bayesopt
         }
         write(name, arr, dims);
     }
-
-    void FileParser::write_stdvecOfvec(std::string name, 
-				    std::vector<std::vector<double> > &values){
-        std::vector<int> dims;
-        dims.push_back(values.size());
-        dims.push_back(values.at(0).size());
-        
-        std::vector<std::string> arr;
-        for(size_t i=0; i<values.size(); i++){
-            std::vector<double> current = values.at(i);
-            for(std::vector<double>::iterator it = current.begin(); 
-		it != current.end(); ++it) {
-                arr.push_back(to_string(*it));
-            }
-        }
-        write(name, arr, dims);
-    }
     void FileParser::read_vecOfvec(std::string name, std::vector<ublas::vector<double> > &values){
-        std::vector<int> dims;
-        std::vector<std::string> arr;
-        read(name, arr, dims);
-        
-        size_t sample_dim = dims.at(1);
-        
-        values.resize(dims.at(0));
-        for(size_t i=0; i<dims.at(0); i++){
-            values.at(i).resize(sample_dim);
-            for(size_t j=0; j<sample_dim; j++){
-                values.at(i)[j] = to_value<double>(arr.at(i*sample_dim + j));
-            }
-        }
-    }
-        void FileParser::read_stdvecOfvec(std::string name, std::vector<std::vector<double> > &values){
         std::vector<int> dims;
         std::vector<std::string> arr;
         read(name, arr, dims);

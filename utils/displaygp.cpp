@@ -96,7 +96,7 @@ namespace bayesopt
 	    }
 	  
 	  // We compute the prediction, true value and criteria at 1000 points
-	  int n=2000;
+	  int n=1000;
 	  std::vector<double> x,y,z,su,sl,c;
 	  x = linspace(0,1,n);
 	  y = x; z = x; su = x; sl = x; c = x;
