@@ -1,14 +1,27 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-
+import argparse
+from pathlib import Path
 # Read the CSV file
-datagt = pd.read_csv('/home/raphael/robolab/build/groundTruth.csv')
+parser = argparse.ArgumentParser(description="Process a string.")
+parser.add_argument('input_string', type=str, help='A string input by the user')
+args = parser.parse_args()
+print(f"Running Visualization on Experiment : {args.input_string}")
+current_directory = Path(__file__).resolve()
+parent_directory = current_directory.parent
+parent_directory = parent_directory.parent
+print(f"Current Directory: {current_directory}")
+print(f"Parent Directory: {parent_directory}")
 
-contour_points_1 = pd.read_csv('/home/raphael/robolab/displaygp/config/contour_points_1.csv')
-data1 = pd.read_csv('/home/raphael/robolab/displaygp/config/contour_1.csv')
-contour_points_2 = pd.read_csv('/home/raphael/robolab/displaygp/config/contour_points_2.csv')
-data2 = pd.read_csv('/home/raphael/robolab/displaygp/config/contour_2.csv')
+data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
+
+datagt = pd.read_csv(data_dir+'groundTruth.csv')
+
+contour_points_1 = pd.read_csv(data_dir+'contour_points_1.csv')
+data1 = pd.read_csv(data_dir+'contour_1.csv')
+contour_points_2 = pd.read_csv(data_dir+'contour_points_2.csv')
+data2 = pd.read_csv(data_dir+'contour_2.csv')
 
 # Assuming the columns in the CSV are named 'X' and 'Y'
 x1 = datagt['X']

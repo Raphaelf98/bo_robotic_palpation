@@ -8,7 +8,6 @@
 #include "prob_distribution.hpp"
 
 #include<bayesopt/parameters.hpp>
-#include "helper.hpp"
 /*
 TODO
 -manage parameter parsing for:
@@ -32,12 +31,12 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_direct
         c_(c_points_,std::vector<double>(c_points_)),
         multiplier_(3)
 
-{
+{   
     number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
     total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
     y_values_.reserve(total_number_of_iterations_);
-    std::string path = generateFilePath(LOG_PATH, FILE_PARAMETERS_STORED);
-    bayesopt::utils::ParamLoader::save(path, *(bopt_model->getParameters()));
+   
+    
 }
 
 Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp, std::string experiment_path):
@@ -53,12 +52,13 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp, std::s
         experiment_path_(experiment_path)
 
 {
+    
+    printParameters(*(bopt_model_->getParameters()));
     std::cout<<"experiment_path_: "<<experiment_path_<<std::endl;
     number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
     total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
     y_values_.reserve(total_number_of_iterations_);
-    std::string path = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_PARAMETERS_STORED);
-    bayesopt::utils::ParamLoader::save(path, *(bopt_model->getParameters()));
+   
 }
 
 
@@ -71,6 +71,7 @@ void Contour::runGaussianProcess(){
     
     bopt_model_->initializeOptimization();
     size_t nruns = bopt_model_->getParameters()->n_iterations;
+    //bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model_->getParameters()));
     
     while(state_ii < nruns)
     {
@@ -96,6 +97,7 @@ void Contour::computeCluster()
             c_[i][j] = pd->getMean();   
           }
     }
+
     mean_shift_ = MeanShift(c_, bandwidth_, samples_, experiment_path_);
     mean_shift_.meanshift_mlpack();
 
@@ -372,6 +374,7 @@ void Contour::prepareGaussianProcess()
 void  Contour::stepRunGaussianProcess()
 {
     bopt_model_->stepOptimization();
+    
 }
 double Contour::evaluateCriteriaGaussianProcess(const bayesopt::vectord &q)
 {
@@ -381,4 +384,26 @@ double Contour::evaluateCriteriaGaussianProcess(const bayesopt::vectord &q)
 std::string Contour::getResultsPath()
 {
     return experiment_path_;
+}
+void Contour::printParameters(const bayesopt::Parameters& par) {
+    std::cout << "Parameters:" << std::endl;
+    std::cout << "n_iterations: " << par.n_iterations << std::endl;
+    std::cout << "n_init_samples: " << par.n_init_samples << std::endl;
+    std::cout << "crit_name: " << par.crit_name << std::endl;
+    std::cout << "epsilon: " << par.epsilon << std::endl;
+    std::cout << "random_seed: " << par.random_seed << std::endl;
+    std::cout << "init_method: " << par.init_method << std::endl;
+    std::cout << "mean.name: " << par.mean.name << std::endl;
+    std::cout << "force_jump: " << par.force_jump << std::endl;
+    std::cout << "kernel.name: " << par.kernel.name << std::endl;
+    std::cout << "kernel.hp_mean[0]: " << par.kernel.hp_mean[0] << std::endl;
+    std::cout << "kernel.hp_std[0]: " << par.kernel.hp_std[0] << std::endl;
+    std::cout << "n_inner_iterations: " << par.n_inner_iterations << std::endl;
+    std::cout << "verbose_level: " << par.verbose_level << std::endl;
+    std::cout << "surr_name: " << par.surr_name<< std::endl;
+    std::cout << "l_type: " << par.l_type<< std::endl;
+    std::cout << "sc_type: " << par.sc_type<< std::endl;
+    
+    
+
 }

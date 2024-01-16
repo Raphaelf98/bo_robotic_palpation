@@ -183,7 +183,7 @@ add_executable(evaluate src/evaluation.cpp)
 #target_link_libraries(compute_mean_shift ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}   OpenMP::OpenMP_CXX
 #${GLUT_LIBRARY} ${OPENGL_LIBRARY}  headers)
 
-target_link_libraries(compute_contour alglib ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}  ${OpenMP_CXX_LIBRARIES})#headers utils_lib)
+target_link_libraries(compute_contour alglib  ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} headers utils_lib  )
 
 target_link_libraries(display_gp ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp alglib ${MLPACK_LIB} 
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} headers utils_lib)

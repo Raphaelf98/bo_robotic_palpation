@@ -124,7 +124,7 @@ bool copyFileToDirectory(const std::string& sourceFilePath, const std::string& d
     std::cout << "File copied successfully to " << destFilePath << std::endl;
     return true;
 }
-bool saveMetricsToFile(double specificity, double sensitivity, const std::string& filePath) {
+bool saveMetricsToFile(int pairNumber, double specificity, double sensitivity, const std::string& filePath) {
     std::ofstream file(filePath, std::ios::app); // Open in append mode
 
     if (!file.is_open()) {
@@ -132,9 +132,57 @@ bool saveMetricsToFile(double specificity, double sensitivity, const std::string
         return false;
     }
 
+    file << "Contour #" << pairNumber << std::endl;
     file << "Specificity: " << specificity << std::endl;
-    file << "Sensitivity: " << sensitivity << std::endl;
+    file << "Sensitivity: " << sensitivity << std::endl << std::endl;
 
     file.close();
     return true;
+}
+bool saveFileToCSV(const std::string& filename, const std::vector<std::vector<double>>& data) {
+    std::ofstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open the file." << std::endl;
+        return false;
+    }
+
+    for (const auto& row : data) {
+        for (size_t i = 0; i < row.size(); ++i) {
+            file << row[i];
+            if (i != row.size() - 1) {
+                file << ",";
+            }
+        }
+        file << "\n";
+    }
+
+    file.close();
+    return true;
+}
+std::vector<std::pair<double, double>> readCoordinatesFromCSV(const std::string& filePath) {
+    std::vector<std::pair<double, double>> points;
+    std::ifstream file(filePath);
+    std::string line;
+
+    if (file.is_open()) {
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            std::string x_str, y_str;
+            double x, y;
+
+            std::getline(ss, x_str, ',');
+            std::getline(ss, y_str);
+
+            x = std::stod(x_str);
+            y = std::stod(y_str);
+
+            points.push_back(std::make_pair(x, y));
+        }
+        file.close();
+    } else {
+        std::cerr << "Unable to open file: " << filePath << std::endl;
+    }
+
+    return points;
 }

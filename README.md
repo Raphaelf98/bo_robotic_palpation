@@ -17,7 +17,7 @@ sudo apt install libboost-dev cmake g++
 sudo apt install freeglut3-dev
 
 ```
-The required BayesOpt C++ library to perform Bayesian optimizaiton needs to be cloned to a convenient location and build. For this run.
+The required BayesOpt C++ library to perform Bayesian optimizaiton needs to be cloned to a convenient location and build. For this run:
 ```
 git clone https://github.com/rmcantin/bayesopt
 cd bayesopt

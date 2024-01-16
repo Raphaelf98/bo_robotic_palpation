@@ -10,33 +10,11 @@
 #include "parameters.hpp"
 #include<numeric>
 
+#include"helper.hpp"
 
 typedef std::unique_ptr<alglib::spline1dinterpolant> SplineInterpolant1d_ptr;
 typedef std::pair<std::shared_ptr<alglib::spline1dinterpolant>,std::shared_ptr<alglib::spline1dinterpolant>> SplineInterpolant_ptr_pair;
 typedef std::vector<SplineInterpolant_ptr_pair> SplineInterpolant_ptr_pair_vec;
-
-inline std::vector<double> linSpace(double min, double max,int n)
-{
-    std::vector<double> a;
-    if(n<1){n=1;}
-    a.resize(n);
-    for(int i=0;i<n;++i){a[i]=min+(max-min)*i/(n-1);}
-    return a;
-};
-
-inline double stdDev(std::vector<double> v)
-{
-    double sum = std::accumulate(v.begin(), v.end(), 0.0);
-    double m =  sum / v.size();
-
-    double accum = 0.0;
-    std::for_each (v.begin(), v.end(), [&](const double d) {
-        accum += (d - m) * (d - m);
-    });
-
-    return sqrt(accum / (v.size()));
-
-};
 
 class Contour
 {
@@ -109,6 +87,7 @@ public:
     //function only relevant for evalu
     std::string getResultsPath();
     bool writePosterior();
+    void printParameters(const bayesopt::Parameters& par);
 };
 
 #endif

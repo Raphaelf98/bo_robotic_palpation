@@ -63,7 +63,7 @@ public:
     
     //Constructor to compare multiple Contour(ground truth) Contour(approximation) pairs
     ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area, std::string experiment_path_);
-    void analyzeContours();
+    void analyzeContours(const size_t contour_number);
     bool polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P,size_t num_vertices);
     
     double computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose);

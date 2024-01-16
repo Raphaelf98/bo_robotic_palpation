@@ -3,11 +3,13 @@ import matplotlib.pyplot as plt
 import argparse
 from pathlib import Path
 import numpy as np
+
 def plot_heatmap_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
-    
-        # Create a figure and an axes
+    data = data[::-1]
+    print(data.shape)
+       # Create a figure and an axes
     fig, ax = plt.subplots()
 
     # Plot the heatmap
@@ -21,9 +23,8 @@ def plot_heatmap_from_csv(filename):
     ax.set_yticks(yticks)
     ax.set_xticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
     ax.set_yticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
-    ax.set_title("Posterior")
+    ax.set_title("Ground Truth")
     plt.show()
-
 
 if __name__ == "__main__":
     # Replace 'input.csv' with the name of your CSV file
@@ -41,4 +42,4 @@ if __name__ == "__main__":
     print(f"Current Directory: {current_directory}")
     print(f"Parent Directory: {parent_directory}")
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
-    plot_heatmap_from_csv(data_dir+"normalized_data.csv")
+    plot_heatmap_from_csv(data_dir+"groundTruthHeatMap.csv")

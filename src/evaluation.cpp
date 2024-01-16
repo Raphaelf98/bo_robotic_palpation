@@ -30,7 +30,7 @@ ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametri
 ContourPairAnalyzer::~ContourPairAnalyzer()
 {
 }
-void ContourPairAnalyzer::analyzeContours(){
+void ContourPairAnalyzer::analyzeContours(const size_t contour_number){
     Polygon_2 A;
     Polygon_2 B;
     polygonizeSpline(f_parametric_A_, A,1000);
@@ -50,7 +50,7 @@ void ContourPairAnalyzer::analyzeContours(){
     std::string posterior_path = FILE_METRICS;
     posterior_path = experiment_path_+posterior_path;
     std::cout<<"posterior_path:   " << posterior_path<<std::endl;
-    saveMetricsToFile(spec,sens,posterior_path);
+    saveMetricsToFile(contour_number, spec, sens ,posterior_path);
 }
 bool ContourPairAnalyzer::polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
 {   
@@ -265,7 +265,7 @@ double ContourPairAnalyzer::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 
 
 
 
-std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 10)
+std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file,std::string file_path, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 10)
 {
     double t[n_samples_];
     //std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
@@ -282,8 +282,8 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
     }
     
     // Write data to file
-    std::string path = generateFilePath(DATA_PATH,FILE_EVAL_GROUND_TRUTH);
-    file.open(path, std::ofstream::app);
+
+    file.open(file_path, std::ofstream::app);
     for (int i = 0; i < n_samples_; ++i) 
     {
         file << f_1[i] << "," << f_2[i] << "\n";
@@ -324,83 +324,7 @@ ShapeType getShapeType(const std::string& shape) {
 
 int main(int argc, char *argv[])
 {
-    /*
-    //COMPUTE CONTOUR
-    bayesopt::Parameters par;
- 
-  
-  if (bayesopt::utils::ParamLoader::load("/home/raphael/robolab/displaygp/config/bo_parameters.txt", par))
-  {
-      std::cout << "Found bo_parameters.txt" << std::endl;
-      
-  }
-  else
-  {
-    par = initialize_parameters_to_default();
-    par.n_iterations = 60;
-    par.n_init_samples = 10;
-    par.crit_name = "cEI";
-    par.epsilon = 3;
-    par.random_seed = 10;
-    par.init_method = 3;
-    par.mean.name = "mZero";
-    par.force_jump = 0;
-    par.kernel.name = "kSEARD";
-    par.kernel.hp_mean[0] = 0.08;
-    par.kernel.hp_std[0] = 1.0;
-    par.n_inner_iterations = 500;
-    par.verbose_level = 1;
-    
-    }
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <Shape>\n";
-        return 1;
-    }
-    
-    std::string arg = argv[1];
-    //std::string arg = "Circle";
-    ShapeType type = getShapeType(arg);
    
-    std::vector< std::pair <std::function<double (const double&)> ,std::function<double (const double&)>> > groundTruths;
-    std::unique_ptr<Shape> shape;
-
-    switch (type) {
-
-        case SHAPE_CIRCLE:
-            std::cout << "Running Experiment on Circle" << std::endl;
-            shape = std::make_unique<SmoothCircle>(par, 1,2, 0.1,0.5,0.5,0.1); 
-            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
-            break;
-
-        case SHAPE_TRIANGLE:
-            std::cout << "Running Experiment on Triangle" << std::endl;
-            shape = std::make_unique<Triangle>(par,1,2, 0.1,0.5,0.5,0.2); 
-            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
-            break;
-
-        case SHAPE_RECTANGLE:
-            std::cout << "Running Experiment on Rectangle" << std::endl;
-            shape = std::make_unique<Rectangle>(par,1,2, 0.1,0.5,0.5,0.1); 
-            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
-            break;
-
-        case SHAPE_TWOCIRCLES:
-            std::cout << "Running Experiment on Two Circles" << std::endl;
-            shape = std::make_unique<TwoCircles>(par,1,2, 0.05,0.1,0.2,0.7,0.8,0.3,0.2); 
-            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
-            groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
-            break;
-            
-        default:
-            std::cout << "Unknown Shape: " << arg << std::endl;
-    }
-    
-    
-
-    
-    Contour contour(shape.get(),100);
-    */
-
   bayesopt::Parameters par;
   TumorModelParameters model_parameters;
   ContourParamters contour_parameters;
@@ -437,6 +361,7 @@ int main(int argc, char *argv[])
   if (contour_parameters.loadContourParameters(contour_params_path, contour_parameters))
   {
       std::cout << "Found contour_parameters.txt" << std::endl;
+      contour_parameters.PrintParameters();
       
   }
   else
@@ -448,6 +373,7 @@ int main(int argc, char *argv[])
   if (model_parameters.loadModelParameters(tumor_params_path, model_parameters))
   {
       std::cout << "Found tumor_model_parameters.txt" << std::endl;
+       model_parameters.printParameters();
   }
   else
   {
@@ -474,10 +400,16 @@ int main(int argc, char *argv[])
     std::string contour_params_file = FILE_CONTOUR_PARAMETERS;
     
     std::string model_params_file = FILE_TUMOR_MODEL_PARAMETERS;
-    model_params_file = log_dir + model_params_file;
-    copyFileToDirectory(contour_params_path, log_dir,contour_params_file);
-    copyFileToDirectory(tumor_params_path, log_dir,model_params_file);
-
+    std::string params_dir = PARAMS_PATH;
+    params_dir = dirName + params_dir;
+    createOrOverwriteDirectory(params_dir);
+    std::cout<<"params_dir: "<<params_dir<<std::endl;
+    //model_params_file = log_dir + model_params_file;
+    std::string bo_paramters = FILE_BO_PARAMETERS;
+    bo_parameters = params_dir+bo_paramters;
+    bayesopt::utils::ParamLoader::save(bo_parameters,par);
+    copyFileToDirectory(contour_params_path, params_dir, contour_params_file);
+    copyFileToDirectory(tumor_params_path, params_dir, model_params_file);
 
     ShapeType type = getShapeType(arg);
    
@@ -489,21 +421,21 @@ int main(int argc, char *argv[])
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
             shape = std::make_unique<SmoothCircle>(par,model_parameters.circle_low,model_parameters.circle_high,model_parameters.circle_radius,
-                                                    model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon); 
+                                                    model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon,model_parameters.circle_noise); 
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
 
         case SHAPE_TRIANGLE:
             std::cout << "Running Experiment on Triangle" << std::endl;
             shape = std::make_unique<Triangle>(par,model_parameters.triangle_low,model_parameters.triangle_high,model_parameters.triangle_radius,
-                                                    model_parameters.triangle_x_trans,model_parameters.triangle_y_trans,model_parameters.triangle_epsilon); 
+                                                    model_parameters.triangle_x_trans,model_parameters.triangle_y_trans,model_parameters.triangle_epsilon, model_parameters.triangle_noise); 
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
 
         case SHAPE_RECTANGLE:
             std::cout << "Running Experiment on Rectangle" << std::endl;
             shape = std::make_unique<Rectangle>(par,model_parameters.rectangle_low,model_parameters.rectangle_high,model_parameters.rectangle_radius,
-                                                    model_parameters.rectangle_x_trans,model_parameters.rectangle_y_trans,model_parameters.rectangle_epsilon); 
+                                                    model_parameters.rectangle_x_trans,model_parameters.rectangle_y_trans,model_parameters.rectangle_epsilon, model_parameters.rectangle_noise); 
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
 
@@ -511,7 +443,7 @@ int main(int argc, char *argv[])
             std::cout << "Running Experiment on Two Circles" << std::endl;
             shape = std::make_unique<TwoCircles>(par,model_parameters.two_circles_low,model_parameters.two_circles_high,model_parameters.two_circles_radius_1,model_parameters.two_circles_radius_2,
                                                     model_parameters.two_circles_x_trans_1,model_parameters.two_circles_x_trans_2,  model_parameters.two_circles_y_trans_1, model_parameters.two_circles_y_trans_2,
-                                                            model_parameters.rectangle_epsilon);
+                                                            model_parameters.rectangle_epsilon, model_parameters.two_circles_noise);
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
@@ -520,8 +452,8 @@ int main(int argc, char *argv[])
             std::cout << "Unknown Shape: " << arg << std::endl;
     }
     
-    
-  Contour contour(shape.get(),contour_parameters, dirName);
+    shape->saveGroundTruth(contour_parameters.c_points,log_dir);
+    Contour contour(shape.get(),contour_parameters, dirName);
     //run bayesian optimization
     contour.runGaussianProcess();
     contour.computeCluster();
@@ -531,20 +463,51 @@ int main(int argc, char *argv[])
     SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
     //Iterate over contours approximated by Contour class, number of contours depends on how many centers could be detected by clustering algorithm,
     //NOTE: When comparing against ground truth, number of detected centers has to match groundTruths vector
-    std::string path = generateFilePath(LOG_PATH,FILE_EVAL_GROUND_TRUTH);
+    std::string path = generateExperimentFilePath(dirName, LOG_PATH,FILE_EVAL_GROUND_TRUTH);
     std::ofstream file(path);
     file << "X,Y\n";
     file.close();
-    for (size_t i = 0; i< spline_vec.size(); i++)
+    std::vector<int> idx_list ={0};
+    //selects the correct index based on list of centroids provided in ms_centroids.csv for list iterating over over gorund truth contours
+    if (groundTruths.size() > 1)
+
+    {   idx_list.clear();
+        std::string centroids_file = FILE_MS_CENTROIDS;
+        centroids_file = log_dir + centroids_file;
+        std::vector<std::pair<double, double>> centroids = readCoordinatesFromCSV(centroids_file);
+        std::pair<double, double> ground_truth_centroid_1= std::make_pair(model_parameters.two_circles_x_trans_1,model_parameters.two_circles_y_trans_1);
+        std::pair<double, double> ground_truth_centroid_2= std::make_pair(model_parameters.two_circles_x_trans_2,model_parameters.two_circles_y_trans_2);
+        std::vector<std::pair<double, double>> gts = {ground_truth_centroid_1,ground_truth_centroid_2};
+        
+        int idx;
+        double dist = 10e6;
+        for(size_t i = 0; i < centroids.size(); i++)
+        {   
+            for(size_t j = 0; j < gts.size(); j++)
+            {   
+                double norm = sqrt((centroids[i].first-gts[j].first)* (centroids[i].first-gts[j].first) + (centroids[i].second-gts[j].second) * (centroids[i].second-gts[j].second) );
+                if(norm < dist){
+                    idx = j;
+                }
+                dist = norm;
+            }
+            idx_list.push_back(idx);
+            dist = 10e6;
+        }
+    }
+    
+
+
+    for (size_t i = 0; i< groundTruths.size(); i++)
     {
     
         std::cout << "\nCOMPARE #"<< i+1<<"st  PAIR\n" << std::endl;
 
-        SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, groundTruths[i].first, groundTruths[i].second,1000));
+        SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, path, groundTruths[idx_list[i-1+groundTruths.size()]].first, groundTruths[idx_list[i-1+groundTruths.size()]].second,1000));
         
-        ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0,results_dir );
+        ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0,results_dir);
         
-        analyzer.analyzeContours();
+        analyzer.analyzeContours(i+1);
 
     }
     file.close();

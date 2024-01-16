@@ -1,5 +1,7 @@
 #include "tumorModel.hpp"
 #include <random>
+#include"parameters.hpp"
+#include"fileparser.hpp"
 /*
 ****TODO*****
 -Implement Enum class for vertice count Triangle,Rectangle, Circle etc.
@@ -176,11 +178,37 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
         x = upperlimit;
     return x;
 }
+void Shape::saveGroundTruth(const size_t c_points, std::string file_path)
+{
+      std::vector<double> cX=linSpace(0,1,c_points);
+      std::vector<double> cY=linSpace(0,1,c_points);
+      std::vector<std::vector<double>> cZ(c_points, std::vector<double>(c_points));
+      vectord q_(2);
+      q_(0) = cX[0]; 
+      q_(1) = cY[0];
+      
+
+      for(int i=0;i<c_points;++i)
+	    {  
+	        for(int j=0;j<c_points;++j)
+	        {
+	            vectord q(2);
+	            q(0) = cX[j]; 
+              q(1) = cY[i];
+	            cZ[i][j]= this->evaluateSample(q);
+	        }
+          
+	    }
+      std::cout<<"Write goundtruth to file: " <<file_path<<std::endl;
+      std::string gt = FILE_GROUND_TRUTH_HEATMAP;
+      file_path = file_path+gt;
+      saveFileToCSV(file_path,cZ );
+} 
 
 
 
- Triangle::Triangle(bayesopt::Parameters par, double low,double high, double radius, double x_trans, double y_trans, double epsilon):
-   Shape(par),  gaussianNoise_(0.0,0.01) 
+ Triangle::Triangle(bayesopt::Parameters par, double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise):
+   Shape(par),  gaussianNoise_(0.0,noise) 
    {
       low_stiffness_ = low;
       high_stiffness_= high;
@@ -199,7 +227,6 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
   {
     return triangle_.fParametric_y();
   }
-
 
   double Triangle::evaluateSample( const vectord& xin)
   {
@@ -237,8 +264,8 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
     };
 
 
- Rectangle::Rectangle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon):
-   Shape(par), gaussianNoise_(0.0,0.01) 
+ Rectangle::Rectangle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise):
+   Shape(par), gaussianNoise_(0.0,noise) 
    {
       low_stiffness_ = low;
       high_stiffness_= high;
@@ -339,9 +366,9 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
 
 */
 TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double high_stiffness ,double r_1, double r_2,double x_t_1,double x_t_2,
-                        double y_t_1,double y_t_2,double epsilon):
+                        double y_t_1,double y_t_2,double epsilon,double noise):
                         Shape(par), circle_count_(1),
-                       gaussianNoise_(0.0,0.01), 
+                       gaussianNoise_(0.0,noise), 
                       r_1_(r_1), r_2_(r_2), x_t_1_(x_t_1), x_t_2_(x_t_2), y_t_1_(y_t_1), y_t_2_(y_t_2),epsilon_(epsilon),
                       circle_1_(PolarPolygon(1, r_1_,x_t_1_,y_t_1_,epsilon_)),circle_2_(PolarPolygon(1, r_2_,x_t_2_,y_t_2_, epsilon_)) 
                       {
@@ -352,7 +379,8 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
 
 
   
-  double TwoCircles::evaluateSample( const vectord& xin){
+  double TwoCircles::evaluateSample( const vectord& xin)
+  {
     if (xin.size() != 2)
       {
 	std::cout << "WARNING: This only works for 2D inputs." << std::endl
@@ -382,6 +410,7 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
     {
       return smoothstep(radius_inner_1,radius_outer_1, r1,low_stiffness_,high_stiffness_)+ gaussianNoise_.noise();
     }
+    else 0.0;
    
     }
     else
@@ -396,8 +425,9 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
     } 
     if (r2 > radius_inner_2  && r2 < radius_outer_2)
     {
-        return smoothstep(radius_inner_2,radius_outer_2, r2,low_stiffness_,high_stiffness_)+ gaussianNoise_.noise();
+      return smoothstep(radius_inner_2,radius_outer_2, r2,low_stiffness_,high_stiffness_)+ gaussianNoise_.noise();
     }
+    else 0.0;
     }
   }
 std::function<double (const double&)> TwoCircles::f_x() 
@@ -413,7 +443,7 @@ std::function<double (const double&)> TwoCircles::f_x()
     {
       return circle_1_.fParametric_x();
     } 
-    
+    else nullptr;
   }
 std::function<double (const double&)> TwoCircles::f_y() 
   {
@@ -427,7 +457,7 @@ std::function<double (const double&)> TwoCircles::f_y()
     {
       return circle_1_.fParametric_y();
     } 
-    
+    else nullptr;
   }
     
   bool TwoCircles::checkReachability(const vectord &query)
@@ -435,9 +465,9 @@ std::function<double (const double&)> TwoCircles::f_y()
     return true;
   };
 
-SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon):
+SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon,double noise):
     Shape(par),
-    gaussianNoise_(0.0,0.01)
+    gaussianNoise_(0.0,noise)
     {
       low_stiffness_ = low;
       high_stiffness_= high;

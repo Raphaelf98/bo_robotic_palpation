@@ -190,6 +190,7 @@ int main(int argc, char* argv[])
   if (contour_parameters.loadContourParameters(contour_params_path, contour_parameters))
   {
       std::cout << "Found contour_parameters.txt" << std::endl;
+      contour_parameters.PrintParameters();
       
   }
   else
@@ -201,6 +202,7 @@ int main(int argc, char* argv[])
   if (model_parameters.loadModelParameters(tumor_params_path, model_parameters))
   {
       std::cout << "Found tumor_model_parameters.txt" << std::endl;
+      model_parameters.printParameters();
   }
   else
   {
@@ -226,11 +228,17 @@ int main(int argc, char* argv[])
 
 
     std::string contour_params_file = FILE_CONTOUR_PARAMETERS;
-    
     std::string model_params_file = FILE_TUMOR_MODEL_PARAMETERS;
-    model_params_file = log_dir + model_params_file;
-    copyFileToDirectory(contour_params_path, log_dir,contour_params_file);
-    copyFileToDirectory(tumor_params_path, log_dir,model_params_file);
+    std::string params_dir = PARAMS_PATH;
+    params_dir = dirName + params_dir;
+    createOrOverwriteDirectory(params_dir);
+    
+    //model_params_file = log_dir + model_params_file;
+    std::string bo_paramters = FILE_BO_PARAMETERS;
+    bo_parameters = params_dir+bo_paramters;
+    bayesopt::utils::ParamLoader::save(bo_parameters,par);
+    copyFileToDirectory(contour_params_path, params_dir, contour_params_file);
+    copyFileToDirectory(tumor_params_path, params_dir, model_params_file);
 
 
     ShapeType type = getShapeType(arg);
@@ -243,29 +251,29 @@ int main(int argc, char* argv[])
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
             shape = std::make_unique<SmoothCircle>(par,model_parameters.circle_low,model_parameters.circle_high,model_parameters.circle_radius,
-                                                    model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon); 
+                                                    model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon,model_parameters.circle_noise); 
            
             break;
 
         case SHAPE_TRIANGLE:
             std::cout << "Running Experiment on Triangle" << std::endl;
             shape = std::make_unique<Triangle>(par,model_parameters.triangle_low,model_parameters.triangle_high,model_parameters.triangle_radius,
-                                                    model_parameters.triangle_x_trans,model_parameters.triangle_y_trans,model_parameters.triangle_epsilon); 
+                                                    model_parameters.triangle_x_trans,model_parameters.triangle_y_trans,model_parameters.triangle_epsilon, model_parameters.triangle_noise); 
             
             break;
 
         case SHAPE_RECTANGLE:
             std::cout << "Running Experiment on Rectangle" << std::endl;
             shape = std::make_unique<Rectangle>(par,model_parameters.rectangle_low,model_parameters.rectangle_high,model_parameters.rectangle_radius,
-                                                    model_parameters.rectangle_x_trans,model_parameters.rectangle_y_trans,model_parameters.rectangle_epsilon); 
+                                                    model_parameters.rectangle_x_trans,model_parameters.rectangle_y_trans,model_parameters.rectangle_epsilon, model_parameters.rectangle_noise); 
             
             break;
 
         case SHAPE_TWOCIRCLES:
             std::cout << "Running Experiment on Two Circles" << std::endl;
             shape = std::make_unique<TwoCircles>(par,model_parameters.two_circles_low,model_parameters.two_circles_high,model_parameters.two_circles_radius_1,model_parameters.two_circles_radius_2,
-                                                    model_parameters.two_circles_x_trans_1,model_parameters.two_circles_x_trans_2,  model_parameters.two_circles_y_trans_1, model_parameters.two_circles_y_trans_2,
-                                                            model_parameters.rectangle_epsilon);
+                                                    model_parameters.two_circles_x_trans_1,model_parameters.two_circles_x_trans_2, model_parameters.two_circles_y_trans_1, model_parameters.two_circles_y_trans_2,
+                                                            model_parameters.two_circles_epsilon, model_parameters.two_circles_noise);
             
             break;
             
@@ -273,7 +281,8 @@ int main(int argc, char* argv[])
             std::cout << "Unknown Shape: " << arg << std::endl;
     }
     
-    
+    shape->saveGroundTruth(contour_parameters.c_points,log_dir);
+
   Contour contour(shape.get(),contour_parameters, dirName);
    //Contour contour(shape.get(),10);
     GLOBAL_MATPLOT.init(&contour,2);
