@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 #include"param_loader.hpp"
-
 #include "testfunctions.hpp"
 #include "helper.hpp"
 #include "contour.hpp"

@@ -1,10 +1,10 @@
+#include <stdlib.h>
+
+#include "meanShift.hpp"
+#include "helper.hpp"
 #include"display2dgp.hpp"
 #include "dataset.hpp"
 #include "prob_distribution.hpp"
-#include <stdlib.h>
-#include "meanShift.hpp"
-#include "helper.hpp"
-
  //Constructor
 DisplayHeatMap2D::DisplayHeatMap2D(): 
   MatPlot(), cx(1), cy(1), 

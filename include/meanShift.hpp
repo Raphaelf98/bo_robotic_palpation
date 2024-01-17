@@ -5,10 +5,8 @@
 #include<mlpack/methods/kmeans/kmeans.hpp>
 #include<vector>
 #include"bayesopt/bayesopt.hpp"
-//#include"bayesopt/bayesoptbase.hpp"
 #include"fileparser.hpp"
 #include"parameters.hpp"
-//#include<fileparser.hpp>
 #include "helper.hpp"
 
 struct Point

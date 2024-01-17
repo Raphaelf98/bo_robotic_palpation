@@ -1,10 +1,10 @@
-
-#include "meanShift.hpp"
-#include "prob_distribution.hpp"
 #include <iostream>
 #include <fstream>
 #include <random>
 #include <math.h>
+
+#include "meanShift.hpp"
+#include "prob_distribution.hpp"
 MeanShift::MeanShift(){}
 /*
 Constructor that reads in data, means shift bandwidth, samples and experiment file path.

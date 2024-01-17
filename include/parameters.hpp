@@ -3,7 +3,7 @@
 #include<iostream>
 #include"fileparser.hpp"
 #include <string>
-//#include "contour.hpp"
+
 
 #define DATA_PATH "/data"
 #define LOG_PATH "/log/"

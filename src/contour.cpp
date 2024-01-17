@@ -1,13 +1,15 @@
-#include "contour.hpp"
+#include<bayesopt/parameters.hpp>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <cmath>
 #include <fstream>
+
+#include "contour.hpp"
 #include "dataset.hpp"
 #include "prob_distribution.hpp"
 
-#include<bayesopt/parameters.hpp>
+
 
 //Constructor
 Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp, std::string experiment_path):
