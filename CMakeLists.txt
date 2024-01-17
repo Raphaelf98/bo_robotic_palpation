@@ -134,7 +134,6 @@ set(UTILS_HEADERS
 set(SRCS
     src/display2dgp.cpp
     src/tumorModel.cpp
-   # src/fileParser.cpp
     src/meanShift.cpp
     src/contour.cpp
     src/helper.cpp
@@ -143,7 +142,6 @@ set(SRCS
 set(HEADERS
     include/display2dgp.hpp
     include/meanShift.hpp
- #  include/fileParser.hpp
     include/contour.hpp
     include/tumorModel.hpp
     include/evaluation.hpp
@@ -152,20 +150,12 @@ set(HEADERS
     )
 
 
-#create cgul lib
-#find_library(GMP_LIBRARY NAMES gmp)
-#find_library(GMPXX_LIBRARY NAMES gmpxx)
-#add_library(cgul_lib INTERFACE)
-#target_include_directories(cgul_lib INTERFACE ${CGAL_DIR})
-
-#target_link_libraries(cgul_lib INTERFACE ${Boost_LIBRARIES} ${GMP_LIBRARY} ${GMPXX_LIBRARY})
-#create library from additional sources and include headers
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include )
 
 add_library(utils_lib ${UTILS_SOURCES})
 target_include_directories(utils_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/utils)
-#target_link_libraries(utils_lib ${BAYESOPT_LIB} ${NLOPT_LIB} )
+
 
 add_library(headers ${SRCS} )
 
@@ -173,21 +163,15 @@ target_link_libraries(headers ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp ${MLPACK_LI
                     ${GLUT_LIBRARY} ${OPENGL_LIBRARY}  alglib utils_lib)
 
 add_executable(display_gp src/main.cpp )
-#add_executable(compute_mean_shift src/meanShift.cpp )
 add_executable(compute_contour src/contour_main.cpp)
 add_executable(evaluate src/evaluation.cpp)
-#target_link_libraries(bayesopt_tut bayesopt_tut_libs)
-#
 
-
-#target_link_libraries(compute_mean_shift ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB}   OpenMP::OpenMP_CXX
-#${GLUT_LIBRARY} ${OPENGL_LIBRARY}  headers)
 
 target_link_libraries(compute_contour alglib  ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} headers utils_lib  )
 
 target_link_libraries(display_gp ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} matplotpp alglib ${MLPACK_LIB} 
 ${GLUT_LIBRARY} ${OPENGL_LIBRARY} headers utils_lib)
-#target_compile_options(display_gp PRIVATE -fopenmp)
+
 
 target_link_libraries(evaluate alglib  ${OpenMP_CXX_LIBRARIES} ${BAYESOPT_LIB} ${NLOPT_LIB} ${MLPACK_LIB} CGAL::CGAL ${Boost_LIBRARIES} headers utils_lib  )
 target_compile_options(evaluate PRIVATE -fopenmp)

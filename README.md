@@ -8,6 +8,7 @@ the tumor profile via robot palpation using Bayesian Optimization (BO). Compared
 palpating the entire organ to achieve tumor localization, the proposed framework aims at improving
 efficiency with minimum times of exploration. Simulation and comparison experiments will be
 conducted to verify the performance of the proposed strategy.
+![Example Image](READMEPHOTO.png)
 
 ## Installation
 ### 1. Install dependencies 
@@ -25,7 +26,17 @@ cmake .
 make
 sudo make install
 ```
-
+In order to perform computations on polygons, CGAL library is required and can be installed with:
+```
+cd $HOME/CGAL-5.6
+mkdir build
+cd build
+cmake ..                                                                          
+make install                                                                      
+cd examples/Triangulation_2                                                       
+cmake -DCGAL_DIR=$CMAKE_INSTALLED_PREFIX/lib/CGAL -DCMAKE_BUILD_TYPE=Release .    
+make                                                                             
+```
 ### 2. Clone repository
 Clone repository and build the package.
 ```
@@ -36,12 +47,49 @@ cmake ..
 make
 ```
 ## Using the package 
-### 1. Configure Bayesian Optimization parameters
-Adjust optimization parameters by entering desired values under /config/bo_parameters.txt . 
+### 1. Configure Tumor Model Parameters
+Four different shapes are pre-programmed and shape attributes can be adjusted in order to test roboustness of the algorithm. Inside /config/tumor_model_parameters.txt you find a set of pre-defined parameters for four different shapes including a Triangle, Rectangle, Circles and a Two Circle configuration. All shapes share a set of common parameters which are:
+-   low and high stiffness values
+-   translation in x and y,
+-   size defined by radius,
+-   epsilon (defines how smooth values transition from high to low stiffness areas)
+-   noise to simulation measurement error (gaussian and zero mean).
+
+### 2. Configure Bayesian Optimization parameters
+Approximation of a posterior distribution is done by iterativly probing the tumor model and updating a gaussian process. A detailed description of paramters can be found in the documentation of bayesopt library: http://rmcantin.github.io/bayesopt/html/usemanual.html#params
+### 3. Configure Contour Parameters
+Once a posterior distribution is found the contour of the tumor is approximated. This is done by first running a means shift clustering algorithm on a sampled representation of the posterior. In a second step the computed centroids are explored in radial direction.
+More precisely, the algorithm will start exploring centroids by probing a set of pre-defined planar directions. Each direction is explored until the tumor stiffness is changing and a threshold criterion is met. Directions are computed by defining angle segments along which the algorithm explores the centroids. Angle segments are pre-defined by a parameter that divides 360°. Once a set of contour points is found, a spline approximation is performed to compute the contour of the tumor.
+
+The following parametes listed in /config/contour_parameters.txt can be tuned to refine the tumor approximation process. 
+- n_exploration_directions, defines the number of directions a centroid is explored in
+- c_points, granularity of posterior distribution. Will define how many points are used in x and y directions
+-  means_shift_bandwidth, sets the bandwidth for the means shift algorithm https://github.com/mlpack/mlpack/tree/master/src/mlpack/methods/mean_shift
+-   lim_steps, determines the maximum amount of samples that are taken in each direction
+
+-   threshold_multiplier, determines the stiffness threshold. In order to do so, all previously seen sample stiffnesses are clustered by a k-means algorithm. Given that high stiffness values correlate with tumourous tissue, the cluster with highest values is selected and its mean value and uncertainty calculated. Based on that measures and the threshold_multiplier parameter will define how many standard deviations from the mean value of the tumor stiffness cluster are categorised as tumor tissue. 
+
 ### 2. Run the optimization
+The algorithm can be executed for four different tumor models. The algorithm can be simulated with a triangle-, rectangle-, circle and two-circle-shaped tumor model of adjustable size and stiffness.
+In order to run the algorithm run the following command inside the build directory 
+1. Triangle experiment:
 ```
 cd build
-./display_gp ../config/bo_parameters.txt
+./display_gp Triangle
 ```
-
-
+2. Rectangle experiment:
+```
+cd build
+./display_gp Rectangle
+```
+3. Cricle experiment
+```
+cd build
+./display_gp Cricle
+```
+4. Two-Cricles experiment
+```
+cd build
+./display_gp TwoCricles
+```
+Press "r" to run the algorithm, press "s" to perform a single step and press "q" to stop it.
