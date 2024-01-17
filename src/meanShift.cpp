@@ -6,6 +6,10 @@
 #include <random>
 #include <math.h>
 MeanShift::MeanShift(){}
+/*
+Constructor that reads in data, means shift bandwidth, samples and experiment file path.
+Scatteres data by sampling it. Saves scattered data to file.
+*/
 MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples, std::string experiment_path)
 {
     bandwidth_ = bandwidth;
@@ -40,7 +44,6 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
        
 	}
 
-
     saveDataToCSV();
     scatterData(scattered_points);
     //savePointsToCSV("/home/raphael/robolab/displaygp/config/scattered_data.csv",scattered_points);
@@ -50,7 +53,9 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
     scattered_points_ = scattered_points;
    
 }
-
+/*
+Computes centroids by calling MeanShift algorithm
+*/
 void MeanShift::meanshift_mlpack()
 {   
     //Load your dataset.
@@ -78,7 +83,9 @@ void MeanShift::meanshift_mlpack()
     
   
 }
-
+/*
+returns centoids.
+*/
 std::vector<std::vector<double>> MeanShift::getCentroids()
 {
     std::vector<std::vector<double>> centroids{centroids_.n_rows, std::vector<double>(centroids_.n_cols)};
@@ -97,11 +104,16 @@ MeanShift::~MeanShift()
 {
   
 }
+/*
+Returns whether point is sampled or not based on its value.
+*/
 bool MeanShift::pointNoPoint(float probabilityOfPoint)
 {
   return rand()%100 < (probabilityOfPoint * 100);
 }
-
+/*
+Samples normalized posterior distribution to obtain scattered data representation.
+*/
 void MeanShift::scatterData(std::vector<Point>& scattered_points)
 {       
     double x = 0.0;
@@ -218,7 +230,9 @@ bool saveToCSV(const std::string& filename, const std::vector<std::vector<double
 
 
 
-
+/*MeanShift
+K_means constructor.Reads in data that will be clustered. Reads in one-dimensional data.
+*/
 K_means::K_means(const std::vector<double> &vals){
     data_ = arma::mat(vals);
     std::cout<<"DIMENSIONS: "<< data_.size()<< std::endl;
@@ -230,6 +244,9 @@ K_means::K_means(const std::vector<double> &vals){
 
 
 }
+/*
+Perform clustering of one-dimensional data
+*/
 void K_means::cluster()
 {
     kmeans_.Cluster(data_,2,assignments_,centroids_);
@@ -238,10 +255,16 @@ void K_means::cluster()
     std::cout<<"ASSIGNMENTS"<<std::endl;
     assignments_.print();
 }
+/*
+Return centroids
+*/
 std::vector<double> K_means::getCentroids()
 {
     return std::vector<double>(centroids_.begin(), centroids_.end());
 }
+/*
+Return Assignments
+*/
 std::vector<std::pair<double,size_t>> K_means::getAssignments()
 {   std::vector<std::pair<double,size_t>> v( data_.size());
     for(size_t i = 0; i < data_.size(); i++)
@@ -252,19 +275,3 @@ std::vector<std::pair<double,size_t>> K_means::getAssignments()
     }
     return v;
 }
-/*
-int main(){
-    std::vector<std::vector<double>> mat;
-    loadData("/home/raphael/robolab/displaygp/config/posterior.txt", mat);
-    saveToCSV("/home/raphael/robolab/displaygp/config/posterior.csv", mat);
-    MeanShift ms(mat, 0.05, 100);
-    ms.meanshift_mlpack();
-    //ms.cluster();
-    
-    //std::vector<Point>  clusterCenter = ms.mergeClusters(2);
-    //ms.printClusters();
-    
-    //ms.savePointsToCSV("../config/clusterCenters.csv" ,clusterCenter);
-    return 0;
-}
-*/

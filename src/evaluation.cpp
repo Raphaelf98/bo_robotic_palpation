@@ -17,9 +17,10 @@
 #include "param_loader.hpp"
 #include<bayesopt/parameters.hpp>
 #include<fstream>
+
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
-
+//Constructor, receives and initializes two prametric spline functions (contours)
 ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area, std::string experiment_path):domain_area_(domain_area), experiment_path_(experiment_path)
 {   
     f_parametric_A_.first = f_parametric_A.first;
@@ -30,6 +31,9 @@ ContourPairAnalyzer::ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametri
 ContourPairAnalyzer::~ContourPairAnalyzer()
 {
 }
+/*
+Compute Sensitivity, Specificity of Contour A and B and store results to file
+*/
 void ContourPairAnalyzer::analyzeContours(const size_t contour_number){
     Polygon_2 A;
     Polygon_2 B;
@@ -44,7 +48,7 @@ void ContourPairAnalyzer::analyzeContours(const size_t contour_number){
     computeFalsePositive(A,B);
     computeTrueNegative(domain_area_, A,B);
     computeTruePositive(A,B);
-    double sens = computeSensitiviy(A,B);
+    double sens = computeSensitivity(A,B);
     double spec = computeSpecificity(domain_area_,A,B);
     
     std::string posterior_path = FILE_METRICS;
@@ -52,6 +56,9 @@ void ContourPairAnalyzer::analyzeContours(const size_t contour_number){
     std::cout<<"posterior_path:   " << posterior_path<<std::endl;
     saveMetricsToFile(contour_number, spec, sens ,posterior_path);
 }
+/*
+Switch from parametric spline function representation to Polygon representation of contour
+*/
 bool ContourPairAnalyzer::polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P, size_t num_vertices = 1000)
 {   
     
@@ -69,12 +76,17 @@ bool ContourPairAnalyzer::polygonizeSpline( SplineInterpolant_ptr_pair &spline_p
 
     return 0;
 }
+/*
+Computes Area of Polygon
+*/
 double ContourPairAnalyzer::computeArea(Polygon_2 &A)
 {
     return static_cast<double>(A.area().exact());
 }
 
-//Compute A - B
+/*
+Compute area of difference A - B
+*/
 double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {
      if ((CGAL::do_intersect (A, B))){
@@ -84,8 +96,7 @@ double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bo
         Pwh_list_2::const_iterator it;
         //Segmentation fault when A is smaller B and fully contained within B. The other way around works
         //Check if A fully contained in B 
-        
-        
+    
         CGAL::difference(A, B,std::back_inserter(symmR) );
         
         
@@ -119,16 +130,20 @@ double ContourPairAnalyzer::computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bo
     }
 
 }
-
+/*
+Computes area of union of two polygons
+*/
 double ContourPairAnalyzer::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {
-     if ((CGAL::do_intersect (A, B))){
+    if ((CGAL::do_intersect (A, B)))
+    {
         std::cout << "The two polygons intersect in their interior." << std::endl;
             
         Polygon_with_holes_2 unionR;
 
         CGAL::join(A, B,unionR);
-        if (verbose){
+        if (verbose)
+        {
             std::cout << "Join: " <<  std::endl;
             
             print_polygon_with_holes(unionR);    
@@ -136,15 +151,17 @@ double ContourPairAnalyzer::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool ver
 
         }
         
-    if (! unionR.is_unbounded())
-     {
-        double join_area = computeArea(unionR.outer_boundary());
-        
-        return join_area;
-     }
-    else{
-        return 0.0;
-    }
+        if (! unionR.is_unbounded())
+        {
+           double join_area = computeArea(unionR.outer_boundary());
+           
+           return join_area;
+        }
+        else
+        {
+            return 0.0;
+        }
+    
     }
     
     // AREA: Returns the signed area of the polygon.
@@ -155,6 +172,9 @@ double ContourPairAnalyzer::computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool ver
     }
 
 }
+/*
+Computes area of intersection of two polygons
+*/
 double ContourPairAnalyzer::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose = false)
 {  
     if ((CGAL::do_intersect (A, B)))
@@ -189,6 +209,10 @@ double ContourPairAnalyzer::computeIntersectArea(Polygon_2 &A, Polygon_2 &B, boo
    
   
 }
+/*
+Computes FalseNegative according to IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
 double ContourPairAnalyzer::computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double join_area = computeJoinArea(GroundTruth,Approximation, false);
@@ -211,7 +235,10 @@ double ContourPairAnalyzer::computeFalseNegative(Polygon_2 &GroundTruth, Polygon
     std::cout << "FalseNegative Area: " << area << std::endl;
     return area;
 }
-
+/*
+Computes FalsePositive according to IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
 double ContourPairAnalyzer::computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double join_area = computeJoinArea(GroundTruth,Approximation, false);
@@ -234,6 +261,10 @@ double ContourPairAnalyzer::computeFalsePositive(Polygon_2 &GroundTruth, Polygon
     std::cout << "FalsePositive Area: " << area << std::endl;
     return area;
 }
+/*
+Computes TruePositive according to IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
 double ContourPairAnalyzer::computeTruePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
 
@@ -241,6 +272,10 @@ double ContourPairAnalyzer::computeTruePositive(Polygon_2 &GroundTruth, Polygon_
     std::cout << "Intersect Area: " << area << std::endl;
     return area;
 }
+/*
+Computes TrueNegative according to IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
 double ContourPairAnalyzer::computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double area = computeJoinArea(GroundTruth,Approximation);
@@ -248,6 +283,10 @@ double ContourPairAnalyzer::computeTrueNegative(double domainArea, Polygon_2 &Gr
     return domainArea - area;
     
 }
+/*
+Computes Specificity according to IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
 double ContourPairAnalyzer::computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double true_negative = computeTrueNegative(domainArea, GroundTruth, Approximation);
@@ -255,7 +294,11 @@ double ContourPairAnalyzer::computeSpecificity(double domainArea, Polygon_2 &Gro
      std::cout<<"Specificity: "<< specificity<<std::endl;
     return specificity;
 }
-double ContourPairAnalyzer::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
+/*
+Computes Sensitivity according to IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
+double ContourPairAnalyzer::computeSensitivity(Polygon_2 &GroundTruth, Polygon_2 &Approximation)
 {
     double true_positive = computeTruePositive(GroundTruth,Approximation);
     double sensitivity =  true_positive/(true_positive + computeFalseNegative(GroundTruth,Approximation));
@@ -264,8 +307,11 @@ double ContourPairAnalyzer::computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 
 }
 
 
+/*
+Approximates two dimensional parametric function defined analytical expressions through a pair of splines. 
 
-std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file,std::string file_path, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 10)
+*/
+std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file,std::string file_path, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 1000)
 {
     double t[n_samples_];
     //std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
@@ -307,6 +353,9 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
     return std::make_pair(std::make_unique<alglib::spline1dinterpolant>(s1),std::make_unique<alglib::spline1dinterpolant>(s2));
 }
 
+/*
+enum to carry tumor model shapes
+*/
 enum ShapeType {
     SHAPE_CIRCLE,
     SHAPE_TRIANGLE,
@@ -314,6 +363,7 @@ enum ShapeType {
     SHAPE_TWOCIRCLES,
     SHAPE_UNKNOWN // for unrecognized strings
 };
+
 ShapeType getShapeType(const std::string& shape) {
     if (shape == "Circle") return SHAPE_CIRCLE;
     if (shape == "Triangle") return SHAPE_TRIANGLE;
@@ -322,9 +372,14 @@ ShapeType getShapeType(const std::string& shape) {
     return SHAPE_UNKNOWN;
 }
 
+
+
+
+
 int main(int argc, char *argv[])
 {
-   
+
+  
   bayesopt::Parameters par;
   TumorModelParameters model_parameters;
   ContourParamters contour_parameters;
@@ -461,8 +516,7 @@ int main(int argc, char *argv[])
     contour.approximateContour();
     
     SplineInterpolant_ptr_pair_vec spline_vec = contour.getSplineInterpolant();
-    //Iterate over contours approximated by Contour class, number of contours depends on how many centers could be detected by clustering algorithm,
-    //NOTE: When comparing against ground truth, number of detected centers has to match groundTruths vector
+    
     std::string path = generateExperimentFilePath(dirName, LOG_PATH,FILE_EVAL_GROUND_TRUTH);
     std::ofstream file(path);
     file << "X,Y\n";
@@ -481,6 +535,7 @@ int main(int argc, char *argv[])
         
         int idx;
         double dist = 10e6;
+        
         for(size_t i = 0; i < centroids.size(); i++)
         {   
             for(size_t j = 0; j < gts.size(); j++)
@@ -497,7 +552,8 @@ int main(int argc, char *argv[])
     }
     
 
-
+    //Iterate over contours approximated by Contour class, number of contours depends on how many centers could be detected by clustering algorithm,
+    //NOTE: When comparing against ground truth, number of detected centers has to match groundTruths vector
     for (size_t i = 0; i< groundTruths.size(); i++)
     {
     

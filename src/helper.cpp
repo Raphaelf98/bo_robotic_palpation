@@ -1,4 +1,7 @@
 #include "helper.hpp"
+/*
+Type conversion std::vector<boost::numeric::ublas::vector<double>> to std::vector<std::vector<double>>
+*/
 std::vector<std::vector<double>> convertUblasToStd(
     const std::vector<boost::numeric::ublas::vector<double>>& ublasVecs) 
 {
@@ -13,7 +16,9 @@ std::vector<std::vector<double>> convertUblasToStd(
 
     return stdVecs;
 }
-
+/*
+Type conversion std::vector<std::vector<double>> to std::vector<boost::numeric::ublas::vector<double>> 
+*/
 std::vector<boost::numeric::ublas::vector<double>> convertStdToUblas(
     const std::vector<std::vector<double>>& stdVecs) 
 {
@@ -28,6 +33,9 @@ std::vector<boost::numeric::ublas::vector<double>> convertStdToUblas(
 
     return ublasVecs;
 }
+/*
+Returns absolut file paths.
+*/
 std::string generateFilePath(const char* dir, const char* file)
 {   
     std::filesystem::path p = std::filesystem::current_path();
@@ -39,6 +47,9 @@ std::string generateFilePath(const char* dir, const char* file)
     std::cout<<"PATH  "<<path<<std::endl;
     return path;
 }
+/*
+Returns Absolut file paths of experiment directories.
+*/
 std::string generateExperimentFilePath(std::string experiment_dir, const char* dir, const char* file)
 {   
 
@@ -48,6 +59,9 @@ std::string generateExperimentFilePath(std::string experiment_dir, const char* d
     
     return path;
 }
+/*
+Create or Overwirte directory
+*/
 bool createOrOverwriteDirectory(const std::string& path) {
     try {
         std::filesystem::path dirPath(path);
@@ -71,7 +85,9 @@ bool createOrOverwriteDirectory(const std::string& path) {
         return false;
     }
 }
-
+/*
+Creates directory according to shape name.
+*/
 std::string createShapeDirectory(const std::string& parentDir, const std::string& shapeBaseName) {
     int dirNumber = 1;
     std::string dirPath;

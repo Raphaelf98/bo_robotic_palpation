@@ -32,8 +32,9 @@ void print_polygon (const CGAL::Polygon_2<Kernel, Container>& P)
     std::cout << " (" << *vit << ')';
   std::cout << " ]" << std::endl;
 }
-template<class Kernel, class Container>
 
+
+template<class Kernel, class Container>
 void print_polygon_with_holes(const CGAL::Polygon_with_holes_2<Kernel, Container> & pwh)
 {
   if (! pwh.is_unbounded()) {
@@ -50,15 +51,22 @@ void print_polygon_with_holes(const CGAL::Polygon_with_holes_2<Kernel, Container
   }
   std::cout << " }" << std::endl;
 }
+
+/*
+This class analyses a pair of contours by polygonizing parametric (defined throuh spline funcitons) contours.
+Similarity of Contours is determined by scalars:
+  1. Specificity 
+  2. Sensitivity
+More information can be obtained in the IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
 class ContourPairAnalyzer
 {
-
-private: 
-    
-    SplineInterpolant_ptr_pair f_parametric_A_,f_parametric_B_;
+private:
+    SplineInterpolant_ptr_pair f_parametric_A_,f_parametric_B_; //parametric Spline functions of Contour A and B
     double domain_area_;
     std::string experiment_path_;
-    /* data */
+    
 public:
     
     //Constructor to compare multiple Contour(ground truth) Contour(approximation) pairs
@@ -76,7 +84,7 @@ public:
     double computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
     double computeArea(Polygon_2 &A);
     double computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
-    double computeSensitiviy(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeSensitivity(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
     ~ContourPairAnalyzer();
 };
 #endif

@@ -11,6 +11,7 @@
 #include <vector>
 #include <utility>
 #include<fstream>
+
 std::vector<std::vector<double>> convertUblasToStd(
     const std::vector<boost::numeric::ublas::vector<double>>& ublasVecs) ;
 

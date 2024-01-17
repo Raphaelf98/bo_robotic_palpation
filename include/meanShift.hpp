@@ -18,6 +18,10 @@ struct Point
     Point(): x(0), y(0) {}
     Point(double _x, double _y): x(_x), y(_y) {}
 };
+/*
+This class serves as a wrapper for mlpack's implementation of the means shift clustering algorithm.
+Source: https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp
+*/
 class MeanShift
 {
 private:
@@ -44,6 +48,10 @@ public:
     void meanshift_mlpack();
     std::vector<std::vector<double>> getCentroids();
 };
+/*
+This class serves as a wrapper for mlpack's implementation of the means shift clustering algorithm.
+Source: https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp
+*/
 class K_means{
     public:
     K_means(const std::vector<double> &vals);
