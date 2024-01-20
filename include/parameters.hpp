@@ -72,6 +72,8 @@ struct ContourParamters{
     double means_shift_bandwidth=0.05;
     size_t lim_steps=1000;
     double threshold_multiplier=3.0;
+    double tumor_stiffness_guess_low = 0.1;
+    double tumor_stiffness_guess_high = 0.9;
     void loadContour(bayesopt::utils::FileParser &fp, ContourParamters &cp);
     bool loadContourParameters(std::string filename, ContourParamters &cp);
     void PrintParameters();

@@ -73,6 +73,8 @@ void ContourParamters::loadContour(bayesopt::utils::FileParser &fp, ContourParam
     fp.readOrWrite("means_shift_bandwidth", cp.means_shift_bandwidth);
     fp.readOrWrite("lim_steps", cp.lim_steps);
     fp.readOrWrite("threshold_multiplier", cp.threshold_multiplier);
+    fp.readOrWrite("tumor_stiffness_guess_low", cp.tumor_stiffness_guess_low);
+    fp.readOrWrite("tumor_stiffness_guess_high", cp.tumor_stiffness_guess_high);
 }
 
 bool TumorModelParameters::loadModelParameters(std::string filename, TumorModelParameters &cp)
@@ -108,4 +110,7 @@ bool ContourParamters::loadContourParameters(std::string filename, ContourParamt
         std::cout << "Mean shift bandwidth: " << means_shift_bandwidth << std::endl;
         std::cout << "Limit steps (lim_steps): " << lim_steps << std::endl;
         std::cout << "Threshold multiplier: " << threshold_multiplier << std::endl;
+        std::cout << "Tumor stiffness guess low: " << tumor_stiffness_guess_low << std::endl;
+        std::cout << "Tumor stiffness guess high: " << tumor_stiffness_guess_high << std::endl;
+
     }

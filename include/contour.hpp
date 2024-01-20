@@ -14,6 +14,8 @@
 typedef std::unique_ptr<alglib::spline1dinterpolant> SplineInterpolant1d_ptr;
 typedef std::pair<std::shared_ptr<alglib::spline1dinterpolant>,std::shared_ptr<alglib::spline1dinterpolant>> SplineInterpolant_ptr_pair;
 typedef std::vector<SplineInterpolant_ptr_pair> SplineInterpolant_ptr_pair_vec;
+
+#define SPLINE_SAMPLES 1000;
 /*
 This class handles the methods to perform 
     1. Approximation through a gaussian process(GP) of an underlying tumor model
@@ -51,6 +53,8 @@ private:
     std::vector<double> tumor_stiffness_vec_;
     double tumor_stiffness_std_;
     double tumor_stiffness_mean_;
+    double tumor_stiffness_guess_low_;
+    double tumor_stiffness_guess_high_;
     //Variables
     double threshold_;
     double stiffness_threshold_;

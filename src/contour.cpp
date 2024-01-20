@@ -16,16 +16,18 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParamters cp, std::s
         bopt_model_(bopt_model),
         c_points_(cp.c_points),
         bandwidth_(cp.means_shift_bandwidth),
-        samples_(c_points_),
+        samples_(cp.c_points),
         n_directions_(cp.n_exploration_directions),
         lim_steps_(cp.lim_steps),
         n_samples_(n_directions_+1),
-        c_(c_points_,std::vector<double>(c_points_)),
+        c_(cp.c_points,std::vector<double>(cp.c_points)),
         multiplier_(cp.threshold_multiplier),
-        experiment_path_(experiment_path)
+        experiment_path_(experiment_path),
+        tumor_stiffness_guess_low_(cp.tumor_stiffness_guess_low),
+        tumor_stiffness_guess_high_(cp.tumor_stiffness_guess_high)
 
 {
-    
+    //c_ = std::vector<std::vector<double>>(c_points_,std::vector<double>(c_points_));
     printParameters(*(bopt_model_->getParameters()));
     number_of_step_runs = bopt_model_->getParameters()->n_iterations ;
     total_number_of_iterations_ = bopt_model_->getParameters()->n_init_samples + number_of_step_runs;
@@ -105,7 +107,7 @@ void Contour::labelData_()
         y_values_.push_back(data->getSampleY(i));
     }
     //cluster them to filter stiffness values associated with tumor
-    K_means kmeans(y_values_);
+    K_means kmeans(y_values_, tumor_stiffness_guess_low_,tumor_stiffness_guess_high_);
     kmeans.cluster();
     //identify label for centroid with lowest stiffness values
     std::vector<double> c = kmeans.getCentroids();
@@ -270,13 +272,8 @@ void Contour::approximateContour()
         // Build B-spline
         alglib::spline1dbuildcubic(theta, x, s1);
         alglib::spline1dbuildcubic(theta, y, s2);
-        //Save spline contour to contours_vector 
 
-        // Evaluate the B-spline at x=2.5
-        double v1 = alglib::spline1dcalc(s1, 0.5);
-        double v2 = alglib::spline1dcalc(s2, 0.5);
-        std::cout << "Value at theta=0.5: "<<" X: " << v1 << " Y: "  << v2<< std::endl;
-        size_t n_plotting_samples = 1000;
+        size_t n_plotting_samples = SPLINE_SAMPLES;
         std::string path_cappx = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_CONTOUR_APPRX);
         std::string file_ = path_cappx + std::to_string(file_num) + ".csv";
         std::ofstream file_c(file_);

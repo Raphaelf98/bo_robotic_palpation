@@ -38,7 +38,7 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
         
         for (size_t j=0; j<data[0].size(); ++j)
         {
-            //data_[i][j] = (data[i][j]-min_value) / max_value;
+            
             data_[i][j] = (data[i][j]) / max_value;
         }
        
@@ -46,7 +46,7 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
 
     saveDataToCSV();
     scatterData(scattered_points);
-    //savePointsToCSV("/home/raphael/robolab/displaygp/config/scattered_data.csv",scattered_points);
+    
     std::string path = generateExperimentFilePath(experiment_path_,LOG_PATH, FILE_SCATTERED_DATA);
     
     savePointsToCSV(path,scattered_points);
@@ -233,13 +233,14 @@ bool saveToCSV(const std::string& filename, const std::vector<std::vector<double
 /*MeanShift
 K_means constructor.Reads in data that will be clustered. Reads in one-dimensional data.
 */
-K_means::K_means(const std::vector<double> &vals){
+K_means::K_means(const std::vector<double> &vals, const double low_stiffness_guess, const double high_stifness_guess){
     data_ = arma::mat(vals);
     std::cout<<"DIMENSIONS: "<< data_.size()<< std::endl;
-    //data_.reshape(1,0);
+   
     data_.reshape(1,data_.size());
     //pre-fill centroids_ with guesses for initial clusters
-    std::vector<double> cs = {0.1,0.9,0.5};
+    //std::vector<double> cs = {0.1,0.9,0.5};
+     std::vector<double> cs = {low_stiffness_guess,high_stifness_guess,(high_stifness_guess+low_stiffness_guess)/2.0};
     centroids_ = arma::mat(cs);
 
 

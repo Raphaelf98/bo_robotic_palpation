@@ -52,7 +52,7 @@ Source: https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shi
 */
 class K_means{
     public:
-    K_means(const std::vector<double> &vals);
+    K_means(const std::vector<double> &vals,const double low_stiffness,const double high_stifness);
     void cluster();
     std::vector<double> getCentroids();
     std::vector<std::pair<double,size_t>> getAssignments();
