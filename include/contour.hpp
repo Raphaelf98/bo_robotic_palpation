@@ -15,7 +15,7 @@ typedef std::unique_ptr<alglib::spline1dinterpolant> SplineInterpolant1d_ptr;
 typedef std::pair<std::shared_ptr<alglib::spline1dinterpolant>,std::shared_ptr<alglib::spline1dinterpolant>> SplineInterpolant_ptr_pair;
 typedef std::vector<SplineInterpolant_ptr_pair> SplineInterpolant_ptr_pair_vec;
 
-#define SPLINE_SAMPLES 1000;
+#define SPLINE_SAMPLES 1000
 /*
 This class handles the methods to perform 
     1. Approximation through a gaussian process(GP) of an underlying tumor model

@@ -314,7 +314,7 @@ double ContourPairAnalyzer::computeSensitivity(Polygon_2 &GroundTruth, Polygon_2
 Approximates two dimensional parametric function defined analytical expressions through a pair of splines. 
 
 */
-std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file,std::string file_path, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = 1000)
+std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file,std::string file_path, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = SPLINE_SAMPLES)
 {
     double t[n_samples_];
     //std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
@@ -326,7 +326,7 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
         f_1[i] =f_x(1-(double) i/((double) n_samples_-1));
        
         f_2[i] =f_y(1-(double) i/((double) n_samples_-1));
-        //std::cout<< "VALUE" << f_1[i]<<", "<< f_2[i] <<"at: "<< (double) i/((double) n_samples_-1)<<std::endl;
+        
         t[i] = i * 1.0/((double)n_samples_-1);
     }
     
@@ -444,6 +444,7 @@ int main(int argc, char *argv[])
     }
 
     std::string arg = argv[1];
+    //std::string arg = "TwoCircles";
     std::string experiment_path = generateFilePath(DATA_PATH,"");
     std::string dirName = createShapeDirectory(experiment_path,arg);
     std::string log_dir = LOG_PATH;
@@ -452,7 +453,7 @@ int main(int argc, char *argv[])
     std::string results_dir = RESULTS_PATH;
     results_dir = dirName + results_dir;
     createOrOverwriteDirectory(results_dir);
-    //std::string arg = "TwoCircles";
+  
 
 
     std::string contour_params_file = FILE_CONTOUR_PARAMETERS;
@@ -501,7 +502,7 @@ int main(int argc, char *argv[])
             std::cout << "Running Experiment on Two Circles" << std::endl;
             shape = std::make_unique<TwoCircles>(par,model_parameters.two_circles_low,model_parameters.two_circles_high,model_parameters.two_circles_radius_1,model_parameters.two_circles_radius_2,
                                                     model_parameters.two_circles_x_trans_1,model_parameters.two_circles_x_trans_2,  model_parameters.two_circles_y_trans_1, model_parameters.two_circles_y_trans_2,
-                                                            model_parameters.rectangle_epsilon, model_parameters.two_circles_noise);
+                                                            model_parameters.two_circles_epsilon, model_parameters.two_circles_noise);
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
@@ -562,7 +563,7 @@ int main(int argc, char *argv[])
     
         std::cout << "\nCOMPARE #"<< i+1<<"st  PAIR\n" << std::endl;
 
-        SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, path, groundTruths[idx_list[i-1+groundTruths.size()]].first, groundTruths[idx_list[i-1+groundTruths.size()]].second,1000));
+        SplineInterpolant_ptr_pair  f_Groundtruth = static_cast<SplineInterpolant_ptr_pair>(f_param(file, path, groundTruths[idx_list[i]].first, groundTruths[idx_list[i]].second,1000));
         
         ContourPairAnalyzer analyzer(f_Groundtruth,spline_vec[i], 1.0,results_dir);
         

@@ -58,7 +58,7 @@ class Shape : public bayesopt::ContinuousModel{
   virtual double evaluateSample( const vectord& xin){return 0;}
   double smoothstep(double edge0, double edge1, double x, double low, double high);
   double clamp(double x, double lowerlimit, double upperlimit);
-  void saveGroundTruth(const size_t c_points, std::string file_path);
+  virtual void saveGroundTruth(const size_t c_points, std::string file_path){}
   protected:
   double low_stiffness_, high_stiffness_;
   double x_trans_, y_trans_, radius_;
@@ -75,7 +75,7 @@ class Triangle: public Shape
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
     virtual std::function<double (const double&)> f_y();
-    
+    virtual void saveGroundTruth(const size_t c_points, std::string file_path);
     bool checkReachability(const vectord &query);
 
 };
@@ -89,7 +89,7 @@ class Rectangle: public Shape
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
     virtual std::function<double (const double&)> f_y();
-
+    virtual void saveGroundTruth(const size_t c_points, std::string file_path);
     
   bool checkReachability(const vectord &query);
 
@@ -117,7 +117,7 @@ class TwoCircles: public Shape
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
     virtual std::function<double (const double&)> f_y();
-    
+    virtual void saveGroundTruth(const size_t c_points, std::string file_path);
     bool checkReachability(const vectord &query);
   private:
     size_t circle_count_;
@@ -134,7 +134,7 @@ class SmoothCircle: public Shape
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
     virtual std::function<double (const double&)> f_y();
-    
+    virtual void saveGroundTruth(const size_t c_points, std::string file_path);
     bool checkReachability(const vectord &query);
   private:
    

@@ -3,11 +3,8 @@
 #include "tumorModel.hpp"
 #include"parameters.hpp"
 #include"fileparser.hpp"
-/*
-****TODO*****
--Implement Enum class for vertice count Triangle,Rectangle, Circle etc.
--Fix Two Circles Epsilon Parameter
-*/
+
+
 GaussianNoise::GaussianNoise(double mean, double std):dist_(mean,std){}
 double GaussianNoise::noise()
 {
@@ -179,32 +176,7 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
         x = upperlimit;
     return x;
 }
-void Shape::saveGroundTruth(const size_t c_points, std::string file_path)
-{
-      std::vector<double> cX=linSpace(0,1,c_points);
-      std::vector<double> cY=linSpace(0,1,c_points);
-      std::vector<std::vector<double>> cZ(c_points, std::vector<double>(c_points));
-      vectord q_(2);
-      q_(0) = cX[0]; 
-      q_(1) = cY[0];
-      
 
-      for(int i=0;i<c_points;++i)
-	    {  
-	        for(int j=0;j<c_points;++j)
-	        {
-	            vectord q(2);
-	            q(0) = cX[j]; 
-              q(1) = cY[i];
-	            cZ[i][j]= this->evaluateSample(q);
-	        }
-          
-	    }
-      std::cout<<"Write goundtruth to file: " <<file_path<<std::endl;
-      std::string gt = FILE_GROUND_TRUTH_HEATMAP;
-      file_path = file_path+gt;
-      saveFileToCSV(file_path,cZ );
-} 
 
 
 
@@ -264,7 +236,32 @@ void Shape::saveGroundTruth(const size_t c_points, std::string file_path)
     return true;
     };
 
+void Triangle::saveGroundTruth(const size_t c_points, std::string file_path)
+{
+      std::vector<double> cX=linSpace(0,1,c_points);
+      std::vector<double> cY=linSpace(0,1,c_points);
+      std::vector<std::vector<double>> cZ(c_points, std::vector<double>(c_points));
+      vectord q_(2);
+      q_(0) = cX[0]; 
+      q_(1) = cY[0];
+      
 
+      for(int i=0;i<c_points;++i)
+	    {  
+	        for(int j=0;j<c_points;++j)
+	        {
+	            vectord q(2);
+	            q(0) = cX[j]; 
+              q(1) = cY[i];
+	            cZ[i][j]= evaluateSample(q);
+	        }
+          
+	    }
+      std::cout<<"Write gound truth heatmap to file: " <<file_path<<std::endl;
+      std::string gt = FILE_GROUND_TRUTH_HEATMAP;
+      file_path = file_path+gt;
+      saveFileToCSV(file_path,cZ );
+} 
  Rectangle::Rectangle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise):
    Shape(par), gaussianNoise_(0.0,noise) 
    {
@@ -325,47 +322,34 @@ void Shape::saveGroundTruth(const size_t c_points, std::string file_path)
   {
     return true;
     };
-    
+void Rectangle::saveGroundTruth(const size_t c_points, std::string file_path)
+{
+      std::vector<double> cX=linSpace(0,1,c_points);
+      std::vector<double> cY=linSpace(0,1,c_points);
+      std::vector<std::vector<double>> cZ(c_points, std::vector<double>(c_points));
+      vectord q_(2);
+      q_(0) = cX[0]; 
+      q_(1) = cY[0];
+      
 
-    /*
-  Circle::Circle(bayesopt::Parameters par):
-   Shape(par) {}
+      for(int i=0;i<c_points;++i)
+	    {  
+	        for(int j=0;j<c_points;++j)
+	        {
+	            vectord q(2);
+	            q(0) = cX[j]; 
+              q(1) = cY[i];
+	            cZ[i][j]= evaluateSample(q);
+	        }
+          
+	    }
+      std::cout<<"Write gound truth heatmap to file: " <<file_path<<std::endl;
+      std::string gt = FILE_GROUND_TRUTH_HEATMAP;
+      file_path = file_path+gt;
+      saveFileToCSV(file_path,cZ );
+}     
 
-  double Circle::evaluateSample( const vectord& xin)
-  {
-     if (xin.size() != 2)
-      {
-	    std::cout << "WARNING: This only works for 2D inputs." << std::endl
-		          << "WARNING: Using only first two components." << std::endl;
-      }
-    double x = xin(0);
-    double y = xin(1);
    
-    if ((x - 0.5) * (x - 0.5)+ (y - 0.5) * (y - 0.5) <= 0.01)
-    {
-      return 1.0;
-    }
-    else
-    {
-      return 2.0;
-    }
-  
-   //return (x-0.5)*(x-0.5) + (y-0.5)*(y-0.5);
-    
-  }
- std::function<double (const double&)> Circle::f_x()
-  {
-    return triangle_.fParametric_x();
-  }
-  std::function<double (const double&)> Circle::f_y()
-  {
-    return triangle_.fParametric_y();
-  }
-
-  bool Circle::checkReachability(const vectord &query)
-  {return true;};
-
-*/
 TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double high_stiffness ,double r_1, double r_2,double x_t_1,double x_t_2,
                         double y_t_1,double y_t_2,double epsilon,double noise):
                         Shape(par), circle_count_(1),
@@ -431,18 +415,21 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
     else 0.0;
     }
   }
+/*
+Returns function pointer 
+*/
 std::function<double (const double&)> TwoCircles::f_x() 
   {
     if(circle_count_ == 1)
     {
       circle_count_++;
-      return circle_2_.fParametric_x();
+      return circle_1_.fParametric_x();
       
 
     } 
     if(circle_count_ == 2)
     {
-      return circle_1_.fParametric_x();
+      return circle_2_.fParametric_x();
     } 
     else nullptr;
   }
@@ -451,12 +438,12 @@ std::function<double (const double&)> TwoCircles::f_y()
     if(circle_count_ == 1)
     {
       
-      return circle_2_.fParametric_y();
+      return circle_1_.fParametric_y();
       
     } 
     if(circle_count_ == 2)
     {
-      return circle_1_.fParametric_y();
+      return circle_2_.fParametric_y();
     } 
     else nullptr;
   }
@@ -465,6 +452,32 @@ std::function<double (const double&)> TwoCircles::f_y()
   {
     return true;
   };
+void TwoCircles::saveGroundTruth(const size_t c_points, std::string file_path)
+{
+      std::vector<double> cX=linSpace(0,1,c_points);
+      std::vector<double> cY=linSpace(0,1,c_points);
+      std::vector<std::vector<double>> cZ(c_points, std::vector<double>(c_points));
+      vectord q_(2);
+      q_(0) = cX[0]; 
+      q_(1) = cY[0];
+      
+
+      for(int i=0;i<c_points;++i)
+	    {  
+	        for(int j=0;j<c_points;++j)
+	        {
+	            vectord q(2);
+	            q(0) = cX[j]; 
+              q(1) = cY[i];
+	            cZ[i][j]= evaluateSample(q);
+	        }
+          
+	    }
+      std::cout<<"Write gound truth heatmap to file: " <<file_path<<std::endl;
+      std::string gt = FILE_GROUND_TRUTH_HEATMAP;
+      file_path = file_path+gt;
+      saveFileToCSV(file_path,cZ );
+}     
 
 SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon,double noise):
     Shape(par),
@@ -521,3 +534,29 @@ std::function<double (const double&)> SmoothCircle::f_x()
   bool SmoothCircle::checkReachability(const vectord &query)
   {return true;};
 
+void SmoothCircle::saveGroundTruth(const size_t c_points, std::string file_path)
+{
+      std::vector<double> cX=linSpace(0,1,c_points);
+      std::vector<double> cY=linSpace(0,1,c_points);
+      std::vector<std::vector<double>> cZ(c_points, std::vector<double>(c_points));
+      vectord q_(2);
+      q_(0) = cX[0]; 
+      q_(1) = cY[0];
+      
+
+      for(int i=0;i<c_points;++i)
+	    {  
+	        for(int j=0;j<c_points;++j)
+	        {
+	            vectord q(2);
+	            q(0) = cX[j]; 
+              q(1) = cY[i];
+	            cZ[i][j]= evaluateSample(q);
+	        }
+          
+	    }
+      std::cout<<"Write gound truth heatmap to file: " <<file_path<<std::endl;
+      std::string gt = FILE_GROUND_TRUTH_HEATMAP;
+      file_path = file_path+gt;
+      saveFileToCSV(file_path,cZ );
+}     

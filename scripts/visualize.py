@@ -3,8 +3,30 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 from pathlib import Path
+def read_contour_data(file_path):
+    contours = []
+    current_contour = {}
 
-def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroidsPath):
+    with open(file_path, 'r') as file:
+        for line in file:
+            line = line.strip()
+            if line.startswith("Contour"):
+                if current_contour:
+                    contours.append(current_contour)
+                current_contour = {"Contour": line}
+            elif line.startswith("Specificity"):
+                _, value = line.split(": ")
+                current_contour["Specificity"] = float(value)
+            elif line.startswith("Sensitivity"):
+                _, value = line.split(": ")
+                current_contour["Sensitivity"] = float(value)
+
+        # Add the last contour
+        if current_contour:
+            contours.append(current_contour)
+
+    return contours
+def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroidsPath, metricsPath):
     # Read the CSV file
     datagt = pd.read_csv(gorundTruthPath)
     contourPointsPath1= contourPointsPath +"1.csv"
@@ -14,7 +36,9 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
     contour_points_1 = pd.read_csv(contourPointsPath1)
     data1 = pd.read_csv(contourPath1)
     centroids = pd.read_csv(centroidsPath, header=None)
+    # get metrics
 
+    contour_data = read_contour_data(metricsPath)
     # Assuming the columns in the CSV are named 'X' and 'Y'
     cx1, cy1 = centroids.iloc[0]  
 
@@ -69,7 +93,16 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
     ax.set_title('Approximated Tumor Contour')
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
+    for i, contour in enumerate(contour_data, start=1):
+        spec = contour.get('Specificity', 'N/A')
+        sens = contour.get('Sensitivity', 'N/A')
 
+        # Choose x and y for text placement. Adjust these as necessary for your plot.
+        x_text = 0.0  # For example, 5% from the left
+        y_text = 1 - 0.04 * i  # For example, starting from 95% from the bottom and going up every iteration
+
+        plt.text(x_text, y_text, f"Centroid [{round(centroids.iloc[i-1][0],2)}, {round(centroids.iloc[i-1][1],2)}] - Specificity: {spec}, Sensitivity: {sens}", 
+                 transform=plt.gca().transAxes, fontsize=7, verticalalignment='top')
     ax.legend(loc='lower left', frameon=False, title='Legend')
     
 def add_colorbar(mappable):
@@ -134,6 +167,7 @@ def main():
     print(f"Current Directory: {current_directory}")
     print(f"Parent Directory: {parent_directory}")
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
+    result_dir = str(parent_directory)+"/data/"+args.input_string+"/results/"
     groundTruthPath = data_dir+"groundTruth.csv"
     contourPointsPath = data_dir+"contour_points_"
     contourPath=data_dir+"contour_"
@@ -141,17 +175,19 @@ def main():
     heatmapPath = data_dir+"normalized_data.csv"
     groundTruthHeatMapPath = data_dir +"groundTruthHeatMap.csv"
     centroidPath = data_dir + "ms_centroids.csv"
+    metricsPath = result_dir+"metrics.txt"
     print(groundTruthHeatMapPath)
     print(groundTruthPath)
     print(contourPointsPath)
     print(contourPath)
     print(scatterPath)
     print(heatmapPath)
+    print(metricsPath)
     fig, axs = plt.subplots(2,2, figsize=(10, 15))  # Adjust the layout as needed
 
     # Plotting functions
     plot_heatmap_from_csv(axs[0,0], groundTruthHeatMapPath, "Tumor Model")
-    plot_contours(axs[1,1], groundTruthPath, contourPointsPath, contourPath,centroidPath)
+    plot_contours(axs[1,1], groundTruthPath, contourPointsPath, contourPath,centroidPath, metricsPath)
     plot_heatmap_from_csv(axs[0,1], heatmapPath, "Posterior Distribution")
     plot_scatteredpoints_from_csv(axs[1,0], scatterPath)
     
