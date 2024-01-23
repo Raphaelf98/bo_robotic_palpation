@@ -18,7 +18,20 @@ sudo apt install libboost-dev cmake g++
 sudo apt install freeglut3-dev
 
 ```
-The required BayesOpt C++ library to perform Bayesian optimizaiton needs to be cloned to a convenient location and build. For this run:
+The required BayesOpt C++ library to perform Bayesian optimizaiton needs to be cloned to a convenient location and build. 
+Install required dependencies:
+NLopt - Library
+```
+git clone https://github.com/stevengj/nlopt.git
+cd nlopt
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+```
+To istall bayesopt library run:
 ```
 git clone https://github.com/rmcantin/bayesopt
 cd bayesopt
@@ -26,6 +39,8 @@ cmake .
 make
 sudo make install
 ```
+In a desired directory.
+
 In order to perform computations on polygons, CGAL library is required and can be installed with:
 ```
 cd $HOME/CGAL-5.6
@@ -93,3 +108,18 @@ cd build
 ./display_gp TwoCricles
 ```
 Press "r" to run the algorithm, press "s" to perform a single step and press "q" to stop it.
+
+
+## Run in Docker container
+
+```
+cd /bo_robotic_palpation
+export BO_PALPATION_WS=$(pwd)
+```
+```
+sudo docker build -f "$BO_PALPATION_WS"/images/Dockerfile -t bo_robotic_palpation "$BO_PALPATION_WS"
+```
+```
+sudo docker run --mount type=bind,source="$BO_PALPATION_WS"/data,target=/usr/src/bo_robotic_palpation/data --mount type=bind,source="$BO_PALPATION_WS"/config,target=/usr/src/bo_robotic_palpation/config -it -t  bo_robotic_palpation
+```
+

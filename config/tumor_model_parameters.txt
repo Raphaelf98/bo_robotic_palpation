@@ -1,13 +1,13 @@
 triangle_low=1
 triangle_high=2
-triangle_radius=0.3
+triangle_radius=0.2
 triangle_x_trans=0.6
 triangle_y_trans=0.5
 triangle_epsilon=0.1
 triangle_noise=0.01
 rectangle_low=1
 rectangle_high=2
-rectangle_radius=0.15
+rectangle_radius=0.2
 rectangle_x_trans=0.5
 rectangle_y_trans=0.5
 rectangle_epsilon=0.2

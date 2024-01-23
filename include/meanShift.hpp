@@ -50,6 +50,7 @@ public:
 This class serves as a wrapper for mlpack's implementation of the means shift clustering algorithm.
 Source: https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp
 */
+
 class K_means{
     public:
     K_means(const std::vector<double> &vals,const double low_stiffness,const double high_stifness);
@@ -60,7 +61,9 @@ class K_means{
     arma::mat data_;
     size_t clusters_;
     arma::Row<size_t> assignments_;
-    mlpack::kmeans::KMeans<> kmeans_;
+    //mlpack::kmeans::KMeans<> kmeans_; //commented for docker build
+    
+    mlpack::KMeans<> kmeans_;
     arma::mat centroids_;
 };
 #endif

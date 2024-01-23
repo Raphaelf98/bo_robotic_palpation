@@ -84,7 +84,8 @@ Computes Area of Polygon
 */
 double ContourPairAnalyzer::computeArea(Polygon_2 &A)
 {
-    return static_cast<double>(A.area().exact());
+    //return static_cast<double>(A.area().exact()); commented for docker compilation
+    return CGAL::to_double(A.area().exact());
 }
 
 /*

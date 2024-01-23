@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
-set (CMAKE_CXX_FLAGS "-lstdc++fs -std=c++17")
+#set (CMAKE_CXX_FLAGS "-lstdc++fs -std=c++17")
+set (CMAKE_CXX_FLAGS " -std=c++17")
 
 project(display_gp)
 #https://stackoverflow.com/questions/8774593/cmake-link-to-external-library
@@ -8,16 +9,22 @@ find_package(OpenMP REQUIRED)
 if(OpenMP_CXX_FOUND)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
-find_library(BAYESOPT_LIB bayesopt)
-find_library(NLOPT_LIB nlopt)
-find_library(MLPACK_LIB mlpack)
-find_package(Boost)
-find_package(CGAL)
+find_library(BAYESOPT_LIB bayesopt REQUIRED)
+find_library(NLOPT_LIB nlopt REQUIRED)
+
+find_library(MLPACK_LIB
+  NAMES mlpack
+  PATHS "$ENV{ProgramFiles}/mlpack/" /usr/lib64/ /usr/lib/ /usr/local/lib64/ /usr/local/
+  REQUIRED
+)
+find_package(Boost REQUIRED)
+find_package(CGAL REQUIRED)
 message(OpenMPlibrarypath="${OpenMP_CXX_LIBRARIES}")
-message(bayeslibrarypath="${BAYESOPT_INCLUDE_DIRS}")
-message(bayeslibraryutilspath="${CMAKE_CURRENT_SOURCE_DIR}/include")
+message(bayeslibrarypath="${BAYESOPT_LIB}")
 message(nloptlibrarypath="${NLOPT_LIB}")
 message(cgullibrarypath="${CGAL_DIR}" )
+message(mlpacklibrary= "${MLPACK_LIB}")
+
 enable_language(C)  #For OpenGL and bo_display demo
 
 
@@ -66,14 +73,12 @@ message(ALGLIB_HEADER_FILES=${ALGLIB_HEADER_FILES})
 add_library(alglib ${ALGLIB_SOURCE_FILES} ${ALGLIB_HEADER_FILES} )
 target_include_directories(alglib PUBLIC ${LIBS_PATH})
 #Display test
-find_package(GLUT)
-find_package(OpenGL)
+find_package(GLUT REQUIRED)
+message(GLUT_library "${GLUT_LIBRARY}")
+find_package(OpenGL REQUIRED)
 if(OPENGL_FOUND AND GLUT_FOUND)
 
-  SET(DISPLAY_SRC     
-  /home/raphael/robolab/displaygp/utils/displaygp.cpp
-    )
-    message(DISPLAY_SRC="${DISPLAY_SRC}")
+
 
   if(GLUT_LIBRARY MATCHES freeglut_static.lib)
       add_definitions(-DFREEGLUT_STATIC)

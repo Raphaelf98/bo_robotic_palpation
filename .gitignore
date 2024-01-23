@@ -4,3 +4,4 @@ build/
 scripts/.csv
 src/wastecode.cpp
 data/
+commands.txt
