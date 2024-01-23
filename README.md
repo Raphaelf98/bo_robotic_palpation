@@ -122,4 +122,18 @@ sudo docker build -f "$BO_PALPATION_WS"/images/Dockerfile -t bo_robotic_palpatio
 ```
 sudo docker run --mount type=bind,source="$BO_PALPATION_WS"/data,target=/usr/src/bo_robotic_palpation/data --mount type=bind,source="$BO_PALPATION_WS"/config,target=/usr/src/bo_robotic_palpation/config -it -t  bo_robotic_palpation
 ```
+Once the prompt opens in the container navigate to the build folder and run the evaluation executable with the desired shape as input.
+```
+cd build/
+./evaluate YOUR_DESIRED_SHAPE
+```
+The results will be written to the host data directory and can be visualized through:
+```
+cd /scripts/
+python3 visualize.py YOUR_DESIRED_SHAPE + Number
+```
+Example: Once a Triangle experiment was evaluated the script can be launched the following way:
+```
+python3 visualize.py Triangle1
 
+```
