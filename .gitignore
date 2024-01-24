@@ -1,7 +1,10 @@
 build/
 .vscode/
 .csv
-scripts/.csv
-src/wastecode.cpp
-data/
+data/*
 commands.txt
+# exclude everything
+data/*
+
+# exception to the rule
+!data/.gitkeep 
