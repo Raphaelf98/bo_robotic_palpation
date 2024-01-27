@@ -1,4 +1,4 @@
-# Use Ubuntu as the base image
+
 # Use Ubuntu as the base image
 FROM ubuntu:latest
 
@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
     libboost-all-dev \
     libnlopt-dev \
     libcgal-dev \
-    #libmlpack-dev\
     libomp-dev \
      libarmadillo-dev \
      libboost-math-dev \
@@ -20,15 +19,7 @@ RUN apt-get update && apt-get install -y \
     cmake \
     && rm -rf /var/lib/apt/lists/*
 
-# Install BayesOpt (not available in standard Ubuntu repositories as of my last update)
-# You might need to replace this step with the correct installation process for BayesOpt
-#RUN git clone https://github.com/stevengj/nlopt.git\
-#    && cd nlopt\
-#    && mkdir build\
-#    && cd build\
-#    && cmake ..\
-#    && make\
-#    && sudo make install
+
 RUN /bin/bash -c 'git clone https://github.com/stevengj/nlopt.git && cd nlopt && mkdir build && cd build && cmake .. && make && make install'
 RUN git clone https://github.com/rmcantin/bayesopt.git \
     && cd bayesopt \
@@ -37,8 +28,7 @@ RUN git clone https://github.com/rmcantin/bayesopt.git \
     && cmake .. \
     && make \
     && make install
-#RUN /bin/bash -c 'git clone https://github.com/rmcantin/bayesopt.git && cd bayesopt && mkdir build && cd build && cmake .. && make && make install'
-# Laden Sie mlpack herunter und installieren Sie es
+
 RUN apt-get update && apt-get install -y libensmallen-dev
 
 RUN wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.1.2.tar.gz \
@@ -63,6 +53,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libstb-dev \
     && rm -rf /var/lib/apt/lists/*
+
 RUN apt-get update && apt-get install -y \
     libmlpack-dev 
 # Copy your project files into the container
