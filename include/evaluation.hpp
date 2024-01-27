@@ -1,0 +1,90 @@
+#ifndef _EVALUATION_HPP_
+#define _EVALUATION_HPP_
+#include<boost/math/quadrature/trapezoidal.hpp>
+#include "stdafx.h"
+#include "interpolation.h"
+#include "contour.hpp"
+#include<list>
+#include<iterator>
+#include <CGAL/Polygon_2.h>
+#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+#include <CGAL/Boolean_set_operations_2.h>
+#include <CGAL/Exact_rational.h>
+#include <functional>
+
+typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
+typedef Kernel::Point_2                                   Point_2;
+typedef CGAL::Polygon_2<Kernel>                           Polygon_2;
+
+typedef CGAL::Polygon_with_holes_2<Kernel>                Polygon_with_holes_2;
+typedef std::list<Polygon_with_holes_2>                   Pwh_list_2;
+
+//Custom types
+typedef std::vector<std::pair<Contour*, Contour*>> ContourPairs;
+typedef std::function<double(const double&)> FunctionPtr;
+
+template<class Kernel, class Container>
+void print_polygon (const CGAL::Polygon_2<Kernel, Container>& P)
+{
+  typename CGAL::Polygon_2<Kernel, Container>::Vertex_const_iterator vit;
+  std::cout << "[ " << P.size() << " vertices:";
+  for (vit = P.vertices_begin(); vit != P.vertices_end(); ++vit)
+    std::cout << " (" << *vit << ')';
+  std::cout << " ]" << std::endl;
+}
+
+
+template<class Kernel, class Container>
+void print_polygon_with_holes(const CGAL::Polygon_with_holes_2<Kernel, Container> & pwh)
+{
+  if (! pwh.is_unbounded()) {
+    std::cout << "{ Outer boundary = ";
+    print_polygon (pwh.outer_boundary());
+  } else
+    std::cout << "{ Unbounded polygon." << std::endl;
+  typename CGAL::Polygon_with_holes_2<Kernel,Container>::Hole_const_iterator hit;
+  unsigned int k = 1;
+  std::cout << " " << pwh.number_of_holes() << " holes:" << std::endl;
+  for (hit = pwh.holes_begin(); hit != pwh.holes_end(); ++hit, ++k) {
+    std::cout << " Hole #" << k << " = ";
+    print_polygon (*hit);
+  }
+  std::cout << " }" << std::endl;
+}
+
+/*
+This class analyses a pair of contours by polygonizing parametric (defined throuh spline funcitons) contours.
+Similarity of Contours is determined by scalars:
+  1. Specificity 
+  2. Sensitivity
+More information can be obtained in the IEEE paper: Fast Localization and Segmentation of Tissue
+Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021)
+*/
+class ContourPairAnalyzer
+{
+private:
+    SplineInterpolant_ptr_pair f_parametric_A_,f_parametric_B_; //parametric Spline functions of Contour A and B
+    double domain_area_;
+    std::string experiment_path_;
+    
+public:
+    
+    //Constructor to compare multiple Contour(ground truth) Contour(approximation) pairs
+    ContourPairAnalyzer(SplineInterpolant_ptr_pair &f_parametric_A, SplineInterpolant_ptr_pair &f_parametric_B, double domain_area, std::string experiment_path_);
+    void analyzeContours(const size_t contour_number);
+    bool polygonizeSpline( SplineInterpolant_ptr_pair &spline_pair, Polygon_2 &P,size_t num_vertices);
+    
+    double computeDifferenceArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
+    double computeJoinArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
+    double computeIntersectArea(Polygon_2 &A, Polygon_2 &B, bool verbose);
+
+    double computeFalseNegative(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeFalsePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeTruePositive(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeTrueNegative(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeArea(Polygon_2 &A);
+    double computeSpecificity(double domainArea, Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    double computeSensitivity(Polygon_2 &GroundTruth, Polygon_2 &Approximation);
+    ~ContourPairAnalyzer();
+};
+#endif

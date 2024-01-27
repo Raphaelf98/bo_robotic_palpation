@@ -1,92 +1,141 @@
-# bo_robotic_palpation 
 
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git.tu-berlin.de/raphael/bo_robotic_palpation.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.tu-berlin.de/raphael/bo_robotic_palpation/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+# Active Exploration Strategy for Tumor Localization in Robot-Assisted Surgery Using Bayesian Optimization
+Robot-assisted minimally invasive surgery (RMIS) has become increasingly popular
+in the resection of cancers. However, the lack of tactile feedback in clinical RMIS limits the
+surgeon’s haptic understanding of tissue mechanics, making it hard to detect tissue abnormalities
+(e.g., tumors) efficiently. This project will use Gaussian Processes (GP) to model the stiffness
+distribution and develop an active exploration strategy to autonomously guide the robot to localize
+the tumor profile via robot palpation using Bayesian Optimization (BO). Compared to exhaustively
+palpating the entire organ to achieve tumor localization, the proposed framework aims at improving
+efficiency with minimum times of exploration. Simulation and comparison experiments will be
+conducted to verify the performance of the proposed strategy.
+![Example Image](READMEPHOTO.png)
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### 1. Install dependencies 
+For Ubuntu/Debian, the minimum dependencies (C/C++) can be optained by running: 
+```
+sudo apt install libboost-dev cmake g++
+sudo apt install freeglut3-dev
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+```
+The required BayesOpt C++ library to perform Bayesian optimizaiton needs to be cloned to a convenient location and build. 
+Install required dependencies:
+NLopt - Library
+```
+git clone https://github.com/stevengj/nlopt.git
+cd nlopt
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```
+To istall bayesopt library run:
+```
+git clone https://github.com/rmcantin/bayesopt
+cd bayesopt
+cmake . 
+make
+sudo make install
+```
+In a desired directory.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+In order to perform computations on polygons, CGAL library is required and can be installed with:
+```
+cd $HOME/CGAL-5.6
+mkdir build
+cd build
+cmake ..                                                                          
+make install                                                                      
+cd examples/Triangulation_2                                                       
+cmake -DCGAL_DIR=$CMAKE_INSTALLED_PREFIX/lib/CGAL -DCMAKE_BUILD_TYPE=Release .    
+make                                                                             
+```
+### 2. Clone repository
+Clone repository and build the package.
+```
+git clone https://git.tu-berlin.de/raphael/bo_robotic_palpation
+cd bo_robotic_palpation
+mkdir build && cd build
+cmake ..
+make
+```
+## Using the package 
+### 1. Configure Tumor Model Parameters
+Four different shapes are pre-programmed and shape attributes can be adjusted in order to test roboustness of the algorithm. Inside /config/tumor_model_parameters.txt you find a set of pre-defined parameters for four different shapes including a Triangle, Rectangle, Circles and a Two Circle configuration. All shapes share a set of common parameters which are:
+-   low and high stiffness values
+-   translation in x and y,
+-   size defined by radius,
+-   epsilon (defines how smooth values transition from high to low stiffness areas)
+-   noise to simulation measurement error (gaussian and zero mean).
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### 2. Configure Bayesian Optimization parameters
+Approximation of a posterior distribution is done by iterativly probing the tumor model and updating a gaussian process. A detailed description of paramters can be found in the documentation of bayesopt library: http://rmcantin.github.io/bayesopt/html/usemanual.html#params
+### 3. Configure Contour Parameters
+Once a posterior distribution is found the contour of the tumor is approximated. This is done by first running a means shift clustering algorithm on a sampled representation of the posterior. In a second step the computed centroids are explored in radial direction.
+More precisely, the algorithm will start exploring centroids by probing a set of pre-defined planar directions. Each direction is explored until the tumor stiffness is changing and a threshold criterion is met. Directions are computed by defining angle segments along which the algorithm explores the centroids. Angle segments are pre-defined by a parameter that divides 360°. Once a set of contour points is found, a spline approximation is performed to compute the contour of the tumor.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+The following parametes listed in /config/contour_parameters.txt can be tuned to refine the tumor approximation process. 
+- n_exploration_directions, defines the number of directions a centroid is explored in
+- c_points, granularity of posterior distribution. Will define how many points are used in x and y directions
+-  means_shift_bandwidth, sets the bandwidth for the means shift algorithm https://github.com/mlpack/mlpack/tree/master/src/mlpack/methods/mean_shift
+-   lim_steps, determines the maximum amount of samples that are taken in each direction
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+-   threshold_multiplier, determines the stiffness threshold. In order to do so, all previously seen sample stiffnesses are clustered by a k-means algorithm. Given that high stiffness values correlate with tumourous tissue, the cluster with highest values is selected and its mean value and uncertainty calculated. Based on that measures and the threshold_multiplier parameter will define how many standard deviations from the mean value of the tumor stiffness cluster are categorised as tumor tissue. 
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### 2. Run the optimization
+The algorithm can be executed for four different tumor models. The algorithm can be simulated with a triangle-, rectangle-, circle and two-circle-shaped tumor model of adjustable size and stiffness.
+In order to run the algorithm run the following command inside the build directory 
+1. Triangle experiment:
+```
+cd build
+./display_gp Triangle
+```
+2. Rectangle experiment:
+```
+cd build
+./display_gp Rectangle
+```
+3. Cricle experiment
+```
+cd build
+./display_gp Cricle
+```
+4. Two-Cricles experiment
+```
+cd build
+./display_gp TwoCricles
+```
+Press "r" to run the algorithm, press "s" to perform a single step and press "q" to stop it.
 
-## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Run in Docker container
+
+```
+cd /bo_robotic_palpation
+export BO_PALPATION_WS=$(pwd)
+```
+```
+sudo docker build -f "$BO_PALPATION_WS"/images/Dockerfile -t bo_robotic_palpation "$BO_PALPATION_WS"
+```
+```
+sudo docker run --mount type=bind,source="$BO_PALPATION_WS"/data,target=/usr/src/bo_robotic_palpation/data --mount type=bind,source="$BO_PALPATION_WS"/config,target=/usr/src/bo_robotic_palpation/config -it -t  bo_robotic_palpation
+```
+Once the prompt opens in the container navigate to the build folder and run the evaluation executable with the desired shape as input.
+```
+cd build/
+./evaluate YOUR_DESIRED_SHAPE
+```
+The results will be written to the host data directory and can be visualized through:
+```
+cd /scripts/
+python3 visualize.py YOUR_DESIRED_SHAPE + Number
+```
+Example: Once a Triangle experiment was evaluated the script can be launched the following way:
+```
+python3 visualize.py Triangle1
+
+```
+>>>>>>> master
