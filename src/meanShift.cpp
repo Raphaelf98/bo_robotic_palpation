@@ -67,8 +67,8 @@ void MeanShift::meanshift_mlpack()
     // Perform Mean Shift clustering.
     arma::Row<size_t> assignments;  // Cluster assignments.
 
-    //mlpack::meanshift::MeanShift<> meanShift; //commented for docker build
-    mlpack::MeanShift<> meanShift;
+    mlpack::meanshift::MeanShift<> meanShift; //commented for docker build
+    //mlpack::MeanShift<> meanShift;
     meanShift.Radius(bandwidth_);
     std::cout<<"Compute clusters ..."<<std::endl;
     meanShift.Cluster(data, assignments, centroids_, forceConvergence, true);

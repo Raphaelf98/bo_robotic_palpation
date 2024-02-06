@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
     libnlopt-dev \
     libcgal-dev \
     libomp-dev \
-     libarmadillo-dev \
-     libboost-math-dev \
+    libarmadillo-dev \
+    libboost-math-dev \
     libboost-program-options-dev \
     libboost-test-dev \
     libboost-serialization-dev \

@@ -225,7 +225,7 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
       } else 
       {
         // smoothstep to interpolate between 1 and 0 for the edge of the circle
-        return smoothstep(radius_inner,radius_outer, r,low_stiffness_,high_stiffness_);
+        return smoothstep(radius_inner, radius_outer, r, low_stiffness_,high_stiffness_);
       }
 
    

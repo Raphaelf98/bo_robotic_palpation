@@ -235,7 +235,7 @@ void Contour::approximateContour()
     for(std::vector<Point> &contour : contours_)
     {
         double t[n_samples_];
-        std::cout<<"sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
+        std::cout<<"Approximate contour, sample size: "<<sizeof(t)/sizeof(double)<<std::endl;
         double f_1[n_samples_];
         double f_2[n_samples_];
         std::string path_cp = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_CONTOUR_POINTS);
@@ -254,7 +254,7 @@ void Contour::approximateContour()
             f_1[i] =contour[i].x;
             f_2[i] =contour[i].y;
             t[i] = i * 1.0/((double)n_samples_-1);
-            std::cout<<"sample # "<<t[i] << " at X: " <<f_1[i]<< " Y: "<<f_2[i] <<std::endl;
+            std::cout<<"sample #"<<i<<"  "<<t[i] << " at X: " <<f_1[i]<< " Y: "<<f_2[i] <<std::endl;
             file <<f_1[i]  << "," << f_2[i]  << "\n";
         }
         file.close();

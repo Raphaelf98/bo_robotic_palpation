@@ -68,7 +68,7 @@ Four different shapes are pre-programmed, and shape attributes can be adjusted t
 -   Epsilon (defines how smooth values transition from high to low stiffness areas)
 -   Noise to simulation measurement error (gaussian and zero mean).
 
-### 2. Configure Bayesian Optimization parameters
+### 2. Configure Bayesian Optimization Parameters
 Approximation of a posterior distribution is done by iteratively probing the tumor model and updating a Gaussian process. A detailed description of parameters can be found in the documentation of the BayesOpt library: http://rmcantin.github.io/bayesopt/html/usemanual.html#params
 ### 3. Configure Contour Parameters
 Once a posterior distribution is found the contour of the tumor is approximated. This is done by first running a means shift clustering algorithm on a sampled representation of the posterior. In a second step the computed centroids are explored in radial direction.
@@ -121,7 +121,7 @@ export BO_PALPATION_WS=$(pwd)
 ```
 sudo docker build -f "$BO_PALPATION_WS"/images/Dockerfile -t bo_robotic_palpation "$BO_PALPATION_WS"
 ```
-## Run container
+## Run Container
 ```
 sudo docker run --mount type=bind,source="$BO_PALPATION_WS"/data,target=/usr/src/bo_robotic_palpation/data --mount type=bind,source="$BO_PALPATION_WS"/config,target=/usr/src/bo_robotic_palpation/config -it -t  bo_robotic_palpation
 ```
@@ -130,7 +130,7 @@ Once the prompt opens in the container navigate to the build folder and run the 
 cd build/
 ./evaluate YOUR_DESIRED_SHAPE
 ```
-## Adjust Paramters
+## Adjust Parameters
 Inside the Dockerfile the config directory is mounted which means that parameters can be tuned from the host machine and changes will be carried over into the container. 
 The following parameter files can be adjusted:
 ```

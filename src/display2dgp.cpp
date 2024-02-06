@@ -147,8 +147,8 @@ void DisplayHeatMap2D::updateData()
         PHigh = pd->getMean();
         PLow = pd->getMean();
         //check 
-        StdHigh = 2*pd->getStd();
-        StdLow = 2*pd->getStd();
+        StdHigh = pd->getStd();
+        StdLow = pd->getStd();
         CVHigh = -contour_->evaluateCriteriaGaussianProcess(q);
         CVLow = -contour_->evaluateCriteriaGaussianProcess(q);
         for(size_t i=0; i<n; ++i)
@@ -202,7 +202,7 @@ void DisplayHeatMap2D::updateData()
       status = PLOT_CONTOUR_APPX;
     }
     //Update Spline Approximation Data
-    if (status == PLOT_CONTOUR_APPX)
+   if (status == PLOT_CONTOUR_APPX)
     {
       if(computeSplinePoints)
       {
@@ -210,8 +210,8 @@ void DisplayHeatMap2D::updateData()
         computeSplinePoints = false;
         SplineInterpolant_ptr_pair_vec spline_pairs = contour_->getSplineInterpolant();
         size_t num_vertices = 100;
-        splinex_ = std::vector<std::vector<double>>(spline_pairs.size(), std::vector<double>(num_vertices,0));
-        spliney_ = std::vector<std::vector<double>>(spline_pairs.size(), std::vector<double>(num_vertices,0));
+        splinex_ = std::vector<std::vector<double>>(spline_pairs.size(), std::vector<double>(num_vertices+1,0));
+        spliney_ = std::vector<std::vector<double>>(spline_pairs.size(), std::vector<double>(num_vertices+1,0));
         for (size_t i = 0; i < spline_pairs.size(); i++)
         {
           std::vector<double> tmp;
@@ -225,6 +225,8 @@ void DisplayHeatMap2D::updateData()
              splinex_[i][j]=x;
              spliney_[i][j]=y;
             }
+            splinex_[i][num_vertices] = splinex_[i][0];
+            spliney_[i][num_vertices] = spliney_[i][0];
         }
       }
     }
@@ -278,20 +280,28 @@ void DisplayHeatMap2D::plotData()
      jet();
       
       // To generate pseudo color plot:r
-      //pcolor(cX,cY,cZ);
+      //pcolor(cX,cY,cZ)
+      if(c_[0][0]==0)
+      {
+        c_[0][0]=10e-6;
+      } //catches bug in matplotpp when all values are equal to zero
       pcolor(cX,cY,c_);
+      
       // To delete edge lines:
       set("EdgeColor","none");
   
       // To add color bar
-      colorbar(CVLow,CVHigh);
+      colorbar(CVLow,CVHigh+10e-6);
+     
       subplot(2,2,4);
+     
     title("Standard Deviation");
      jet();
       
       // To generate pseudo color plot:r
       //pcolor(cX,cY,cZ);
       pcolor(cX,cY,std_);
+      
       // To delete edge lines:
       set("EdgeColor","none");
   

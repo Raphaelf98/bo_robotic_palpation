@@ -94,20 +94,7 @@ class Rectangle: public Shape
   bool checkReachability(const vectord &query);
 
 };
-/*
-class Circle: public Shape
-  {
-  public:
-    Circle(bayesopt::Parameters par);
-  
-    double evaluateSample( const vectord& xin);
-  virtual std::function<double (const double&)> f_x();
-    virtual std::function<double (const double&)> f_y();
 
-    
-  bool checkReachability(const vectord &query);
-
-};*/
 class TwoCircles: public Shape
   {
   public:

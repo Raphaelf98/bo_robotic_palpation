@@ -1,4 +1,4 @@
-n_exploration_directions=50
+n_exploration_directions=12
 c_points=100
 means_shift_bandwidth=
 lim_steps=1000
