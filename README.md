@@ -20,11 +20,13 @@ For Ubuntu/Debian, the minimum dependencies (C/C++) can be optained by running:
 sudo apt-get update
 sudo apt install  cmake g++ build-essential
 sudo apt install libboost-dev freeglut3-dev libcgal-dev libomp-dev libarmadillo-dev libensmallen-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev  libstb-dev 
-
-wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.1.2.tar.gz \
+```
+Navigate to a desired install location for cereal library and run the following command:
+```
+sudo wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.1.2.tar.gz \
     && tar -xzf v1.1.2.tar.gz \
-    && mkdir -p /usr/local/include/cereal \
-    && cp -r cereal-1.1.2/include/cereal/* /usr/local/include/cereal/
+    && sudo mkdir -p /usr/local/include/cereal \
+    && sudo cp -r cereal-1.1.2/include/cereal/* /usr/local/include/cereal/
 
 sudo apt install libmlpack-dev 
 ```

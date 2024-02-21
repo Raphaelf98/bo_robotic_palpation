@@ -1,7 +1,9 @@
 
 # Use Ubuntu as the base image
-FROM ubuntu:latest
-
+FROM ubuntu:focal
+# Fix timezone issue
+ENV TZ=Europe/London
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Update the system and install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -36,12 +38,13 @@ RUN wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.1.2.tar.gz \
     && mkdir -p /usr/local/include/cereal \
     && cp -r cereal-1.1.2/include/cereal/* /usr/local/include/cereal/
     
-RUN git clone --depth 1 https://github.com/mlpack/mlpack.git \
-    && cd mlpack \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-    &&  make install
+#RUN  git clone  https://github.com/mlpack/mlpack.git \
+#   && cd mlpack \
+#   && git checkout tags/3.2.2  \
+#   && mkdir build \
+#   && cd build \
+#   && cmake .. \
+#   &&  make install
 
 # Set the working directory in the container
 WORKDIR /usr/src/bo_robotic_palpation
@@ -55,7 +58,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
-    libmlpack-dev 
+    libmlpack-dev \
+    && apt-cache policy libmlpack-dev
 # Copy your project files into the container
 COPY . .
 
