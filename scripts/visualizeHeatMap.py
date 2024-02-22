@@ -11,7 +11,7 @@ def plot_heatmap_from_csv(filename):
     fig, ax = plt.subplots()
 
     # Plot the heatmap
-    cax = ax.imshow(data, cmap='viridis', interpolation='nearest')
+    cax = ax.imshow(data, cmap='jet', interpolation='nearest')
     fig.colorbar(cax)
     ax.set_xlim(0,data.shape[1])
     ax.set_ylim(0, data.shape[0])

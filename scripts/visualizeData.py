@@ -17,7 +17,7 @@ def plot_points_from_csv(filename):
     plt.ylim(0, 1)
     plt.xlabel('X')
     plt.ylabel('Y')
-    plt.title('Scatter plot of points from CSV')
+    #plt.title('Scatter plot of points from CSV')
     plt.grid(True)
     
     plt.show()

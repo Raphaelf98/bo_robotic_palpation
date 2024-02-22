@@ -122,7 +122,7 @@ def plot_heatmap_from_csv(ax, filename, title):
     data = pd.read_csv(filename, header=None)
     #data = data[::-1]
     # Plot the heatmap
-    plot = ax.imshow(data, cmap='viridis', interpolation='nearest')
+    plot = ax.imshow(data, cmap='jet', interpolation='nearest')
     add_colorbar(plot)
     ax.set_xlim(0,data.shape[1])
     ax.set_ylim(0, data.shape[0])

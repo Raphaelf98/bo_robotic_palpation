@@ -61,9 +61,8 @@ class K_means{
     arma::mat data_;
     size_t clusters_;
     arma::Row<size_t> assignments_;
-    mlpack::kmeans::KMeans<> kmeans_; //commented for docker build
+    mlpack::kmeans::KMeans<> kmeans_; 
     
-    //mlpack::KMeans<> kmeans_;
     arma::mat centroids_;
 };
 #endif
