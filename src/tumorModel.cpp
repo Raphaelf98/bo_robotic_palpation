@@ -217,15 +217,15 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
       double radius_outer = triangle_.outsidePolygon(x,y, epsilon_);
 
       if(r < radius_inner){
-        return low_stiffness_+ gaussianNoise_.noise();
+        return -high_stiffness_+ gaussianNoise_.noise();
       }
       else if (r >= radius_outer) 
       {
-        return high_stiffness_+ gaussianNoise_.noise();
+        return -low_stiffness_+ gaussianNoise_.noise();
       } else 
       {
         // smoothstep to interpolate between 1 and 0 for the edge of the circle
-        return smoothstep(radius_inner, radius_outer, r, low_stiffness_,high_stiffness_);
+        return smoothstep(radius_inner, radius_outer, r, -high_stiffness_,-low_stiffness_);
       }
 
    
@@ -294,16 +294,16 @@ void Triangle::saveGroundTruth(const size_t c_points, std::string file_path)
     double radius_outer = rectangle_.outsidePolygon(x,y, epsilon_);
     if(r < radius_inner)
     {
-      return low_stiffness_ + gaussianNoise_.noise();
+      return -high_stiffness_ + gaussianNoise_.noise();
     }
     else if (r >= radius_outer) 
     {
-      return high_stiffness_ + gaussianNoise_.noise();
+      return -low_stiffness_ + gaussianNoise_.noise();
     } 
     else 
     {
       // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius_inner,radius_outer, r,low_stiffness_,high_stiffness_) + gaussianNoise_.noise();
+      return smoothstep(radius_inner,radius_outer, r,-high_stiffness_,-low_stiffness_) + gaussianNoise_.noise();
     }
 
    
@@ -386,14 +386,14 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
     {
     if(r1 < radius_inner_1 )
     {
-      return low_stiffness_ + gaussianNoise_.noise();
+      return -high_stiffness_ + gaussianNoise_.noise();
     }
     if (r1 >= radius_outer_1 ){
-      return high_stiffness_ + gaussianNoise_.noise();
+      return -low_stiffness_ + gaussianNoise_.noise();
     } 
     if (r1 > radius_inner_1  && r1 < radius_outer_1)
     {
-      return smoothstep(radius_inner_1,radius_outer_1, r1,low_stiffness_,high_stiffness_)+ gaussianNoise_.noise();
+      return smoothstep(radius_inner_1,radius_outer_1, r1,-high_stiffness_,-low_stiffness_)+ gaussianNoise_.noise();
     }
     else 0.0;
    
@@ -402,15 +402,15 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
     {
       if(r2 < radius_inner_2)
     {
-      return low_stiffness_ + gaussianNoise_.noise();
+      return -high_stiffness_ + gaussianNoise_.noise();
     }
     if (r2 >= radius_outer_2 )
     {
-      return high_stiffness_ + gaussianNoise_.noise();
+      return -low_stiffness_ + gaussianNoise_.noise();
     } 
     if (r2 > radius_inner_2  && r2 < radius_outer_2)
     {
-      return smoothstep(radius_inner_2,radius_outer_2, r2,low_stiffness_,high_stiffness_)+ gaussianNoise_.noise();
+      return smoothstep(radius_inner_2,radius_outer_2, r2,-high_stiffness_,-low_stiffness_)+ gaussianNoise_.noise();
     }
     else 0.0;
     }
@@ -505,7 +505,7 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, doub
     double y = xin(1);
    
     double r = sqrt((x - x_trans_)*(x - x_trans_) + (y - y_trans_)*(y - y_trans_));
-
+    /*
     if (r <= radius_) 
     {
       return low_stiffness_ + gaussianNoise_.noise();
@@ -520,7 +520,21 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, doub
       // smoothstep to interpolate between 1 and 0 for the edge of the circle
       return smoothstep(radius_, radius_ + epsilon_, r, low_stiffness_, high_stiffness_)+ gaussianNoise_.noise();
     }
+    */
+    if (r <= radius_) 
+    {
+      return -(high_stiffness_ + gaussianNoise_.noise());
 
+    } 
+    else if (r >= radius_ + epsilon_) 
+    {
+      return -(low_stiffness_ + gaussianNoise_.noise());
+    } 
+    else 
+    {
+      // smoothstep to interpolate between 1 and 0 for the edge of the circle
+      return smoothstep(radius_, radius_ + epsilon_, r, -high_stiffness_, -low_stiffness_)+ gaussianNoise_.noise();
+    }
     
   }
 std::function<double (const double&)> SmoothCircle::f_x()

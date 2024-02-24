@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
     GLOBAL_MATPLOT.init(&contour,2);
       
   glutInit(&argc, argv);
-  glutCreateWindow(50,50,800,650);
+  glutCreateWindow(50,50,900,650);
   glutDisplayFunc( display );
   glutReshapeFunc( reshape );
   glutIdleFunc( idle );

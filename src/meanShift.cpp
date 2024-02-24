@@ -39,7 +39,7 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
         for (size_t j=0; j<data[0].size(); ++j)
         {
             
-            data_[i][j] = (data[i][j]) / max_value;
+            data_[i][j] = (max_value-data[i][j]) / (max_value-min_value);
         }
        
 	}
@@ -128,7 +128,7 @@ void MeanShift::scatterData(std::vector<Point>& scattered_points)
         {
             x += increment_x;
            
-            if(pointNoPoint(1.0-data_[i][j]))
+            if(pointNoPoint(data_[i][j]))
             {
                 Point p(x,y);
                 scattered_points.push_back(p);

@@ -356,6 +356,3 @@ void DisplayHeatMap2D::DISPLAY()
     plotData();
 	}
 };
-
-
-

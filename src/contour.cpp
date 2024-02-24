@@ -47,7 +47,6 @@ void Contour::runGaussianProcess(){
     
     bopt_model_->initializeOptimization();
     size_t nruns = bopt_model_->getParameters()->n_iterations;
-    //bayesopt::utils::ParamLoader::save("parameters_stored.txt", *(bopt_model_->getParameters()));
     
     while(state_ii < nruns)
     {
@@ -342,7 +341,7 @@ double Contour::evaluateGaussianProcess(const bayesopt::vectord &q)
 void Contour::prepareGaussianProcess()
 {
     bopt_model_->initializeOptimization();
-    size_t nruns = bopt_model_->getParameters()->n_iterations;
+    //size_t nruns = bopt_model_->getParameters()->n_iterations;
   
 }
 void  Contour::stepRunGaussianProcess()
