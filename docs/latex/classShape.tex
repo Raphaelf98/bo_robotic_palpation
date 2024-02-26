@@ -1,0 +1,71 @@
+\hypertarget{classShape}{}\doxysection{Shape Class Reference}
+\label{classShape}\index{Shape@{Shape}}
+
+
+Inheritance diagram for Shape\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classShape__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Shape\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classShape__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}\label{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}} 
+{\bfseries Shape} (bayesopt\+::\+Parameters par)
+\item 
+\mbox{\Hypertarget{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}\label{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}} 
+virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+x} ()=0
+\item 
+\mbox{\Hypertarget{classShape_a095479eedc56524c5e9555785aa47ca7}\label{classShape_a095479eedc56524c5e9555785aa47ca7}} 
+virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+y} ()=0
+\item 
+\mbox{\Hypertarget{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}\label{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}} 
+virtual double {\bfseries evaluate\+Sample} (const vectord \&xin)
+\item 
+\mbox{\Hypertarget{classShape_ab7eddf7c981a63d8c62c0aa65295ff8c}\label{classShape_ab7eddf7c981a63d8c62c0aa65295ff8c}} 
+double {\bfseries smoothstep} (double edge0, double edge1, double x, double low, double high)
+\item 
+\mbox{\Hypertarget{classShape_a6a20d9910b30dc1d963152807bea9236}\label{classShape_a6a20d9910b30dc1d963152807bea9236}} 
+double {\bfseries clamp} (double x, double lowerlimit, double upperlimit)
+\item 
+\mbox{\Hypertarget{classShape_ae382aa8684736b35f87a7b6ec3af2a43}\label{classShape_ae382aa8684736b35f87a7b6ec3af2a43}} 
+virtual void {\bfseries save\+Ground\+Truth} (const size\+\_\+t c\+\_\+points, std\+::string file\+\_\+path)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classShape_a4942fa72346f74ebdb677264d873fdb5}\label{classShape_a4942fa72346f74ebdb677264d873fdb5}} 
+double {\bfseries low\+\_\+stiffness\+\_\+}
+\item 
+\mbox{\Hypertarget{classShape_a9c229d123ae4b4fbc498798262a1f495}\label{classShape_a9c229d123ae4b4fbc498798262a1f495}} 
+double {\bfseries high\+\_\+stiffness\+\_\+}
+\item 
+\mbox{\Hypertarget{classShape_adee6b05d956e99d8db1bb58066132208}\label{classShape_adee6b05d956e99d8db1bb58066132208}} 
+double {\bfseries x\+\_\+trans\+\_\+}
+\item 
+\mbox{\Hypertarget{classShape_a87aba6c3b2bfe856facd20dea8afdba9}\label{classShape_a87aba6c3b2bfe856facd20dea8afdba9}} 
+double {\bfseries y\+\_\+trans\+\_\+}
+\item 
+\mbox{\Hypertarget{classShape_a0cbebdd7ab064fd6b7eaf06e7b164533}\label{classShape_a0cbebdd7ab064fd6b7eaf06e7b164533}} 
+double {\bfseries radius\+\_\+}
+\item 
+\mbox{\Hypertarget{classShape_a8bc43dfc4c04b08d0c2e85750d1492e9}\label{classShape_a8bc43dfc4c04b08d0c2e85750d1492e9}} 
+double {\bfseries epsilon\+\_\+}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/raphael/robolab/displaygp/include/tumor\+Model.\+hpp\item 
+/home/raphael/robolab/displaygp/src/tumor\+Model.\+cpp\end{DoxyCompactItemize}

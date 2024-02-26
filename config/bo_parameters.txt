@@ -1,11 +1,11 @@
-n_iterations=40
-n_inner_iterations=100
+n_iterations=28
+n_inner_iterations=10
 n_init_samples=2
 init_method=0
 random_seed=10
 verbose_level=1
 surr_name=sGaussianProcess
-sigma_s=0.1
+sigma_s=0.01
 noise=1e-05
 l_type=L_FIXED
 l_all=0

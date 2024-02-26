@@ -1,0 +1,48 @@
+\hypertarget{classTwoCircles}{}\doxysection{Two\+Circles Class Reference}
+\label{classTwoCircles}\index{TwoCircles@{TwoCircles}}
+
+
+Inheritance diagram for Two\+Circles\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classTwoCircles__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Two\+Circles\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classTwoCircles__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}\label{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}} 
+{\bfseries Two\+Circles} (bayesopt\+::\+Parameters par, double low\+\_\+stiffness, double high\+\_\+stiffness, double r\+\_\+1, double r\+\_\+2, double x\+\_\+t\+\_\+1, double x\+\_\+t\+\_\+2, double y\+\_\+t\+\_\+1, double y\+\_\+t\+\_\+2, double epsilon, double noise)
+\item 
+\mbox{\Hypertarget{classTwoCircles_ae6ae546dec3a145488046d395c197834}\label{classTwoCircles_ae6ae546dec3a145488046d395c197834}} 
+double {\bfseries evaluate\+Sample} (const vectord \&xin)
+\item 
+\mbox{\Hypertarget{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}\label{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}} 
+virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+x} ()
+\item 
+\mbox{\Hypertarget{classTwoCircles_a41fa5f55a125e61db335e05067379175}\label{classTwoCircles_a41fa5f55a125e61db335e05067379175}} 
+virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+y} ()
+\item 
+\mbox{\Hypertarget{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}\label{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}} 
+virtual void {\bfseries save\+Ground\+Truth} (const size\+\_\+t c\+\_\+points, std\+::string file\+\_\+path)
+\item 
+\mbox{\Hypertarget{classTwoCircles_aa69f345331b34d3398b546af41e808ba}\label{classTwoCircles_aa69f345331b34d3398b546af41e808ba}} 
+bool {\bfseries check\+Reachability} (const vectord \&query)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/raphael/robolab/displaygp/include/tumor\+Model.\+hpp\item 
+/home/raphael/robolab/displaygp/src/tumor\+Model.\+cpp\end{DoxyCompactItemize}

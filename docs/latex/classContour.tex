@@ -1,0 +1,334 @@
+\hypertarget{classContour}{}\doxysection{Contour Class Reference}
+\label{classContour}\index{Contour@{Contour}}
+
+
+This class handles the methods to perform.  
+
+
+
+
+{\ttfamily \#include $<$contour.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classContour_ac12404b69e37e3fe66bdeadcde969fef}{Contour}} (bayesopt\+::\+Bayes\+Opt\+Base $\ast$bopt\+\_\+model, \mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} cp, std\+::string experiment\+\_\+path)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classContour}{Contour}} class constructor. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classContour_ab375b32b88aa75a68dc484798fabeaee}{get\+C\+Points}} ()
+\begin{DoxyCompactList}\small\item\em Returns granularity of two dimensional gaussian process. \end{DoxyCompactList}\item 
+bayesopt\+::vectord \mbox{\hyperlink{classContour_aea62e1bc92d58769d2de9fa9ac9db116}{get\+Last\+Sample}} ()
+\begin{DoxyCompactList}\small\item\em Get last sample from Gaussian process. \end{DoxyCompactList}\item 
+bayesopt\+::\+Probability\+Distribution $\ast$ \mbox{\hyperlink{classContour_ad7190b8b91e0d6b4b2551cf396a17902}{get\+Prediction\+Gaussian\+Process}} (const vectord \&q)
+\begin{DoxyCompactList}\small\item\em Get current posterior distribution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_a58e663eb8b5699e61139a5ffa06ee230}{get\+Initial\+Samples}} (std\+::vector$<$ double $>$ \&samples\+\_\+x, std\+::vector$<$ double $>$ \&samples\+\_\+y)
+\begin{DoxyCompactList}\small\item\em Get initial samples from initialization routine. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classContour_a0bc3a1a3fba08efeeb07b6e37f288bbc}{evaluate\+Gaussian\+Process}} (const bayesopt\+::vectord \&q)
+\begin{DoxyCompactList}\small\item\em Evaluates ground truth at desired point. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classContour_a98e2fc50dd4156928ce537afd8474010}{evaluate\+Criteria\+Gaussian\+Process}} (const bayesopt\+::vectord \&q)
+\begin{DoxyCompactList}\small\item\em Get value of criterion (Expected Improvement) at desired point. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_ad5f82c77a65cfecc1173469a4d62042e}{prepare\+Gaussian\+Process}} ()
+\begin{DoxyCompactList}\small\item\em Wrapper for Bayes\+Opt initialize\+Optimizaition() function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classContour_abfeaf977d76d443e86229dfcd399d120}\label{classContour_abfeaf977d76d443e86229dfcd399d120}} 
+void \mbox{\hyperlink{classContour_abfeaf977d76d443e86229dfcd399d120}{step\+Run\+Gaussian\+Process}} ()
+\begin{DoxyCompactList}\small\item\em Call of this function performs single update step of Bayesian optimization. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \mbox{\hyperlink{classContour_aa710e69876bba097ce07d985d4145388}{get\+Clusters}} ()
+\begin{DoxyCompactList}\small\item\em Get clusters found by means-\/shift clustering algorithm. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \mbox{\hyperlink{classContour_a10d630d02b200a7afac3940ca6a13b6d}{get\+Contour\+Points}} ()
+\begin{DoxyCompactList}\small\item\em Get contour points found by centroid exploration routine. \end{DoxyCompactList}\item 
+Spline\+Interpolant\+\_\+ptr\+\_\+pair\+\_\+vec \mbox{\hyperlink{classContour_a6f2369ef9f8e4861140575e9e6cc7e4d}{get\+Spline\+Interpolant}} ()
+\begin{DoxyCompactList}\small\item\em Get pair of spline interpolants in x and y. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classContour_ad7fac272b0f7bff4c487b3703cbdaa45}{get\+Results\+Path}} ()
+\begin{DoxyCompactList}\small\item\em Returns path where results are stored. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_a415a681a627e19462d9776dc67d60d2e}{run\+Gaussian\+Process}} ()
+\begin{DoxyCompactList}\small\item\em Wrapper to perform single step optimization. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_a5f911da8dbb9c15bddf9349bcbe9804a}{compute\+Cluster}} ()
+\begin{DoxyCompactList}\small\item\em Wrapper to call clustering routine. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_a839ab903603334c7358d35ffd795d024}{explore\+Contour}} ()
+\begin{DoxyCompactList}\small\item\em Wrapper to call Centroid exploration routine. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classContour_a3eb1ba9cddd03fff3388f42be2392a35}\label{classContour_a3eb1ba9cddd03fff3388f42be2392a35}} 
+void \mbox{\hyperlink{classContour_a3eb1ba9cddd03fff3388f42be2392a35}{approximate\+Contour}} ()
+\begin{DoxyCompactList}\small\item\em Perform approximation on \mbox{\hyperlink{classContour}{Contour}} points. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_ade1add10333ef9ad8620c0670afcffeb}{compute\+Stiffness\+Threshold}} ()
+\begin{DoxyCompactList}\small\item\em Computes stiffness threshold used to detect contour points. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classContour_a9a232f01cb3d0ebc1dbee1ee26f39e6e}{print\+Parameters}} (const bayesopt\+::\+Parameters \&par)
+\begin{DoxyCompactList}\small\item\em Log parameters used for optimization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classContour_a3fc0ed48e1d7977eaba395a62c63bb4e}\label{classContour_a3fc0ed48e1d7977eaba395a62c63bb4e}} 
+size\+\_\+t {\bfseries number\+\_\+of\+\_\+step\+\_\+runs}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class handles the methods to perform. 
+
+
+\begin{DoxyEnumerate}
+\item Approximation through a gaussian process(\+G\+P) of an underlying tumor model
+\item Computation of maximum stiffness regions on posterior of GP in order to find tumor centroids
+\item Computation of points attributed to tumor contour by exploration of Centroids
+\item Spline approximation of tumor contour 
+\end{DoxyEnumerate}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classContour_ac12404b69e37e3fe66bdeadcde969fef}\label{classContour_ac12404b69e37e3fe66bdeadcde969fef}} 
+\index{Contour@{Contour}!Contour@{Contour}}
+\index{Contour@{Contour}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{Contour()}{Contour()}}
+{\footnotesize\ttfamily Contour\+::\+Contour (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Bayes\+Opt\+Base $\ast$}]{bopt\+\_\+model,  }\item[{\mbox{\hyperlink{structContourParamters}{Contour\+Paramters}}}]{cp,  }\item[{std\+::string}]{experiment\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classContour}{Contour}} class constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em bopt\+\_\+model$\ast$} & Bayes\+Opt\+Base model pointer to run optimization on. \\
+\hline
+\mbox{\texttt{ in}}  & {\em cp} & \mbox{\hyperlink{classContour}{Contour}} parameters used to define functionality of \mbox{\hyperlink{classContour}{Contour}} class. \\
+\hline
+\mbox{\texttt{ in}}  & {\em experiment\+\_\+path} & Current working directory path as string. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classContour_a5f911da8dbb9c15bddf9349bcbe9804a}\label{classContour_a5f911da8dbb9c15bddf9349bcbe9804a}} 
+\index{Contour@{Contour}!computeCluster@{computeCluster}}
+\index{computeCluster@{computeCluster}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{computeCluster()}{computeCluster()}}
+{\footnotesize\ttfamily void Contour\+::compute\+Cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Wrapper to call clustering routine. 
+
+\mbox{\Hypertarget{classContour_ade1add10333ef9ad8620c0670afcffeb}\label{classContour_ade1add10333ef9ad8620c0670afcffeb}} 
+\index{Contour@{Contour}!computeStiffnessThreshold@{computeStiffnessThreshold}}
+\index{computeStiffnessThreshold@{computeStiffnessThreshold}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{computeStiffnessThreshold()}{computeStiffnessThreshold()}}
+{\footnotesize\ttfamily void Contour\+::compute\+Stiffness\+Threshold (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Computes stiffness threshold used to detect contour points. 
+
+\mbox{\Hypertarget{classContour_a98e2fc50dd4156928ce537afd8474010}\label{classContour_a98e2fc50dd4156928ce537afd8474010}} 
+\index{Contour@{Contour}!evaluateCriteriaGaussianProcess@{evaluateCriteriaGaussianProcess}}
+\index{evaluateCriteriaGaussianProcess@{evaluateCriteriaGaussianProcess}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{evaluateCriteriaGaussianProcess()}{evaluateCriteriaGaussianProcess()}}
+{\footnotesize\ttfamily double Contour\+::evaluate\+Criteria\+Gaussian\+Process (\begin{DoxyParamCaption}\item[{const bayesopt\+::vectord \&}]{q }\end{DoxyParamCaption})}
+
+
+
+Get value of criterion (Expected Improvement) at desired point. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em q} & Coordinate at which criterion should be evaluated.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em returns} & value of acquisition function. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_a0bc3a1a3fba08efeeb07b6e37f288bbc}\label{classContour_a0bc3a1a3fba08efeeb07b6e37f288bbc}} 
+\index{Contour@{Contour}!evaluateGaussianProcess@{evaluateGaussianProcess}}
+\index{evaluateGaussianProcess@{evaluateGaussianProcess}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{evaluateGaussianProcess()}{evaluateGaussianProcess()}}
+{\footnotesize\ttfamily double Contour\+::evaluate\+Gaussian\+Process (\begin{DoxyParamCaption}\item[{const bayesopt\+::vectord \&}]{q }\end{DoxyParamCaption})}
+
+
+
+Evaluates ground truth at desired point. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em q} & Coordinate at which ground truth should be evaluated.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em returns} & stiffness value. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_a839ab903603334c7358d35ffd795d024}\label{classContour_a839ab903603334c7358d35ffd795d024}} 
+\index{Contour@{Contour}!exploreContour@{exploreContour}}
+\index{exploreContour@{exploreContour}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{exploreContour()}{exploreContour()}}
+{\footnotesize\ttfamily void Contour\+::explore\+Contour (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Wrapper to call Centroid exploration routine. 
+
+\mbox{\Hypertarget{classContour_aa710e69876bba097ce07d985d4145388}\label{classContour_aa710e69876bba097ce07d985d4145388}} 
+\index{Contour@{Contour}!getClusters@{getClusters}}
+\index{getClusters@{getClusters}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getClusters()}{getClusters()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ Contour\+::get\+Clusters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get clusters found by means-\/shift clustering algorithm. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Vector} & of Points with x and y coordinate. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_a10d630d02b200a7afac3940ca6a13b6d}\label{classContour_a10d630d02b200a7afac3940ca6a13b6d}} 
+\index{Contour@{Contour}!getContourPoints@{getContourPoints}}
+\index{getContourPoints@{getContourPoints}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getContourPoints()}{getContourPoints()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ Contour\+::get\+Contour\+Points (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get contour points found by centroid exploration routine. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Vector} & of Points of current \mbox{\hyperlink{classContour}{Contour}}. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_ab375b32b88aa75a68dc484798fabeaee}\label{classContour_ab375b32b88aa75a68dc484798fabeaee}} 
+\index{Contour@{Contour}!getCPoints@{getCPoints}}
+\index{getCPoints@{getCPoints}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getCPoints()}{getCPoints()}}
+{\footnotesize\ttfamily size\+\_\+t Contour\+::get\+C\+Points (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns granularity of two dimensional gaussian process. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Number} & of points in x and y direction. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_a58e663eb8b5699e61139a5ffa06ee230}\label{classContour_a58e663eb8b5699e61139a5ffa06ee230}} 
+\index{Contour@{Contour}!getInitialSamples@{getInitialSamples}}
+\index{getInitialSamples@{getInitialSamples}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getInitialSamples()}{getInitialSamples()}}
+{\footnotesize\ttfamily void Contour\+::get\+Initial\+Samples (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ \&}]{samples\+\_\+x,  }\item[{std\+::vector$<$ double $>$ \&}]{samples\+\_\+y }\end{DoxyParamCaption})}
+
+
+
+Get initial samples from initialization routine. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em \&samples\+\_\+x} & Container for x-\/coordinates of samples. \\
+\hline
+\mbox{\texttt{ in}}  & {\em \&samples\+\_\+y} & Container for y-\/coordinates of samples. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classContour_aea62e1bc92d58769d2de9fa9ac9db116}\label{classContour_aea62e1bc92d58769d2de9fa9ac9db116}} 
+\index{Contour@{Contour}!getLastSample@{getLastSample}}
+\index{getLastSample@{getLastSample}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getLastSample()}{getLastSample()}}
+{\footnotesize\ttfamily bayesopt\+::vectord Contour\+::get\+Last\+Sample (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get last sample from Gaussian process. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & vector of last sample. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_ad7190b8b91e0d6b4b2551cf396a17902}\label{classContour_ad7190b8b91e0d6b4b2551cf396a17902}} 
+\index{Contour@{Contour}!getPredictionGaussianProcess@{getPredictionGaussianProcess}}
+\index{getPredictionGaussianProcess@{getPredictionGaussianProcess}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getPredictionGaussianProcess()}{getPredictionGaussianProcess()}}
+{\footnotesize\ttfamily bayesopt\+::\+Probability\+Distribution $\ast$ Contour\+::get\+Prediction\+Gaussian\+Process (\begin{DoxyParamCaption}\item[{const vectord \&}]{q }\end{DoxyParamCaption})}
+
+
+
+Get current posterior distribution. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em q} & point at which posterior distribution should be evaluated.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Distribution} & at point q. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_ad7fac272b0f7bff4c487b3703cbdaa45}\label{classContour_ad7fac272b0f7bff4c487b3703cbdaa45}} 
+\index{Contour@{Contour}!getResultsPath@{getResultsPath}}
+\index{getResultsPath@{getResultsPath}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getResultsPath()}{getResultsPath()}}
+{\footnotesize\ttfamily std\+::string Contour\+::get\+Results\+Path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns path where results are stored. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Absolute} & path. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_a6f2369ef9f8e4861140575e9e6cc7e4d}\label{classContour_a6f2369ef9f8e4861140575e9e6cc7e4d}} 
+\index{Contour@{Contour}!getSplineInterpolant@{getSplineInterpolant}}
+\index{getSplineInterpolant@{getSplineInterpolant}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getSplineInterpolant()}{getSplineInterpolant()}}
+{\footnotesize\ttfamily Spline\+Interpolant\+\_\+ptr\+\_\+pair\+\_\+vec Contour\+::get\+Spline\+Interpolant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get pair of spline interpolants in x and y. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & pair of spline interpolants that can be used to query parametric contour. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_ad5f82c77a65cfecc1173469a4d62042e}\label{classContour_ad5f82c77a65cfecc1173469a4d62042e}} 
+\index{Contour@{Contour}!prepareGaussianProcess@{prepareGaussianProcess}}
+\index{prepareGaussianProcess@{prepareGaussianProcess}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{prepareGaussianProcess()}{prepareGaussianProcess()}}
+{\footnotesize\ttfamily void Contour\+::prepare\+Gaussian\+Process (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Wrapper for Bayes\+Opt initialize\+Optimizaition() function. 
+
+\mbox{\Hypertarget{classContour_a9a232f01cb3d0ebc1dbee1ee26f39e6e}\label{classContour_a9a232f01cb3d0ebc1dbee1ee26f39e6e}} 
+\index{Contour@{Contour}!printParameters@{printParameters}}
+\index{printParameters@{printParameters}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{printParameters()}{printParameters()}}
+{\footnotesize\ttfamily void Contour\+::print\+Parameters (\begin{DoxyParamCaption}\item[{const bayesopt\+::\+Parameters \&}]{par }\end{DoxyParamCaption})}
+
+
+
+Log parameters used for optimization. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Bayes\+Opt paramters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classContour_a415a681a627e19462d9776dc67d60d2e}\label{classContour_a415a681a627e19462d9776dc67d60d2e}} 
+\index{Contour@{Contour}!runGaussianProcess@{runGaussianProcess}}
+\index{runGaussianProcess@{runGaussianProcess}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{runGaussianProcess()}{runGaussianProcess()}}
+{\footnotesize\ttfamily void Contour\+::run\+Gaussian\+Process (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Wrapper to perform single step optimization. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/raphael/robolab/displaygp/include/contour.\+hpp\item 
+/home/raphael/robolab/displaygp/src/contour.\+cpp\end{DoxyCompactItemize}
