@@ -1,17 +1,23 @@
 \hypertarget{structContourParamters}{}\doxysection{Contour\+Paramters Struct Reference}
 \label{structContourParamters}\index{ContourParamters@{ContourParamters}}
+
+
+\mbox{\hyperlink{classContour}{Contour}} class parameters. This struct holds parameters to control the behaviour of centroid computation and counter point search in \mbox{\hyperlink{classContour}{Contour}} class.  
+
+
+
+
+{\ttfamily \#include $<$parameters.\+hpp$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structContourParamters_a0e673312d60a2e3db1713c20b2cef094}\label{structContourParamters_a0e673312d60a2e3db1713c20b2cef094}} 
-void {\bfseries load\+Contour} (bayesopt\+::utils\+::\+File\+Parser \&fp, \mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} \&cp)
-\item 
-\mbox{\Hypertarget{structContourParamters_a29b1c719324fb4bd04467389dc0ac716}\label{structContourParamters_a29b1c719324fb4bd04467389dc0ac716}} 
-bool {\bfseries load\+Contour\+Parameters} (std\+::string filename, \mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} \&cp)
-\item 
-\mbox{\Hypertarget{structContourParamters_af151f4a82ece0b2e6c3524519a5d4803}\label{structContourParamters_af151f4a82ece0b2e6c3524519a5d4803}} 
-void {\bfseries Print\+Parameters} ()
-\end{DoxyCompactItemize}
+void \mbox{\hyperlink{structContourParamters_a0e673312d60a2e3db1713c20b2cef094}{load\+Contour}} (bayesopt\+::utils\+::\+File\+Parser \&fp, \mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} \&cp)
+\begin{DoxyCompactList}\small\item\em Read contour parameters from file and store them into Contour\+Parameters object. Is called by load\+Contour. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structContourParamters_a29b1c719324fb4bd04467389dc0ac716}{load\+Contour\+Parameters}} (std\+::string filename, \mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} \&cp)
+\begin{DoxyCompactList}\small\item\em Read contour parameters from file and store them into Contour\+Parameters object. Calls load\+Contour routine. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structContourParamters_af151f4a82ece0b2e6c3524519a5d4803}{Print\+Parameters}} ()
+\begin{DoxyCompactList}\small\item\em Prints current parameters. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -36,6 +42,56 @@ double {\bfseries tumor\+\_\+stiffness\+\_\+guess\+\_\+low} = 0.\+1
 \mbox{\Hypertarget{structContourParamters_ab73bec58fdcc4d516a9eb5684e2f4452}\label{structContourParamters_ab73bec58fdcc4d516a9eb5684e2f4452}} 
 double {\bfseries tumor\+\_\+stiffness\+\_\+guess\+\_\+high} = 0.\+9
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classContour}{Contour}} class parameters. This struct holds parameters to control the behaviour of centroid computation and counter point search in \mbox{\hyperlink{classContour}{Contour}} class. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structContourParamters_a0e673312d60a2e3db1713c20b2cef094}\label{structContourParamters_a0e673312d60a2e3db1713c20b2cef094}} 
+\index{ContourParamters@{ContourParamters}!loadContour@{loadContour}}
+\index{loadContour@{loadContour}!ContourParamters@{ContourParamters}}
+\doxysubsubsection{\texorpdfstring{loadContour()}{loadContour()}}
+{\footnotesize\ttfamily void Contour\+Paramters\+::load\+Contour (\begin{DoxyParamCaption}\item[{bayesopt\+::utils\+::\+File\+Parser \&}]{fp,  }\item[{\mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} \&}]{cp }\end{DoxyParamCaption})}
+
+
+
+Read contour parameters from file and store them into Contour\+Parameters object. Is called by load\+Contour. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em fp} & file parser object that hold information about parameter file. \\
+\hline
+\mbox{\texttt{ in}}  & {\em cp} & \mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} class object that parameters from file are written into. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structContourParamters_a29b1c719324fb4bd04467389dc0ac716}\label{structContourParamters_a29b1c719324fb4bd04467389dc0ac716}} 
+\index{ContourParamters@{ContourParamters}!loadContourParameters@{loadContourParameters}}
+\index{loadContourParameters@{loadContourParameters}!ContourParamters@{ContourParamters}}
+\doxysubsubsection{\texorpdfstring{loadContourParameters()}{loadContourParameters()}}
+{\footnotesize\ttfamily bool Contour\+Paramters\+::load\+Contour\+Parameters (\begin{DoxyParamCaption}\item[{std\+::string}]{filename,  }\item[{\mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} \&}]{cp }\end{DoxyParamCaption})}
+
+
+
+Read contour parameters from file and store them into Contour\+Parameters object. Calls load\+Contour routine. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em filename} & absolute file path to parameter file. \\
+\hline
+\mbox{\texttt{ in}}  & {\em cp} & Contour\+Parameters class object that parameters from file are written into. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structContourParamters_af151f4a82ece0b2e6c3524519a5d4803}\label{structContourParamters_af151f4a82ece0b2e6c3524519a5d4803}} 
+\index{ContourParamters@{ContourParamters}!PrintParameters@{PrintParameters}}
+\index{PrintParameters@{PrintParameters}!ContourParamters@{ContourParamters}}
+\doxysubsubsection{\texorpdfstring{PrintParameters()}{PrintParameters()}}
+{\footnotesize\ttfamily void Contour\+Paramters\+::\+Print\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Prints current parameters. 
+
 
 
 The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}

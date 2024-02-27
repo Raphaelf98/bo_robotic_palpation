@@ -1,4 +1,4 @@
-n_iterations=28
+n_iterations=30
 n_inner_iterations=10
 n_init_samples=2
 init_method=0

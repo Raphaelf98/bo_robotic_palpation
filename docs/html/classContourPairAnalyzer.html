@@ -69,12 +69,15 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>This class analyses a pair of contours by polygonizing parametric (defined through spline functions) contours. Similarity of Contours is determined by scalars:  
+ <a href="classContourPairAnalyzer.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="evaluation_8hpp_source.html">evaluation.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9911d1c14ce3188cc86fd419f8a4904e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContourPairAnalyzer.html#a9911d1c14ce3188cc86fd419f8a4904e">ContourPairAnalyzer</a> (SplineInterpolant_ptr_pair &amp;f_parametric_A, SplineInterpolant_ptr_pair &amp;f_parametric_B, double domain_area, std::string experiment_path_)</td></tr>
-<tr class="memdesc:a9911d1c14ce3188cc86fd419f8a4904e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classContourPairAnalyzer.html">ContourPairAnalyzer</a> class constructor. Takes two contours represented as spline interpolant pair (parametric function representation)  <a href="classContourPairAnalyzer.html#a9911d1c14ce3188cc86fd419f8a4904e">More...</a><br /></td></tr>
+<tr class="memdesc:a9911d1c14ce3188cc86fd419f8a4904e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classContourPairAnalyzer.html" title="This class analyses a pair of contours by polygonizing parametric (defined through spline functions) ...">ContourPairAnalyzer</a> class constructor. Takes two contours represented as spline interpolant pair (parametric function representation)  <a href="classContourPairAnalyzer.html#a9911d1c14ce3188cc86fd419f8a4904e">More...</a><br /></td></tr>
 <tr class="separator:a9911d1c14ce3188cc86fd419f8a4904e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acce5cac0ec767d184bf1349e4a530370"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContourPairAnalyzer.html#acce5cac0ec767d184bf1349e4a530370">analyzeContours</a> (const size_t contour_number)</td></tr>
 <tr class="memdesc:acce5cac0ec767d184bf1349e4a530370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare contours A and B and compute specificity and sensitivity. Results are logged and stored to file.  <a href="classContourPairAnalyzer.html#acce5cac0ec767d184bf1349e4a530370">More...</a><br /></td></tr>
@@ -114,7 +117,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab53dd957274a07c490ccc3fe5478b75c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class analyses a pair of contours by polygonizing parametric (defined through spline functions) contours. Similarity of Contours is determined by scalars:</p><ol type="1">
+<div class="textblock"><p>This class analyses a pair of contours by polygonizing parametric (defined through spline functions) contours. Similarity of Contours is determined by scalars: </p>
+<ol type="1">
 <li>Specificity</li>
 <li>Sensitivity More information can be obtained in the IEEE paper: Fast Localization and Segmentation of Tissue Abnormalities by Autonomous Robotic Palpation by Youcan Yan and Jia Pan (2021) </li>
 </ol>
@@ -157,7 +161,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classContourPairAnalyzer.html">ContourPairAnalyzer</a> class constructor. Takes two contours represented as spline interpolant pair (parametric function representation) </p>
+<p><a class="el" href="classContourPairAnalyzer.html" title="This class analyses a pair of contours by polygonizing parametric (defined through spline functions) ...">ContourPairAnalyzer</a> class constructor. Takes two contours represented as spline interpolant pair (parametric function representation) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">f_parametric_A</td><td>Ground truth. </td></tr>

@@ -65,7 +65,8 @@ double PolarPolygon::theta_polar_(const double &x,const double &y)
     }
     
 }
-double PolarPolygon::insidePolygon(const double &x, const double & y){
+double PolarPolygon::insidePolygon(const double &x, const double & y)
+{
  double r = r_polar_(x-x_trans_,y-y_trans_);
  double theta = theta_polar_(x-x_trans_,y-y_trans_);
  if(isnan(theta))
@@ -76,7 +77,8 @@ double PolarPolygon::insidePolygon(const double &x, const double & y){
  double rad = abs(evaluate(theta,radius_));
  return rad;
 }
-double PolarPolygon::outsidePolygon(const double &x, const double & y, double epsilon){
+double PolarPolygon::outsidePolygon(const double &x, const double & y, double epsilon)
+{
 double r =  r_polar_(x-x_trans_,y-y_trans_);
  double theta =   theta_polar_(x-x_trans_,y-y_trans_);
  if(isnan(theta))
@@ -87,12 +89,14 @@ double r =  r_polar_(x-x_trans_,y-y_trans_);
  double rad = abs(evaluate(theta, radius_ + epsilon));
  return rad;
 }
-double PolarPolygon::insideCircle(const double &x, const double & y){
+double PolarPolygon::insideCircle(const double &x, const double & y)
+{
 
  
  return radius_;
 }
-double PolarPolygon::outsideCircle(const double &x, const double & y, double epsilon){
+double PolarPolygon::outsideCircle(const double &x, const double & y, double epsilon)
+{
 
  
  return radius_ + epsilon;
@@ -122,7 +126,7 @@ double PolarPolygon::evaluate(const double & theta, double rad)
   return rt;
 
 }
-//s e [0,1] (parametric funtion variable)
+//s e [0,1] (parametric function variable)
 double  PolarPolygon::f_x_(const double& s)
 { 
   //make sure to return different values for polygon and circle

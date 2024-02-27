@@ -1,29 +1,160 @@
 \hypertarget{classMeanShift}{}\doxysection{Mean\+Shift Class Reference}
 \label{classMeanShift}\index{MeanShift@{MeanShift}}
+
+
+This class serves as a wrapper for mlpack\textquotesingle{}s implementation of the means shift clustering algorithm. Source\+: \href{https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp}{\texttt{ https\+://github.\+com/mlpack/mlpack/blob/master/src/mlpack/methods/mean\+\_\+shift/mean\+\_\+shift.\+hpp}}.  
+
+
+
+
+{\ttfamily \#include $<$mean\+Shift.\+hpp$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classMeanShift_a74ba379d2649a3f58517ac819897af20}{Mean\+Shift}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMeanShift}{Mean\+Shift}} default class constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMeanShift_a5927666f46d77e2c89f1e10ed73dc308}{Mean\+Shift}} (std\+::vector$<$ std\+::vector$<$ double $>$$>$ data, double bandwidth, int samples, std\+::string experiment\+\_\+path)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMeanShift}{Mean\+Shift}} class constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMeanShift_ac32b88a3a84ed7215102bb7dd7d7e3e5}{print\+Clusters}} ()
+\begin{DoxyCompactList}\small\item\em Print clusters. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classMeanShift_a939fdc6991e403a25fff305cc9bf5bba}{save\+Data\+To\+C\+SV}} ()
+\begin{DoxyCompactList}\small\item\em Save scattered data to C\+SV. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classMeanShift_a4c359801d99c8bb013164ba64ad5a36b}{save\+Points\+To\+C\+SV}} (std\+::string name, std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \&points\+\_\+)
+\begin{DoxyCompactList}\small\item\em Save Centroids to C\+SV. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMeanShift_ae6e85e87f7110f6e1516bf6bfa9b50a0}{scatter\+Data}} (std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \&points\+\_\+)
+\begin{DoxyCompactList}\small\item\em Convert posterior distribution to scattered data representation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMeanShift_a2db9127b2055bd8411bf59f7d2b632f4}{meanshift\+\_\+mlpack}} ()
+\begin{DoxyCompactList}\small\item\em Run the means-\/shift algorithm. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \mbox{\hyperlink{classMeanShift_ae1536da5142a59bfc443ba8f1e884e3e}{get\+Centroids}} ()
+\begin{DoxyCompactList}\small\item\em Retrieve centroids. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class serves as a wrapper for mlpack\textquotesingle{}s implementation of the means shift clustering algorithm. Source\+: \href{https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp}{\texttt{ https\+://github.\+com/mlpack/mlpack/blob/master/src/mlpack/methods/mean\+\_\+shift/mean\+\_\+shift.\+hpp}}. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMeanShift_a74ba379d2649a3f58517ac819897af20}\label{classMeanShift_a74ba379d2649a3f58517ac819897af20}} 
+\index{MeanShift@{MeanShift}!MeanShift@{MeanShift}}
+\index{MeanShift@{MeanShift}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{MeanShift()}{MeanShift()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Mean\+Shift\+::\+Mean\+Shift (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classMeanShift}{Mean\+Shift}} default class constructor. 
+
 \mbox{\Hypertarget{classMeanShift_a5927666f46d77e2c89f1e10ed73dc308}\label{classMeanShift_a5927666f46d77e2c89f1e10ed73dc308}} 
-{\bfseries Mean\+Shift} (std\+::vector$<$ std\+::vector$<$ double $>$$>$ data, double bandwidth, int samples, std\+::string experiment\+\_\+path)
-\item 
-\mbox{\Hypertarget{classMeanShift_ac32b88a3a84ed7215102bb7dd7d7e3e5}\label{classMeanShift_ac32b88a3a84ed7215102bb7dd7d7e3e5}} 
-void {\bfseries print\+Clusters} ()
-\item 
-\mbox{\Hypertarget{classMeanShift_a939fdc6991e403a25fff305cc9bf5bba}\label{classMeanShift_a939fdc6991e403a25fff305cc9bf5bba}} 
-bool {\bfseries save\+Data\+To\+C\+SV} ()
-\item 
-\mbox{\Hypertarget{classMeanShift_a4c359801d99c8bb013164ba64ad5a36b}\label{classMeanShift_a4c359801d99c8bb013164ba64ad5a36b}} 
-bool {\bfseries save\+Points\+To\+C\+SV} (std\+::string name, std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \&points\+\_\+)
-\item 
-\mbox{\Hypertarget{classMeanShift_ae6e85e87f7110f6e1516bf6bfa9b50a0}\label{classMeanShift_ae6e85e87f7110f6e1516bf6bfa9b50a0}} 
-void {\bfseries scatter\+Data} (std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \&points\+\_\+)
-\item 
-\mbox{\Hypertarget{classMeanShift_a2db9127b2055bd8411bf59f7d2b632f4}\label{classMeanShift_a2db9127b2055bd8411bf59f7d2b632f4}} 
-void {\bfseries meanshift\+\_\+mlpack} ()
-\item 
+\index{MeanShift@{MeanShift}!MeanShift@{MeanShift}}
+\index{MeanShift@{MeanShift}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{MeanShift()}{MeanShift()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Mean\+Shift\+::\+Mean\+Shift (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::vector$<$ double $>$$>$}]{data,  }\item[{double}]{bandwidth,  }\item[{int}]{samples,  }\item[{std\+::string}]{experiment\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classMeanShift}{Mean\+Shift}} class constructor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em data} & Posterior distribution to run means shift on. \\
+\hline
+\mbox{\texttt{ in}}  & {\em bandwidth} & Means shift bandwidth parameter. \\
+\hline
+\mbox{\texttt{ in}}  & {\em experiment\+\_\+path} & Current working directory path as string. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classMeanShift_ae1536da5142a59bfc443ba8f1e884e3e}\label{classMeanShift_ae1536da5142a59bfc443ba8f1e884e3e}} 
-std\+::vector$<$ std\+::vector$<$ double $>$ $>$ {\bfseries get\+Centroids} ()
-\end{DoxyCompactItemize}
+\index{MeanShift@{MeanShift}!getCentroids@{getCentroids}}
+\index{getCentroids@{getCentroids}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{getCentroids()}{getCentroids()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::vector$<$ double $>$ $>$ Mean\+Shift\+::get\+Centroids (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retrieve centroids. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Vector} & of centroid points \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classMeanShift_a2db9127b2055bd8411bf59f7d2b632f4}\label{classMeanShift_a2db9127b2055bd8411bf59f7d2b632f4}} 
+\index{MeanShift@{MeanShift}!meanshift\_mlpack@{meanshift\_mlpack}}
+\index{meanshift\_mlpack@{meanshift\_mlpack}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{meanshift\_mlpack()}{meanshift\_mlpack()}}
+{\footnotesize\ttfamily void Mean\+Shift\+::meanshift\+\_\+mlpack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run the means-\/shift algorithm. 
+
+\mbox{\Hypertarget{classMeanShift_ac32b88a3a84ed7215102bb7dd7d7e3e5}\label{classMeanShift_ac32b88a3a84ed7215102bb7dd7d7e3e5}} 
+\index{MeanShift@{MeanShift}!printClusters@{printClusters}}
+\index{printClusters@{printClusters}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{printClusters()}{printClusters()}}
+{\footnotesize\ttfamily void Mean\+Shift\+::print\+Clusters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Print clusters. 
+
+\mbox{\Hypertarget{classMeanShift_a939fdc6991e403a25fff305cc9bf5bba}\label{classMeanShift_a939fdc6991e403a25fff305cc9bf5bba}} 
+\index{MeanShift@{MeanShift}!saveDataToCSV@{saveDataToCSV}}
+\index{saveDataToCSV@{saveDataToCSV}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{saveDataToCSV()}{saveDataToCSV()}}
+{\footnotesize\ttfamily bool Mean\+Shift\+::save\+Data\+To\+C\+SV (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Save scattered data to C\+SV. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & true if successful. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classMeanShift_a4c359801d99c8bb013164ba64ad5a36b}\label{classMeanShift_a4c359801d99c8bb013164ba64ad5a36b}} 
+\index{MeanShift@{MeanShift}!savePointsToCSV@{savePointsToCSV}}
+\index{savePointsToCSV@{savePointsToCSV}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{savePointsToCSV()}{savePointsToCSV()}}
+{\footnotesize\ttfamily bool Mean\+Shift\+::save\+Points\+To\+C\+SV (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \&}]{points\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Save Centroids to C\+SV. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em name} & Filename \\
+\hline
+\mbox{\texttt{ in}}  & {\em points\+\_\+} & Centroids \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & true if successful. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classMeanShift_ae6e85e87f7110f6e1516bf6bfa9b50a0}\label{classMeanShift_ae6e85e87f7110f6e1516bf6bfa9b50a0}} 
+\index{MeanShift@{MeanShift}!scatterData@{scatterData}}
+\index{scatterData@{scatterData}!MeanShift@{MeanShift}}
+\doxysubsubsection{\texorpdfstring{scatterData()}{scatterData()}}
+{\footnotesize\ttfamily void Mean\+Shift\+::scatter\+Data (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{structPoint}{Point}} $>$ \&}]{points\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Convert posterior distribution to scattered data representation. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em points\+\_\+} & holds scattered points. \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

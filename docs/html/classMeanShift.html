@@ -68,31 +68,269 @@ $(function() {
 <div class="title">MeanShift Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class serves as a wrapper for mlpack's implementation of the means shift clustering algorithm. Source: <a href="https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp">https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp</a>.  
+ <a href="classMeanShift.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="meanShift_8hpp_source.html">meanShift.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5927666f46d77e2c89f1e10ed73dc308"><td class="memItemLeft" align="right" valign="top"><a id="a5927666f46d77e2c89f1e10ed73dc308"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MeanShift</b> (std::vector&lt; std::vector&lt; double &gt;&gt; data, double bandwidth, int samples, std::string experiment_path)</td></tr>
+<tr class="memitem:a74ba379d2649a3f58517ac819897af20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#a74ba379d2649a3f58517ac819897af20">MeanShift</a> ()</td></tr>
+<tr class="memdesc:a74ba379d2649a3f58517ac819897af20"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMeanShift.html" title="This class serves as a wrapper for mlpack&#39;s implementation of the means shift clustering algorithm....">MeanShift</a> default class constructor.  <a href="classMeanShift.html#a74ba379d2649a3f58517ac819897af20">More...</a><br /></td></tr>
+<tr class="separator:a74ba379d2649a3f58517ac819897af20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5927666f46d77e2c89f1e10ed73dc308"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#a5927666f46d77e2c89f1e10ed73dc308">MeanShift</a> (std::vector&lt; std::vector&lt; double &gt;&gt; data, double bandwidth, int samples, std::string experiment_path)</td></tr>
+<tr class="memdesc:a5927666f46d77e2c89f1e10ed73dc308"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMeanShift.html" title="This class serves as a wrapper for mlpack&#39;s implementation of the means shift clustering algorithm....">MeanShift</a> class constructor.  <a href="classMeanShift.html#a5927666f46d77e2c89f1e10ed73dc308">More...</a><br /></td></tr>
 <tr class="separator:a5927666f46d77e2c89f1e10ed73dc308"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac32b88a3a84ed7215102bb7dd7d7e3e5"><td class="memItemLeft" align="right" valign="top"><a id="ac32b88a3a84ed7215102bb7dd7d7e3e5"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>printClusters</b> ()</td></tr>
+<tr class="memitem:ac32b88a3a84ed7215102bb7dd7d7e3e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#ac32b88a3a84ed7215102bb7dd7d7e3e5">printClusters</a> ()</td></tr>
+<tr class="memdesc:ac32b88a3a84ed7215102bb7dd7d7e3e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print clusters.  <a href="classMeanShift.html#ac32b88a3a84ed7215102bb7dd7d7e3e5">More...</a><br /></td></tr>
 <tr class="separator:ac32b88a3a84ed7215102bb7dd7d7e3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a939fdc6991e403a25fff305cc9bf5bba"><td class="memItemLeft" align="right" valign="top"><a id="a939fdc6991e403a25fff305cc9bf5bba"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>saveDataToCSV</b> ()</td></tr>
+<tr class="memitem:a939fdc6991e403a25fff305cc9bf5bba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#a939fdc6991e403a25fff305cc9bf5bba">saveDataToCSV</a> ()</td></tr>
+<tr class="memdesc:a939fdc6991e403a25fff305cc9bf5bba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save scattered data to CSV.  <a href="classMeanShift.html#a939fdc6991e403a25fff305cc9bf5bba">More...</a><br /></td></tr>
 <tr class="separator:a939fdc6991e403a25fff305cc9bf5bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c359801d99c8bb013164ba64ad5a36b"><td class="memItemLeft" align="right" valign="top"><a id="a4c359801d99c8bb013164ba64ad5a36b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>savePointsToCSV</b> (std::string name, std::vector&lt; <a class="el" href="structPoint.html">Point</a> &gt; &amp;points_)</td></tr>
+<tr class="memitem:a4c359801d99c8bb013164ba64ad5a36b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#a4c359801d99c8bb013164ba64ad5a36b">savePointsToCSV</a> (std::string name, std::vector&lt; <a class="el" href="structPoint.html">Point</a> &gt; &amp;points_)</td></tr>
+<tr class="memdesc:a4c359801d99c8bb013164ba64ad5a36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save Centroids to CSV.  <a href="classMeanShift.html#a4c359801d99c8bb013164ba64ad5a36b">More...</a><br /></td></tr>
 <tr class="separator:a4c359801d99c8bb013164ba64ad5a36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6e85e87f7110f6e1516bf6bfa9b50a0"><td class="memItemLeft" align="right" valign="top"><a id="ae6e85e87f7110f6e1516bf6bfa9b50a0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>scatterData</b> (std::vector&lt; <a class="el" href="structPoint.html">Point</a> &gt; &amp;points_)</td></tr>
+<tr class="memitem:ae6e85e87f7110f6e1516bf6bfa9b50a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#ae6e85e87f7110f6e1516bf6bfa9b50a0">scatterData</a> (std::vector&lt; <a class="el" href="structPoint.html">Point</a> &gt; &amp;points_)</td></tr>
+<tr class="memdesc:ae6e85e87f7110f6e1516bf6bfa9b50a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert posterior distribution to scattered data representation.  <a href="classMeanShift.html#ae6e85e87f7110f6e1516bf6bfa9b50a0">More...</a><br /></td></tr>
 <tr class="separator:ae6e85e87f7110f6e1516bf6bfa9b50a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2db9127b2055bd8411bf59f7d2b632f4"><td class="memItemLeft" align="right" valign="top"><a id="a2db9127b2055bd8411bf59f7d2b632f4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>meanshift_mlpack</b> ()</td></tr>
+<tr class="memitem:a2db9127b2055bd8411bf59f7d2b632f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#a2db9127b2055bd8411bf59f7d2b632f4">meanshift_mlpack</a> ()</td></tr>
+<tr class="memdesc:a2db9127b2055bd8411bf59f7d2b632f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the means-shift algorithm.  <a href="classMeanShift.html#a2db9127b2055bd8411bf59f7d2b632f4">More...</a><br /></td></tr>
 <tr class="separator:a2db9127b2055bd8411bf59f7d2b632f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1536da5142a59bfc443ba8f1e884e3e"><td class="memItemLeft" align="right" valign="top"><a id="ae1536da5142a59bfc443ba8f1e884e3e"></a>
-std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getCentroids</b> ()</td></tr>
+<tr class="memitem:ae1536da5142a59bfc443ba8f1e884e3e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMeanShift.html#ae1536da5142a59bfc443ba8f1e884e3e">getCentroids</a> ()</td></tr>
+<tr class="memdesc:ae1536da5142a59bfc443ba8f1e884e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve centroids.  <a href="classMeanShift.html#ae1536da5142a59bfc443ba8f1e884e3e">More...</a><br /></td></tr>
 <tr class="separator:ae1536da5142a59bfc443ba8f1e884e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class serves as a wrapper for mlpack's implementation of the means shift clustering algorithm. Source: <a href="https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp">https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a74ba379d2649a3f58517ac819897af20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74ba379d2649a3f58517ac819897af20">&#9670;&nbsp;</a></span>MeanShift() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MeanShift::MeanShift </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classMeanShift.html" title="This class serves as a wrapper for mlpack&#39;s implementation of the means shift clustering algorithm....">MeanShift</a> default class constructor. </p>
+
+</div>
+</div>
+<a id="a5927666f46d77e2c89f1e10ed73dc308"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5927666f46d77e2c89f1e10ed73dc308">&#9670;&nbsp;</a></span>MeanShift() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MeanShift::MeanShift </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt;&gt;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>bandwidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>experiment_path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classMeanShift.html" title="This class serves as a wrapper for mlpack&#39;s implementation of the means shift clustering algorithm....">MeanShift</a> class constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Posterior distribution to run means shift on. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bandwidth</td><td>Means shift bandwidth parameter. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">experiment_path</td><td>Current working directory path as string. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae1536da5142a59bfc443ba8f1e884e3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1536da5142a59bfc443ba8f1e884e3e">&#9670;&nbsp;</a></span>getCentroids()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; double &gt; &gt; MeanShift::getCentroids </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve centroids. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Vector</td><td>of centroid points </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2db9127b2055bd8411bf59f7d2b632f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2db9127b2055bd8411bf59f7d2b632f4">&#9670;&nbsp;</a></span>meanshift_mlpack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MeanShift::meanshift_mlpack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run the means-shift algorithm. </p>
+
+</div>
+</div>
+<a id="ac32b88a3a84ed7215102bb7dd7d7e3e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac32b88a3a84ed7215102bb7dd7d7e3e5">&#9670;&nbsp;</a></span>printClusters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MeanShift::printClusters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print clusters. </p>
+
+</div>
+</div>
+<a id="a939fdc6991e403a25fff305cc9bf5bba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a939fdc6991e403a25fff305cc9bf5bba">&#9670;&nbsp;</a></span>saveDataToCSV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MeanShift::saveDataToCSV </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save scattered data to CSV. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Returns</td><td>true if successful. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4c359801d99c8bb013164ba64ad5a36b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c359801d99c8bb013164ba64ad5a36b">&#9670;&nbsp;</a></span>savePointsToCSV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MeanShift::savePointsToCSV </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structPoint.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points_</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save Centroids to CSV. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>Filename </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">points_</td><td>Centroids </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Returns</td><td>true if successful. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae6e85e87f7110f6e1516bf6bfa9b50a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6e85e87f7110f6e1516bf6bfa9b50a0">&#9670;&nbsp;</a></span>scatterData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MeanShift::scatterData </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structPoint.html">Point</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert posterior distribution to scattered data representation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">points_</td><td>holds scattered points. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="meanShift_8hpp_source.html">meanShift.hpp</a></li>
 <li>/home/raphael/robolab/displaygp/src/meanShift.cpp</li>

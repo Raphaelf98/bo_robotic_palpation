@@ -66,7 +66,7 @@ void print_polygon_with_holes(const CGAL::Polygon_with_holes_2<Kernel, Container
 }
 
 /**
-* This class analyses a pair of contours by polygonizing parametric (defined through spline functions) contours.
+* @brief This class analyses a pair of contours by polygonizing parametric (defined through spline functions) contours.
 * Similarity of Contours is determined by scalars:
 *   1. Specificity 
 *   2. Sensitivity

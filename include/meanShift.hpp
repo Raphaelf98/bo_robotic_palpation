@@ -105,34 +105,33 @@ public:
 /**
 * @brief This class serves as a wrapper for mlpack's implementation of the k-means clustering algorithm.
 *      Source: https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp
- * 
+ *      
  */
 class K_means{
     public:
     /**
-    * @brief Contour class constructor.
-    * @param[in] bopt_model* BayesOptBase model pointer to run optimization on.
-    * @param[in] cp Contour parameters used to define functionality of Contour class.
-    * @param[in] cp Contour parameters used to define functionality of Contour class.
+    * @brief K_means class constructor. The class performs clustering on a one-dimensional vector of stiffness values.
+    *          An initial guess for low and high stiffness must be provided.
+    * @param[in] vals Vector of values that will be classified in two clusters.
+    * @param[in] low_stiffness Initial low stiffness guess.
+    * @param[in] high_stifness Initial high stiffness guess.
     * 
     */
     K_means(const std::vector<double> &vals,const double low_stiffness,const double high_stifness);
     /**
-    * @brief Contour class constructor.
+    * @brief Perform clustering of one-dimensional data. Two clusters will be determined. 
     * 
     */
     void cluster();
         /**
-    * @brief Contour class constructor.
-    * @param[in] bopt_model* BayesOptBase model pointer to run optimization on.
-    * @param[in] cp Contour parameters used to define functionality of Contour class.
-    * 
+    * @brief Get centroids after clustering.
+    * @retval Vector of Centroids
     */
     std::vector<double> getCentroids();
         /**
-    * @brief Contour class constructor.
-    * @param[in] bopt_model* BayesOptBase model pointer to run optimization on.
-    * @param[in] cp Contour parameters used to define functionality of Contour class.
+    * @brief Get Pair of label and value.
+    * 
+    *  @retval Vector of label and value
     * 
     */
     std::vector<std::pair<double,size_t>> getAssignments();

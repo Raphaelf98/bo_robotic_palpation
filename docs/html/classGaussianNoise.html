@@ -68,16 +68,87 @@ $(function() {
 <div class="title">GaussianNoise Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>*Real world measurements are subject to noise. Therefore noise is modeled with zero mean Gauassian noise.  
+ <a href="classGaussianNoise.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tumorModel_8hpp_source.html">tumorModel.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abb13e5285405bee56521a1b3b403ba65"><td class="memItemLeft" align="right" valign="top"><a id="abb13e5285405bee56521a1b3b403ba65"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GaussianNoise</b> (double mean, double std)</td></tr>
+<tr class="memitem:abb13e5285405bee56521a1b3b403ba65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGaussianNoise.html#abb13e5285405bee56521a1b3b403ba65">GaussianNoise</a> (double mean, double std)</td></tr>
+<tr class="memdesc:abb13e5285405bee56521a1b3b403ba65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for Gaussian Noise class.  <a href="classGaussianNoise.html#abb13e5285405bee56521a1b3b403ba65">More...</a><br /></td></tr>
 <tr class="separator:abb13e5285405bee56521a1b3b403ba65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7002de58b3e459975c1fff0a6761926e"><td class="memItemLeft" align="right" valign="top"><a id="a7002de58b3e459975c1fff0a6761926e"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>noise</b> ()</td></tr>
+<tr class="memitem:a7002de58b3e459975c1fff0a6761926e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGaussianNoise.html#a7002de58b3e459975c1fff0a6761926e">noise</a> ()</td></tr>
+<tr class="memdesc:a7002de58b3e459975c1fff0a6761926e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get noise.  <a href="classGaussianNoise.html#a7002de58b3e459975c1fff0a6761926e">More...</a><br /></td></tr>
 <tr class="separator:a7002de58b3e459975c1fff0a6761926e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>*Real world measurements are subject to noise. Therefore noise is modeled with zero mean Gauassian noise. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="abb13e5285405bee56521a1b3b403ba65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb13e5285405bee56521a1b3b403ba65">&#9670;&nbsp;</a></span>GaussianNoise()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GaussianNoise::GaussianNoise </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mean</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>std</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for Gaussian Noise class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">mean</td><td>Mean value for Gaussian distribution. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">std</td><td>Standard deviation of Gaussian distribution. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7002de58b3e459975c1fff0a6761926e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7002de58b3e459975c1fff0a6761926e">&#9670;&nbsp;</a></span>noise()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double GaussianNoise::noise </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get noise. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Returns</td><td>floating point noise. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="tumorModel_8hpp_source.html">tumorModel.hpp</a></li>
 <li>/home/raphael/robolab/displaygp/src/tumorModel.cpp</li>

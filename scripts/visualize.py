@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse
+import os
 from pathlib import Path
 def read_contour_data(file_path):
     contours = []
@@ -38,7 +39,13 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
     centroids = pd.read_csv(centroidsPath, header=None)
     # get metrics
 
-    contour_data = read_contour_data(metricsPath)
+     # Check if metricsPath exists
+    if os.path.exists(metricsPath):
+        contour_data = read_contour_data(metricsPath)
+    else:
+        # Set default values or handle the absence of the file
+        contour_data = [{} for _ in range(len(centroids))]  # Assuming we want one empty dict for each centroid
+
     # Assuming the columns in the CSV are named 'X' and 'Y'
     cx1, cy1 = centroids.iloc[0]  
 
@@ -98,12 +105,12 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
         sens = contour.get('Sensitivity', 'N/A')
 
         # Choose x and y for text placement. Adjust these as necessary for your plot.
-        x_text = 0.0  # For example, 5% from the left
+        x_text = 0.1  # For example, 5% from the left
         y_text = 1 - 0.04 * i  # For example, starting from 95% from the bottom and going up every iteration
 
         plt.text(x_text, y_text, f"Centroid [{round(centroids.iloc[i-1][0],2)}, {round(centroids.iloc[i-1][1],2)}] - Specificity: {spec}, Sensitivity: {sens}", 
                  transform=plt.gca().transAxes, fontsize=7, verticalalignment='top')
-    ax.legend(loc='lower left', frameon=False, title='Legend')
+    ax.legend(loc='lower left', frameon=False)
     
 def add_colorbar(mappable):
     from mpl_toolkits.axes_grid1 import make_axes_locatable

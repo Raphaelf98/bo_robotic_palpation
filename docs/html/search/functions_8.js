@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['rungaussianprocess_102',['runGaussianProcess',['../classContour.html#a415a681a627e19462d9776dc67d60d2e',1,'Contour']]]
+  ['meanshift_121',['MeanShift',['../classMeanShift.html#a74ba379d2649a3f58517ac819897af20',1,'MeanShift::MeanShift()'],['../classMeanShift.html#a5927666f46d77e2c89f1e10ed73dc308',1,'MeanShift::MeanShift(std::vector&lt; std::vector&lt; double &gt;&gt; data, double bandwidth, int samples, std::string experiment_path)']]],
+  ['meanshift_5fmlpack_122',['meanshift_mlpack',['../classMeanShift.html#a2db9127b2055bd8411bf59f7d2b632f4',1,'MeanShift']]]
 ];

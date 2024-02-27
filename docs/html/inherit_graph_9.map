@@ -1,8 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" title=" " alt="" coords="5,81,140,108"/>
-<area shape="rect" id="node2" href="$classShape.html" title=" " alt="" coords="188,81,251,108"/>
-<area shape="rect" id="node3" href="$classRectangle.html" title=" " alt="" coords="310,5,397,32"/>
-<area shape="rect" id="node4" href="$classSmoothCircle.html" title=" " alt="" coords="299,56,408,83"/>
-<area shape="rect" id="node5" href="$classTriangle.html" title=" " alt="" coords="317,107,390,133"/>
-<area shape="rect" id="node6" href="$classTwoCircles.html" title=" " alt="" coords="308,157,399,184"/>
+<area shape="rect" id="node2" href="$classShape.html" title="Shape base class." alt="" coords="188,81,251,108"/>
+<area shape="rect" id="node3" href="$classRectangle.html" title="Triangle child class." alt="" coords="310,5,397,32"/>
+<area shape="rect" id="node4" href="$classSmoothCircle.html" title="Triangle child class." alt="" coords="299,56,408,83"/>
+<area shape="rect" id="node5" href="$classTriangle.html" title="Triangle child class." alt="" coords="317,107,390,133"/>
+<area shape="rect" id="node6" href="$classTwoCircles.html" title="Triangle child class." alt="" coords="308,157,399,184"/>
 </map>

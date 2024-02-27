@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['displayheatmap2d_55',['DisplayHeatMap2D',['../classDisplayHeatMap2D.html',1,'']]]
+  ['displayheatmap2d_69',['DisplayHeatMap2D',['../classDisplayHeatMap2D.html',1,'']]]
 ];

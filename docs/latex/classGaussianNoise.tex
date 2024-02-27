@@ -1,14 +1,64 @@
 \hypertarget{classGaussianNoise}{}\doxysection{Gaussian\+Noise Class Reference}
 \label{classGaussianNoise}\index{GaussianNoise@{GaussianNoise}}
+
+
+$\ast$\+Real world measurements are subject to noise. Therefore noise is modeled with zero mean Gauassian noise.  
+
+
+
+
+{\ttfamily \#include $<$tumor\+Model.\+hpp$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classGaussianNoise_abb13e5285405bee56521a1b3b403ba65}{Gaussian\+Noise}} (double mean, double std)
+\begin{DoxyCompactList}\small\item\em Constructor for Gaussian Noise class. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classGaussianNoise_a7002de58b3e459975c1fff0a6761926e}{noise}} ()
+\begin{DoxyCompactList}\small\item\em Get noise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+$\ast$\+Real world measurements are subject to noise. Therefore noise is modeled with zero mean Gauassian noise. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classGaussianNoise_abb13e5285405bee56521a1b3b403ba65}\label{classGaussianNoise_abb13e5285405bee56521a1b3b403ba65}} 
-{\bfseries Gaussian\+Noise} (double mean, double std)
-\item 
+\index{GaussianNoise@{GaussianNoise}!GaussianNoise@{GaussianNoise}}
+\index{GaussianNoise@{GaussianNoise}!GaussianNoise@{GaussianNoise}}
+\doxysubsubsection{\texorpdfstring{GaussianNoise()}{GaussianNoise()}}
+{\footnotesize\ttfamily Gaussian\+Noise\+::\+Gaussian\+Noise (\begin{DoxyParamCaption}\item[{double}]{mean,  }\item[{double}]{std }\end{DoxyParamCaption})}
+
+
+
+Constructor for Gaussian Noise class. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em mean} & Mean value for Gaussian distribution. \\
+\hline
+\mbox{\texttt{ in}}  & {\em std} & Standard deviation of Gaussian distribution. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classGaussianNoise_a7002de58b3e459975c1fff0a6761926e}\label{classGaussianNoise_a7002de58b3e459975c1fff0a6761926e}} 
-double {\bfseries noise} ()
-\end{DoxyCompactItemize}
+\index{GaussianNoise@{GaussianNoise}!noise@{noise}}
+\index{noise@{noise}!GaussianNoise@{GaussianNoise}}
+\doxysubsubsection{\texorpdfstring{noise()}{noise()}}
+{\footnotesize\ttfamily double Gaussian\+Noise\+::noise (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get noise. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & floating point noise. \\
+\hline
+\end{DoxyRetVals}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

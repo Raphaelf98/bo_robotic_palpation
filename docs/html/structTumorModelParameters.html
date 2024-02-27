@@ -69,17 +69,22 @@ $(function() {
 <div class="title">TumorModelParameters Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle tumor models. A default parameter setting is provided but parameters can be overwritten.  
+ <a href="structTumorModelParameters.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="parameters_8hpp_source.html">parameters.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa3d6ae9d20ac4b76cc4184d60fadfb61"><td class="memItemLeft" align="right" valign="top"><a id="aa3d6ae9d20ac4b76cc4184d60fadfb61"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadModel</b> (bayesopt::utils::FileParser &amp;fp, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;cp)</td></tr>
+<tr class="memitem:aa3d6ae9d20ac4b76cc4184d60fadfb61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTumorModelParameters.html#aa3d6ae9d20ac4b76cc4184d60fadfb61">loadModel</a> (bayesopt::utils::FileParser &amp;fp, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;cp)</td></tr>
+<tr class="memdesc:aa3d6ae9d20ac4b76cc4184d60fadfb61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read model from file and store them into <a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> object. Is called by loadModelParameters.  <a href="structTumorModelParameters.html#aa3d6ae9d20ac4b76cc4184d60fadfb61">More...</a><br /></td></tr>
 <tr class="separator:aa3d6ae9d20ac4b76cc4184d60fadfb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80ca03bc4be516ca74efbad6907dbc19"><td class="memItemLeft" align="right" valign="top"><a id="a80ca03bc4be516ca74efbad6907dbc19"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>loadModelParameters</b> (std::string filename, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;cp)</td></tr>
+<tr class="memitem:a80ca03bc4be516ca74efbad6907dbc19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTumorModelParameters.html#a80ca03bc4be516ca74efbad6907dbc19">loadModelParameters</a> (std::string filename, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;cp)</td></tr>
+<tr class="memdesc:a80ca03bc4be516ca74efbad6907dbc19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read model from file and store them into <a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> object. Calls loadModel routine.  <a href="structTumorModelParameters.html#a80ca03bc4be516ca74efbad6907dbc19">More...</a><br /></td></tr>
 <tr class="separator:a80ca03bc4be516ca74efbad6907dbc19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adac5efefc3ab855b30e938402eb3d283"><td class="memItemLeft" align="right" valign="top"><a id="adac5efefc3ab855b30e938402eb3d283"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>printParameters</b> ()</td></tr>
+<tr class="memitem:adac5efefc3ab855b30e938402eb3d283"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTumorModelParameters.html#adac5efefc3ab855b30e938402eb3d283">printParameters</a> ()</td></tr>
+<tr class="memdesc:adac5efefc3ab855b30e938402eb3d283"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints current parameters.  <a href="structTumorModelParameters.html#adac5efefc3ab855b30e938402eb3d283">More...</a><br /></td></tr>
 <tr class="separator:adac5efefc3ab855b30e938402eb3d283"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -178,6 +183,102 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>two_circles_epsilon
 double&#160;</td><td class="memItemRight" valign="bottom"><b>two_circles_noise</b> =0.01</td></tr>
 <tr class="separator:a4017fe02e683138efef502c492de3dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle tumor models. A default parameter setting is provided but parameters can be overwritten. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa3d6ae9d20ac4b76cc4184d60fadfb61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3d6ae9d20ac4b76cc4184d60fadfb61">&#9670;&nbsp;</a></span>loadModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TumorModelParameters::loadModel </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::utils::FileParser &amp;&#160;</td>
+          <td class="paramname"><em>fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>cp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read model from file and store them into <a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> object. Is called by loadModelParameters. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fp</td><td>file parser object that hold information about parameter file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cp</td><td><a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> class object that parameters from file are written into. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a80ca03bc4be516ca74efbad6907dbc19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80ca03bc4be516ca74efbad6907dbc19">&#9670;&nbsp;</a></span>loadModelParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TumorModelParameters::loadModelParameters </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>cp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read model from file and store them into <a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> object. Calls loadModel routine. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>absolute file path to parameter file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cp</td><td><a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> class object that parameters from file are written into. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adac5efefc3ab855b30e938402eb3d283"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adac5efefc3ab855b30e938402eb3d283">&#9670;&nbsp;</a></span>printParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TumorModelParameters::printParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints current parameters. </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="parameters_8hpp_source.html">parameters.hpp</a></li>
 <li>/home/raphael/robolab/displaygp/src/parameters.cpp</li>

@@ -69,17 +69,22 @@ $(function() {
 <div class="title">ContourParamters Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="classContour.html" title="This class handles the methods to perform.">Contour</a> class parameters. This struct holds parameters to control the behaviour of centroid computation and counter point search in <a class="el" href="classContour.html" title="This class handles the methods to perform.">Contour</a> class.  
+ <a href="structContourParamters.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="parameters_8hpp_source.html">parameters.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0e673312d60a2e3db1713c20b2cef094"><td class="memItemLeft" align="right" valign="top"><a id="a0e673312d60a2e3db1713c20b2cef094"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadContour</b> (bayesopt::utils::FileParser &amp;fp, <a class="el" href="structContourParamters.html">ContourParamters</a> &amp;cp)</td></tr>
+<tr class="memitem:a0e673312d60a2e3db1713c20b2cef094"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structContourParamters.html#a0e673312d60a2e3db1713c20b2cef094">loadContour</a> (bayesopt::utils::FileParser &amp;fp, <a class="el" href="structContourParamters.html">ContourParamters</a> &amp;cp)</td></tr>
+<tr class="memdesc:a0e673312d60a2e3db1713c20b2cef094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read contour parameters from file and store them into ContourParameters object. Is called by loadContour.  <a href="structContourParamters.html#a0e673312d60a2e3db1713c20b2cef094">More...</a><br /></td></tr>
 <tr class="separator:a0e673312d60a2e3db1713c20b2cef094"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29b1c719324fb4bd04467389dc0ac716"><td class="memItemLeft" align="right" valign="top"><a id="a29b1c719324fb4bd04467389dc0ac716"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>loadContourParameters</b> (std::string filename, <a class="el" href="structContourParamters.html">ContourParamters</a> &amp;cp)</td></tr>
+<tr class="memitem:a29b1c719324fb4bd04467389dc0ac716"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structContourParamters.html#a29b1c719324fb4bd04467389dc0ac716">loadContourParameters</a> (std::string filename, <a class="el" href="structContourParamters.html">ContourParamters</a> &amp;cp)</td></tr>
+<tr class="memdesc:a29b1c719324fb4bd04467389dc0ac716"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read contour parameters from file and store them into ContourParameters object. Calls loadContour routine.  <a href="structContourParamters.html#a29b1c719324fb4bd04467389dc0ac716">More...</a><br /></td></tr>
 <tr class="separator:a29b1c719324fb4bd04467389dc0ac716"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af151f4a82ece0b2e6c3524519a5d4803"><td class="memItemLeft" align="right" valign="top"><a id="af151f4a82ece0b2e6c3524519a5d4803"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>PrintParameters</b> ()</td></tr>
+<tr class="memitem:af151f4a82ece0b2e6c3524519a5d4803"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structContourParamters.html#af151f4a82ece0b2e6c3524519a5d4803">PrintParameters</a> ()</td></tr>
+<tr class="memdesc:af151f4a82ece0b2e6c3524519a5d4803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints current parameters.  <a href="structContourParamters.html#af151f4a82ece0b2e6c3524519a5d4803">More...</a><br /></td></tr>
 <tr class="separator:af151f4a82ece0b2e6c3524519a5d4803"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -106,6 +111,102 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>tumor_stiffness_gue
 double&#160;</td><td class="memItemRight" valign="bottom"><b>tumor_stiffness_guess_high</b> = 0.9</td></tr>
 <tr class="separator:ab73bec58fdcc4d516a9eb5684e2f4452"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classContour.html" title="This class handles the methods to perform.">Contour</a> class parameters. This struct holds parameters to control the behaviour of centroid computation and counter point search in <a class="el" href="classContour.html" title="This class handles the methods to perform.">Contour</a> class. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0e673312d60a2e3db1713c20b2cef094"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e673312d60a2e3db1713c20b2cef094">&#9670;&nbsp;</a></span>loadContour()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ContourParamters::loadContour </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::utils::FileParser &amp;&#160;</td>
+          <td class="paramname"><em>fp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structContourParamters.html">ContourParamters</a> &amp;&#160;</td>
+          <td class="paramname"><em>cp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read contour parameters from file and store them into ContourParameters object. Is called by loadContour. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fp</td><td>file parser object that hold information about parameter file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cp</td><td><a class="el" href="structTumorModelParameters.html" title="Tumor model parameters. This struct holds parameters for triangle, rectangle, circle and two circle t...">TumorModelParameters</a> class object that parameters from file are written into. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a29b1c719324fb4bd04467389dc0ac716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29b1c719324fb4bd04467389dc0ac716">&#9670;&nbsp;</a></span>loadContourParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ContourParamters::loadContourParameters </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structContourParamters.html">ContourParamters</a> &amp;&#160;</td>
+          <td class="paramname"><em>cp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read contour parameters from file and store them into ContourParameters object. Calls loadContour routine. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>absolute file path to parameter file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cp</td><td>ContourParameters class object that parameters from file are written into. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af151f4a82ece0b2e6c3524519a5d4803"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af151f4a82ece0b2e6c3524519a5d4803">&#9670;&nbsp;</a></span>PrintParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ContourParamters::PrintParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints current parameters. </p>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="parameters_8hpp_source.html">parameters.hpp</a></li>
 <li>/home/raphael/robolab/displaygp/src/parameters.cpp</li>

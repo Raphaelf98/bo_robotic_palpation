@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['updatedata_106',['updateData',['../classDisplayHeatMap2D.html#a05bee9ba9f1a15c46f88df6e367598c9',1,'DisplayHeatMap2D']]]
+  ['rungaussianprocess_129',['runGaussianProcess',['../classContour.html#a415a681a627e19462d9776dc67d60d2e',1,'Contour']]]
 ];

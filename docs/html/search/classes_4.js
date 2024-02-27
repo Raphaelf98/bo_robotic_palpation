@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['meanshift_58',['MeanShift',['../classMeanShift.html',1,'']]]
+  ['meanshift_72',['MeanShift',['../classMeanShift.html',1,'']]]
 ];

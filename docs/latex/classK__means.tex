@@ -1,20 +1,95 @@
 \hypertarget{classK__means}{}\doxysection{K\+\_\+means Class Reference}
 \label{classK__means}\index{K\_means@{K\_means}}
+
+
+This class serves as a wrapper for mlpack\textquotesingle{}s implementation of the k-\/means clustering algorithm. Source\+: \href{https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp}{\texttt{ https\+://github.\+com/mlpack/mlpack/blob/master/src/mlpack/methods/mean\+\_\+shift/mean\+\_\+shift.\+hpp}}.  
+
+
+
+
+{\ttfamily \#include $<$mean\+Shift.\+hpp$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classK__means_a6252b24d9d309c7d898823f0f69b3a94}{K\+\_\+means}} (const std\+::vector$<$ double $>$ \&vals, const double low\+\_\+stiffness, const double high\+\_\+stifness)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classK__means}{K\+\_\+means}} class constructor. The class performs clustering on a one-\/dimensional vector of stiffness values. An initial guess for low and high stiffness must be provided. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classK__means_acf8a2dee0f2364e9a01102b95fd21d47}{cluster}} ()
+\begin{DoxyCompactList}\small\item\em Perform clustering of one-\/dimensional data. Two clusters will be determined. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classK__means_a08d7df9e0c6ffda2784def17ecfd20f6}{get\+Centroids}} ()
+\begin{DoxyCompactList}\small\item\em Get centroids after clustering. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ double, size\+\_\+t $>$ $>$ \mbox{\hyperlink{classK__means_a07844194f3843c38d5b6557f9e49e1d4}{get\+Assignments}} ()
+\begin{DoxyCompactList}\small\item\em Get Pair of label and value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class serves as a wrapper for mlpack\textquotesingle{}s implementation of the k-\/means clustering algorithm. Source\+: \href{https://github.com/mlpack/mlpack/blob/master/src/mlpack/methods/mean_shift/mean_shift.hpp}{\texttt{ https\+://github.\+com/mlpack/mlpack/blob/master/src/mlpack/methods/mean\+\_\+shift/mean\+\_\+shift.\+hpp}}. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classK__means_a6252b24d9d309c7d898823f0f69b3a94}\label{classK__means_a6252b24d9d309c7d898823f0f69b3a94}} 
-{\bfseries K\+\_\+means} (const std\+::vector$<$ double $>$ \&vals, const double low\+\_\+stiffness, const double high\+\_\+stifness)
-\item 
+\index{K\_means@{K\_means}!K\_means@{K\_means}}
+\index{K\_means@{K\_means}!K\_means@{K\_means}}
+\doxysubsubsection{\texorpdfstring{K\_means()}{K\_means()}}
+{\footnotesize\ttfamily K\+\_\+means\+::\+K\+\_\+means (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{vals,  }\item[{const double}]{low\+\_\+stiffness,  }\item[{const double}]{high\+\_\+stifness }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classK__means}{K\+\_\+means}} class constructor. The class performs clustering on a one-\/dimensional vector of stiffness values. An initial guess for low and high stiffness must be provided. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em vals} & Vector of values that will be classified in two clusters. \\
+\hline
+\mbox{\texttt{ in}}  & {\em low\+\_\+stiffness} & Initial low stiffness guess. \\
+\hline
+\mbox{\texttt{ in}}  & {\em high\+\_\+stifness} & Initial high stiffness guess. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classK__means_acf8a2dee0f2364e9a01102b95fd21d47}\label{classK__means_acf8a2dee0f2364e9a01102b95fd21d47}} 
-void {\bfseries cluster} ()
-\item 
-\mbox{\Hypertarget{classK__means_a08d7df9e0c6ffda2784def17ecfd20f6}\label{classK__means_a08d7df9e0c6ffda2784def17ecfd20f6}} 
-std\+::vector$<$ double $>$ {\bfseries get\+Centroids} ()
-\item 
+\index{K\_means@{K\_means}!cluster@{cluster}}
+\index{cluster@{cluster}!K\_means@{K\_means}}
+\doxysubsubsection{\texorpdfstring{cluster()}{cluster()}}
+{\footnotesize\ttfamily void K\+\_\+means\+::cluster (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Perform clustering of one-\/dimensional data. Two clusters will be determined. 
+
 \mbox{\Hypertarget{classK__means_a07844194f3843c38d5b6557f9e49e1d4}\label{classK__means_a07844194f3843c38d5b6557f9e49e1d4}} 
-std\+::vector$<$ std\+::pair$<$ double, size\+\_\+t $>$ $>$ {\bfseries get\+Assignments} ()
-\end{DoxyCompactItemize}
+\index{K\_means@{K\_means}!getAssignments@{getAssignments}}
+\index{getAssignments@{getAssignments}!K\_means@{K\_means}}
+\doxysubsubsection{\texorpdfstring{getAssignments()}{getAssignments()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ double, size\+\_\+t $>$ $>$ K\+\_\+means\+::get\+Assignments (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get Pair of label and value. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Vector} & of label and value \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classK__means_a08d7df9e0c6ffda2784def17ecfd20f6}\label{classK__means_a08d7df9e0c6ffda2784def17ecfd20f6}} 
+\index{K\_means@{K\_means}!getCentroids@{getCentroids}}
+\index{getCentroids@{getCentroids}!K\_means@{K\_means}}
+\doxysubsubsection{\texorpdfstring{getCentroids()}{getCentroids()}}
+{\footnotesize\ttfamily std\+::vector$<$ double $>$ K\+\_\+means\+::get\+Centroids (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get centroids after clustering. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Vector} & of Centroids \\
+\hline
+\end{DoxyRetVals}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

@@ -30,7 +30,7 @@ sudo wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.1.2.tar.gz \
 
 sudo apt install libmlpack-dev 
 ```
-The required BayesOpt C++ library to perform Bayesian optimizaiton needs to be cloned to a convenient location and build. 
+The required BayesOpt C++ library to perform Bayesian optimization needs to be cloned to a convenient location and build. 
 Install required dependencies:
 NLopt - Library
 ```
@@ -63,7 +63,7 @@ make
 ```
 ## Using the package 
 ### 1. Configure Tumor Model Parameters
-Four different shapes are pre-programmed, and shape attributes can be adjusted to test the robustness of the algorithm. Inside /config/tumor_model_parameters.txt, you will find a set of pre-defined parameters for four different shapes including a Triangle, Rectangle, Circles, and a Two Circle configuration. All shapes share a set of common parameters which are:
+Four different shapes are pre-programmed, and shape attributes can be adjusted to test the robustness of the algorithm. Inside /config/tumor_model_parameters.txt, you will find a set of pre-defined parameters for four different shapes including a Triangle, Rectangle, Circle, and a TwoCircles configuration. All shapes share a set of common parameters which are:
 -   Low and high stiffness values
 -   Translation in x and y,
 -   Size defined by radius,
@@ -77,7 +77,7 @@ Once a posterior distribution is found the contour of the tumor is approximated.
 
 More precisely, the algorithm will start exploring centroids by probing a set of pre-defined planar directions. Each direction is explored until the tumor stiffness is changing and a threshold criterion is met. Directions are computed by defining angle segments along which the algorithm explores the centroids. Angle segments are pre-defined by a parameter that divides 360°. Once a set of contour points is found, a spline approximation is performed to compute the contour of the tumor.
 
-The following parametes listed in /config/contour_parameters.txt can be tuned to refine the tumor approximation process. 
+The following parameters listed in /config/contour_parameters.txt can be tuned to refine the tumor approximation process. 
 - n_exploration_directions, defines the number of directions a centroid is explored in
 - c_points, granularity of gaussian process. Will define how many points are used in x and y directions
 -  means_shift_bandwidth, sets the bandwidth for the means shift algorithm https://github.com/mlpack/mlpack/tree/master/src/mlpack/methods/mean_shift

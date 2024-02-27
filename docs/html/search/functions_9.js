@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['setstep_103',['setSTEP',['../classDisplayHeatMap2D.html#a533333e6593ba367e9dc9a76e57a966c',1,'DisplayHeatMap2D']]],
-  ['steprungaussianprocess_104',['stepRunGaussianProcess',['../classContour.html#abfeaf977d76d443e86229dfcd399d120',1,'Contour']]]
+  ['noise_123',['noise',['../classGaussianNoise.html#a7002de58b3e459975c1fff0a6761926e',1,'GaussianNoise']]]
 ];

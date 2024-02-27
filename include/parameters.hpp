@@ -25,6 +25,11 @@
 #define FILE_POSTERIOR "posterior.txt"
 #define FILE_GROUND_TRUTH_HEATMAP "groundTruthHeatMap.csv"
 
+/** 
+ * @brief Tumor model parameters.
+ *This struct holds parameters for triangle, rectangle, circle and two circle tumor models.
+ * A default parameter setting is provided but parameters can be overwritten. 
+ */
 struct TumorModelParameters
 {
     //Triangle Parameters
@@ -35,7 +40,7 @@ struct TumorModelParameters
     double triangle_y_trans=0.5;
     double triangle_epsilon=0.1;
     double triangle_noise = 0.01;
-    //Rectanlge Parameters
+    //Rectangle Parameters
     double rectangle_low=1;
     double rectangle_high=2;
     double rectangle_radius=0.15;
@@ -62,10 +67,31 @@ struct TumorModelParameters
     double two_circles_y_trans_2=0.8;
     double two_circles_epsilon=0.1;
     double two_circles_noise=0.01;
+    /** 
+ * @brief Read model from file and store them into TumorModelParameters object. Is called by loadModelParameters.
+ *
+ *@param[in] fp file parser object that hold information about parameter file.
+ *@param[in] cp TumorModelParameters class object that parameters from file are written into.
+ */
     void loadModel(bayesopt::utils::FileParser &fp, TumorModelParameters &cp);
+
+      /** 
+ * @brief Read model from file and store them into TumorModelParameters object. Calls loadModel routine. 
+ * 
+ *@param[in] filename absolute file path to parameter file.
+ *@param[in] cp TumorModelParameters class object that parameters from file are written into.
+ */
     bool loadModelParameters(std::string filename, TumorModelParameters &cp);
+    /** 
+ * @brief Prints current parameters.
+
+ */
     void printParameters();
 };
+/** 
+ * @brief Contour class parameters.
+ *This struct holds parameters to control the behaviour of centroid computation and counter point search in Contour class.
+ */
 struct ContourParamters{
     size_t n_exploration_directions=10;
     size_t c_points=100;
@@ -74,8 +100,24 @@ struct ContourParamters{
     double threshold_multiplier=3.0;
     double tumor_stiffness_guess_low = 0.1;
     double tumor_stiffness_guess_high = 0.9;
+    /** 
+ * @brief Read contour parameters from file and store them into ContourParameters object. Is called by loadContour.
+ *
+ *@param[in] fp file parser object that hold information about parameter file.
+ *@param[in] cp TumorModelParameters class object that parameters from file are written into.
+ */
     void loadContour(bayesopt::utils::FileParser &fp, ContourParamters &cp);
+     /** 
+ * @brief Read contour parameters from file and store them into ContourParameters object. Calls loadContour routine. 
+ * 
+ *@param[in] filename absolute file path to parameter file.
+ *@param[in] cp ContourParameters class object that parameters from file are written into.
+ */
     bool loadContourParameters(std::string filename, ContourParamters &cp);
+     /** 
+ * @brief Prints current parameters.
+
+ */
     void PrintParameters();
 
 };
