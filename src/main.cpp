@@ -153,7 +153,7 @@ int main(int argc, char* argv[])
 
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
-            shape = std::make_unique<SmoothCircle>(par,model_parameters.circle_low,model_parameters.circle_high,model_parameters.circle_radius,
+            shape = std::make_unique<Circle>(par,model_parameters.circle_low,model_parameters.circle_high,model_parameters.circle_radius,
                                                     model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon,model_parameters.circle_noise); 
            
             break;

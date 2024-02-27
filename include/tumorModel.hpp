@@ -39,20 +39,20 @@ class PolarPolygon{
     PolarPolygon(){};
        /**
  * @brief Constructor for PolarPolygon class. Constructs either polygon for num_vertices greater 2 or circle for num_vertices smaller or equal to 2.
- * @param[in] num_verices Number of vertices. If number <=2, circle will be constructed, number >2 polygon.
+ * @param[in] num_vertices Number of vertices. If number <=2, circle will be constructed, number >2 polygon.
  * @param[in] radius distance from center to vertices or radius of circle.
  * @param[in] x_translation X coordinate of center.
  * @param[in] y_translation Y coordinate of center.
  * @param[in] epsilon TO BE REMOVED
  */
-    PolarPolygon(size_t num_verices, double radius, double x_translation, double y_translation, double epsilon);
+    PolarPolygon(size_t num_vertices, double radius, double x_translation, double y_translation);
       /**
  * @brief Constructor for Gaussian Noise class.
  * @param[in] mean Mean value for Gaussian distribution.
  * @param[in] std Standard deviation of Gaussian distribution.
  * @retval Returns floating point noise.
  */
-    double evaluate(const double & theta, double rad);
+  
        /**
  * @brief Constructor for Gaussian Noise class.
  * @param[in] mean Mean value for Gaussian distribution.
@@ -66,28 +66,8 @@ class PolarPolygon{
  * @param[in] std Standard deviation of Gaussian distribution.
  * @retval Returns floating point noise.
  */
-    double insideCircle(const double &x, const double & y);
-       /**
- * @brief Constructor for Gaussian Noise class.
- * @param[in] mean Mean value for Gaussian distribution.
- * @param[in] std Standard deviation of Gaussian distribution.
- * @retval Returns floating point noise.
- */
-    double outsideCircle(const double &x, const double & y, double epsilon);
-    /**
- * @brief Constructor for Gaussian Noise class.
- * @param[in] mean Mean value for Gaussian distribution.
- * @param[in] std Standard deviation of Gaussian distribution.
- * @retval Returns floating point noise.
- */
-    double insidePolygon(const double &x, const double & y);
-    /**
- * @brief Constructor for Gaussian Noise class.
- * @param[in] mean Mean value for Gaussian distribution.
- * @param[in] std Standard deviation of Gaussian distribution.
- * @retval Returns floating point noise.
- */
-    double outsidePolygon(const double &x, const double & y, double epsilon);
+   double polygonRadius(const double &x, const double & y);
+  
     /**
  * @brief Constructor for Gaussian Noise class.
  
@@ -109,6 +89,7 @@ class PolarPolygon{
     std::vector<std::pair<double,double>> vertices_x_;
     std::vector<std::pair<double,double>> vertices_y_;
     std::vector<double> radians_lookup_;
+   double evaluate_(const double & theta, double rad);
         /**
  * @brief Constructor for Gaussian Noise class.
  
@@ -186,7 +167,7 @@ class Shape : public bayesopt::ContinuousModel{
 class Triangle: public Shape
   {
     GaussianNoise gaussianNoise_;
-    PolarPolygon triangle_;
+    PolarPolygon inner_triangle_, outer_triangle_, groundTruth_triangle_;
   public:
 
     Triangle(bayesopt::Parameters par, double low, double high, double radius, double x_trans, double y_trans, double epsilon,double noise);
@@ -205,7 +186,7 @@ class Triangle: public Shape
 class Rectangle: public Shape
   {
     GaussianNoise gaussianNoise_;
-    PolarPolygon rectangle_;
+    PolarPolygon inner_rectangle_, outer_rectangle_, groundTruth_rectangle_;
   public:
     Rectangle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise);
   
@@ -236,17 +217,19 @@ class TwoCircles: public Shape
     size_t circle_count_;
 
     double r_1_, r_2_, x_t_1_, x_t_2_, y_t_1_, y_t_2_,epsilon_ ;
-    PolarPolygon circle_1_ ,circle_2_;
+    PolarPolygon inner_circle_1_ ,inner_circle_2_;
+    PolarPolygon outer_circle_1_ ,outer_circle_2_;
+    PolarPolygon groundTruth_circle_1_ ,groundTruth_circle_2_;
     GaussianNoise gaussianNoise_;
 };
 /**
  * @brief SmoothCircle child class.
  * 
  */
-class SmoothCircle: public Shape
+class Circle: public Shape
   {
   public:
-    SmoothCircle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise);
+    Circle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise);
 
     double evaluateSample( const vectord& xin);
     virtual std::function<double (const double&)> f_x();
@@ -256,6 +239,6 @@ class SmoothCircle: public Shape
   private:
    
     GaussianNoise gaussianNoise_;
-    PolarPolygon circle_;
+    PolarPolygon inner_circle_, outer_circle_,groundTruth_circle_;
 };
 #endif

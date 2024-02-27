@@ -11,10 +11,10 @@ double GaussianNoise::noise()
   return dist_(generator_);
 }
 
-PolarPolygon::PolarPolygon(size_t num_verices, double radius, double x_translation, double y_translation, double epsilon):
-                num_vertices_(num_verices),radius_(radius), x_trans_(x_translation), y_trans_(y_translation), epsilon_(epsilon)
+PolarPolygon::PolarPolygon(size_t num_vertices, double radius, double x_translation, double y_translation):
+                num_vertices_(num_vertices),radius_(radius), x_trans_(x_translation), y_trans_(y_translation)
 {
-  if(num_verices>2)
+  if(num_vertices>2)
   {
       computeVertices();
       circle_ = false;
@@ -65,45 +65,23 @@ double PolarPolygon::theta_polar_(const double &x,const double &y)
     }
     
 }
-double PolarPolygon::insidePolygon(const double &x, const double & y)
+double PolarPolygon::polygonRadius(const double &x, const double & y)
 {
- double r = r_polar_(x-x_trans_,y-y_trans_);
- double theta = theta_polar_(x-x_trans_,y-y_trans_);
- if(isnan(theta))
- {
-  return 0.0;
- }
+  if(!circle_)
+  {
+    double theta = theta_polar_(x-x_trans_,y-y_trans_);
+    if(isnan(theta))
+    {
+     return 0.0;
+    }
 
- double rad = abs(evaluate(theta,radius_));
- return rad;
-}
-double PolarPolygon::outsidePolygon(const double &x, const double & y, double epsilon)
-{
-double r =  r_polar_(x-x_trans_,y-y_trans_);
- double theta =   theta_polar_(x-x_trans_,y-y_trans_);
- if(isnan(theta))
- {
-  return 0.0;
- }
-
- double rad = abs(evaluate(theta, radius_ + epsilon));
- return rad;
-}
-double PolarPolygon::insideCircle(const double &x, const double & y)
-{
-
- 
- return radius_;
-}
-double PolarPolygon::outsideCircle(const double &x, const double & y, double epsilon)
-{
-
- 
- return radius_ + epsilon;
+    return abs(evaluate_(theta,radius_));
+  }
+  else return radius_;
 }
 
 
-double PolarPolygon::evaluate(const double & theta, double rad)
+double PolarPolygon::evaluate_(const double & theta, double rad)
 {
   int idx = 0;
   //deals with undefined behaviour for theta = 0
@@ -132,11 +110,11 @@ double  PolarPolygon::f_x_(const double& s)
   //make sure to return different values for polygon and circle
   if(circle_)
   {
-    return x_trans_ + polar_x_(s*2*M_PI, radius_+0.5*epsilon_ );
+    return x_trans_ + polar_x_(s*2*M_PI, radius_);
   }
   else
   {
-    return x_trans_ + polar_x_(s*2*M_PI, evaluate(s*2*M_PI, radius_+0.5*epsilon_) );
+    return x_trans_ + polar_x_(s*2*M_PI, evaluate_(s*2*M_PI, radius_) );
   }
  
 }
@@ -144,11 +122,11 @@ double  PolarPolygon::f_y_(const double& s)
 {
   if(circle_)
   {
-    return y_trans_ + polar_y_(s*2*M_PI, radius_+0.5*epsilon_ );
+    return y_trans_ + polar_y_(s*2*M_PI, radius_);
   }
   else
   {
-    return y_trans_ + polar_y_(s*2*M_PI, evaluate(s*2*M_PI, radius_+0.5*epsilon_) );
+    return y_trans_ + polar_y_(s*2*M_PI, evaluate_(s*2*M_PI, radius_) );
   }
 }
 std::function<double(const double&)> PolarPolygon::fParametric_x()
@@ -193,16 +171,18 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
       x_trans_= x_trans;
       y_trans_ = y_trans;
       epsilon_ = epsilon;
-      triangle_ = PolarPolygon(3,radius_,x_trans_,y_trans_,epsilon);
+      inner_triangle_ = PolarPolygon(3,radius_,x_trans_,y_trans_);
+      outer_triangle_ = PolarPolygon(3,radius_+epsilon,x_trans_,y_trans_);
+      groundTruth_triangle_ = PolarPolygon(3,radius_+epsilon*0.5,x_trans_,y_trans_);
    }
 
   std::function<double (const double&)> Triangle::f_x()
   {
-    return triangle_.fParametric_x();
+    return groundTruth_triangle_.fParametric_x();
   }
   std::function<double (const double&)> Triangle::f_y()
   {
-    return triangle_.fParametric_y();
+    return groundTruth_triangle_.fParametric_y();
   }
 
   double Triangle::evaluateSample( const vectord& xin)
@@ -217,8 +197,8 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
       double y = xin(1);
       double r = sqrt((x - x_trans_)*(x - x_trans_) + (y - y_trans_)*(y - y_trans_));
 
-      double radius_inner = triangle_.insidePolygon(x,y);
-      double radius_outer = triangle_.outsidePolygon(x,y, epsilon_);
+      double radius_inner = inner_triangle_.polygonRadius(x,y);
+      double radius_outer = outer_triangle_.polygonRadius(x,y);
 
       if(r < radius_inner){
         return -high_stiffness_+ gaussianNoise_.noise();
@@ -275,7 +255,9 @@ void Triangle::saveGroundTruth(const size_t c_points, std::string file_path)
       x_trans_= x_trans;
       y_trans_ = y_trans;
       epsilon_ = epsilon;
-      rectangle_ = PolarPolygon(4,radius_,x_trans_,y_trans_,epsilon);
+      inner_rectangle_ = PolarPolygon(4,radius_,x_trans_,y_trans_);
+      outer_rectangle_ = PolarPolygon(4,radius_+epsilon,x_trans_,y_trans_);
+      groundTruth_rectangle_ =PolarPolygon(4,radius_+epsilon*0.5,x_trans_,y_trans_);
 
    }
 
@@ -294,8 +276,8 @@ void Triangle::saveGroundTruth(const size_t c_points, std::string file_path)
     
     double r = sqrt((x - x_trans_)*(x - x_trans_) + (y - y_trans_)*(y - y_trans_));
 
-    double radius_inner = rectangle_.insidePolygon(x,y);
-    double radius_outer = rectangle_.outsidePolygon(x,y, epsilon_);
+    double radius_inner = inner_rectangle_.polygonRadius(x,y);
+    double radius_outer = outer_rectangle_.polygonRadius(x,y);
     if(r < radius_inner)
     {
       return -high_stiffness_ + gaussianNoise_.noise();
@@ -314,11 +296,11 @@ void Triangle::saveGroundTruth(const size_t c_points, std::string file_path)
   }
  std::function<double (const double&)> Rectangle::f_x()
   {
-    return rectangle_.fParametric_x();
+    return groundTruth_rectangle_.fParametric_x();
   }
   std::function<double (const double&)> Rectangle::f_y()
   {
-    return rectangle_.fParametric_y();
+    return groundTruth_rectangle_.fParametric_y();
   }
 
 
@@ -359,7 +341,9 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
                         Shape(par), circle_count_(1),
                        gaussianNoise_(0.0,noise), 
                       r_1_(r_1), r_2_(r_2), x_t_1_(x_t_1), x_t_2_(x_t_2), y_t_1_(y_t_1), y_t_2_(y_t_2),epsilon_(epsilon),
-                      circle_1_(PolarPolygon(1, r_1_,x_t_1_,y_t_1_,epsilon_)),circle_2_(PolarPolygon(1, r_2_,x_t_2_,y_t_2_, epsilon_)) 
+                      inner_circle_1_(PolarPolygon(1, r_1_,x_t_1_,y_t_1_)),inner_circle_2_(PolarPolygon(1, r_2_,x_t_2_,y_t_2_)),
+                      outer_circle_1_(PolarPolygon(1, r_1_+epsilon,x_t_1_,y_t_1_)),outer_circle_2_(PolarPolygon(1, r_2_+epsilon,x_t_2_,y_t_2_)),
+                      groundTruth_circle_1_(PolarPolygon(1, r_1_+0.5*epsilon,x_t_1_,y_t_1_)),groundTruth_circle_2_(PolarPolygon(1, r_2_+0.5*epsilon,x_t_2_,y_t_2_))
                       {
 
                           low_stiffness_ = low_stiffness;
@@ -381,10 +365,11 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
     double r1 = sqrt((x - x_t_1_)*(x - x_t_1_) + (y - y_t_1_)*(y - y_t_1_));
     double r2 = sqrt((x - x_t_2_)*(x - x_t_2_) + (y - y_t_2_)*(y - y_t_2_));
 
-    double radius_inner_1 = circle_1_.insideCircle(x,y);
-    double radius_outer_1 = circle_1_.outsideCircle(x,y, epsilon_);
-    double radius_inner_2 = circle_2_.insideCircle(x,y);
-    double radius_outer_2 = circle_2_.outsideCircle(x,y, epsilon_);
+    double radius_inner_1 = inner_circle_1_.polygonRadius(x,y);
+    double radius_outer_1 = outer_circle_1_.polygonRadius(x,y);
+
+    double radius_inner_2 = inner_circle_2_.polygonRadius(x,y);
+    double radius_outer_2 = outer_circle_2_.polygonRadius(x,y);
 
     if(r1 < r2)
     {
@@ -427,13 +412,13 @@ std::function<double (const double&)> TwoCircles::f_x()
     if(circle_count_ == 1)
     {
       circle_count_++;
-      return circle_1_.fParametric_x();
+      return groundTruth_circle_1_.fParametric_x();
       
 
     } 
     if(circle_count_ == 2)
     {
-      return circle_2_.fParametric_x();
+      return groundTruth_circle_2_.fParametric_x();
     } 
     else nullptr;
   }
@@ -442,12 +427,12 @@ std::function<double (const double&)> TwoCircles::f_y()
     if(circle_count_ == 1)
     {
       
-      return circle_1_.fParametric_y();
+      return groundTruth_circle_1_.fParametric_y();
       
     } 
     if(circle_count_ == 2)
     {
-      return circle_2_.fParametric_y();
+      return groundTruth_circle_2_.fParametric_y();
     } 
     else nullptr;
   }
@@ -483,7 +468,7 @@ void TwoCircles::saveGroundTruth(const size_t c_points, std::string file_path)
       saveFileToCSV(file_path,cZ );
 }     
 
-SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon,double noise):
+Circle::Circle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon,double noise):
     Shape(par),
     gaussianNoise_(0.0,noise)
     {
@@ -493,12 +478,14 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, doub
       x_trans_= x_trans;
       y_trans_ = y_trans;
       epsilon_ = epsilon;
-      circle_ = PolarPolygon(1,radius_,x_trans_,y_trans_,epsilon);
+      
+      groundTruth_circle_ = PolarPolygon(1,radius_+epsilon,x_trans_,y_trans_);
+
 
     }
 
   
-  double SmoothCircle::evaluateSample( const vectord& xin)
+  double Circle::evaluateSample( const vectord& xin)
   {
     if (xin.size() != 2)
     {
@@ -509,22 +496,7 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, doub
     double y = xin(1);
    
     double r = sqrt((x - x_trans_)*(x - x_trans_) + (y - y_trans_)*(y - y_trans_));
-    /*
-    if (r <= radius_) 
-    {
-      return low_stiffness_ + gaussianNoise_.noise();
-
-    } 
-    else if (r >= radius_ + epsilon_) 
-    {
-      return high_stiffness_ + gaussianNoise_.noise();
-    } 
-    else 
-    {
-      // smoothstep to interpolate between 1 and 0 for the edge of the circle
-      return smoothstep(radius_, radius_ + epsilon_, r, low_stiffness_, high_stiffness_)+ gaussianNoise_.noise();
-    }
-    */
+    
     if (r <= radius_) 
     {
       return -(high_stiffness_ + gaussianNoise_.noise());
@@ -541,18 +513,18 @@ SmoothCircle::SmoothCircle(bayesopt::Parameters par,double low,double high, doub
     }
     
   }
-std::function<double (const double&)> SmoothCircle::f_x()
+std::function<double (const double&)> Circle::f_x()
   {
-    return circle_.fParametric_x();
+    return groundTruth_circle_.fParametric_x();
   }
-  std::function<double (const double&)> SmoothCircle::f_y()
+  std::function<double (const double&)> Circle::f_y()
   {
-    return circle_.fParametric_y();
+    return groundTruth_circle_.fParametric_y();
   }
-  bool SmoothCircle::checkReachability(const vectord &query)
+  bool Circle::checkReachability(const vectord &query)
   {return true;};
 
-void SmoothCircle::saveGroundTruth(const size_t c_points, std::string file_path)
+void Circle::saveGroundTruth(const size_t c_points, std::string file_path)
 {
       std::vector<double> cX=linSpace(0,1,c_points);
       std::vector<double> cY=linSpace(0,1,c_points);
