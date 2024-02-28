@@ -29,7 +29,7 @@ def read_contour_data(file_path):
     return contours
 def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroidsPath, metricsPath):
     # Read the CSV file
-    datagt = pd.read_csv(gorundTruthPath)
+    
     contourPointsPath1= contourPointsPath +"1.csv"
     contourPointsPath2= contourPointsPath +"2.csv"
     contourPath1 = contourPath+"1.csv"
@@ -38,13 +38,16 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
     data1 = pd.read_csv(contourPath1)
     centroids = pd.read_csv(centroidsPath, header=None)
     # get metrics
-
+    datagt = None
+    contour_data = None
      # Check if metricsPath exists
     if os.path.exists(metricsPath):
         contour_data = read_contour_data(metricsPath)
+        datagt = pd.read_csv(gorundTruthPath)
     else:
         # Set default values or handle the absence of the file
         contour_data = [{} for _ in range(len(centroids))]  # Assuming we want one empty dict for each centroid
+        datagt = {'X': [], 'Y': []}
 
     # Assuming the columns in the CSV are named 'X' and 'Y'
     cx1, cy1 = centroids.iloc[0]  
@@ -70,9 +73,24 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
     
 
     # Plot the points
-    ax.plot(points_x_1,points_y_1, "bo", label="Contour points")
-    ax.plot(gt_points_x_1, gt_points_y_1,"g-",  label="Ground truth")
+    ax.plot(points_x_1,points_y_1, "bo", label="Contour Points")
+    ax.plot(gt_points_x_1, gt_points_y_1,"g-",  label="Ground Truth")
     ax.scatter(cx1, cy1,  label="Centroid")
+
+    # Plot lines connecting each point in contour_points_1 to the centroid
+    for x, y in zip(contour_points_1['X'], contour_points_1['Y']):
+        ax.plot([cx1, x], [cy1, y], 'k--', linewidth=0.5)  # 'k-' sets the color to black
+
+    # Check if you have another set of points and centroid to plot
+    if len(centroids) > 1:
+        # Similar code for the second set of contour points and centroid
+        cx2, cy2 = centroids.iloc[1]
+        contour_points_2 = pd.read_csv(contourPointsPath2)
+        for x, y in zip(contour_points_2['X'], contour_points_2['Y']):
+            ax.plot([cx2, x], [cy2, y], 'k--', linewidth=0.5)  # 'k-' sets the color to black
+
+        
+
     if(len(x1) == 2000):
         cx2, cy2 = centroids.iloc[1]  
         contour_points_2 = pd.read_csv(contourPointsPath2)
@@ -179,7 +197,7 @@ def main():
     contourPointsPath = data_dir+"contour_points_"
     contourPath=data_dir+"contour_"
     scatterPath = data_dir+"scattered_data.csv"
-    heatmapPath = data_dir+"normalized_data.csv"
+    heatmapPath = data_dir+"posterior.txt"
     groundTruthHeatMapPath = data_dir +"groundTruthHeatMap.csv"
     centroidPath = data_dir + "ms_centroids.csv"
     metricsPath = result_dir+"metrics.txt"

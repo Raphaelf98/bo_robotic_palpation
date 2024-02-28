@@ -2,7 +2,7 @@
 \label{classTwoCircles}\index{TwoCircles@{TwoCircles}}
 
 
-\mbox{\hyperlink{classTriangle}{Triangle}} child class.  
+\mbox{\hyperlink{classTwoCircles}{Two\+Circles}} child class.  
 
 
 
@@ -30,33 +30,175 @@ Collaboration diagram for Two\+Circles\+:\nopagebreak
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}\label{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}} 
-{\bfseries Two\+Circles} (bayesopt\+::\+Parameters par, double low\+\_\+stiffness, double high\+\_\+stiffness, double r\+\_\+1, double r\+\_\+2, double x\+\_\+t\+\_\+1, double x\+\_\+t\+\_\+2, double y\+\_\+t\+\_\+1, double y\+\_\+t\+\_\+2, double epsilon, double noise)
-\item 
-\mbox{\Hypertarget{classTwoCircles_ae6ae546dec3a145488046d395c197834}\label{classTwoCircles_ae6ae546dec3a145488046d395c197834}} 
-double {\bfseries evaluate\+Sample} (const vectord \&xin)
-\item 
-\mbox{\Hypertarget{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}\label{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}} 
-virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+x} ()
-\item 
-\mbox{\Hypertarget{classTwoCircles_a41fa5f55a125e61db335e05067379175}\label{classTwoCircles_a41fa5f55a125e61db335e05067379175}} 
-virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+y} ()
-\item 
-\mbox{\Hypertarget{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}\label{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}} 
-virtual void {\bfseries save\+Ground\+Truth} (const size\+\_\+t c\+\_\+points, std\+::string file\+\_\+path)
-\item 
-\mbox{\Hypertarget{classTwoCircles_aa69f345331b34d3398b546af41e808ba}\label{classTwoCircles_aa69f345331b34d3398b546af41e808ba}} 
-bool {\bfseries check\+Reachability} (const vectord \&query)
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}{Two\+Circles}} (bayesopt\+::\+Parameters par, double low\+\_\+stiffness, double high\+\_\+stiffness, double r\+\_\+1, double r\+\_\+2, double x\+\_\+t\+\_\+1, double x\+\_\+t\+\_\+2, double y\+\_\+t\+\_\+1, double y\+\_\+t\+\_\+2, double epsilon, double noise)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classTwoCircles_ae6ae546dec3a145488046d395c197834}{evaluate\+Sample}} (const vectord \&xin)
+\begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayes opt to query tumor model. \end{DoxyCompactList}\item 
+virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}{f\+\_\+x}} ()
+\begin{DoxyCompactList}\small\item\em Returns parametric function of tumor model in x as function pointer. \end{DoxyCompactList}\item 
+virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classTwoCircles_a41fa5f55a125e61db335e05067379175}{f\+\_\+y}} ()
+\begin{DoxyCompactList}\small\item\em Returns parametric function of tumor model in y as function pointer. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}{save\+Ground\+Truth}} (const size\+\_\+t c\+\_\+points, std\+::string file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Saves ground truth to file with resolution of c\+\_\+points. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classTwoCircles_aa69f345331b34d3398b546af41e808ba}{check\+Reachability}} (const vectord \&query)
+\begin{DoxyCompactList}\small\item\em Checks reachability of query. Virtual function that is implemented by derived class. Note\+: function is not implemented in child classes but might be of value for implementation with hardware. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
 
 \doxysubsection{Detailed Description}
-\mbox{\hyperlink{classTriangle}{Triangle}} child class. 
+\mbox{\hyperlink{classTwoCircles}{Two\+Circles}} child class. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}\label{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}} 
+\index{TwoCircles@{TwoCircles}!TwoCircles@{TwoCircles}}
+\index{TwoCircles@{TwoCircles}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{TwoCircles()}{TwoCircles()}}
+{\footnotesize\ttfamily Two\+Circles\+::\+Two\+Circles (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{double}]{low\+\_\+stiffness,  }\item[{double}]{high\+\_\+stiffness,  }\item[{double}]{r\+\_\+1,  }\item[{double}]{r\+\_\+2,  }\item[{double}]{x\+\_\+t\+\_\+1,  }\item[{double}]{x\+\_\+t\+\_\+2,  }\item[{double}]{y\+\_\+t\+\_\+1,  }\item[{double}]{y\+\_\+t\+\_\+2,  }\item[{double}]{epsilon,  }\item[{double}]{noise }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Parameters needed to run bayesian optimization. \\
+\hline
+\mbox{\texttt{ in}}  & {\em low} & Low stiffness value in Model \\
+\hline
+\mbox{\texttt{ in}}  & {\em high} & High stiffness value in Model \\
+\hline
+\mbox{\texttt{ in}}  & {\em r\+\_\+1} & Size of first circle. \\
+\hline
+\mbox{\texttt{ in}}  & {\em r\+\_\+2} & Size of second circle. \\
+\hline
+\mbox{\texttt{ in}}  & {\em x\+\_\+t\+\_\+1} & X coordinate of center of first circle \mbox{[}0,1\mbox{]} \\
+\hline
+\mbox{\texttt{ in}}  & {\em x\+\_\+t\+\_\+2} & X coordinate of center of second circle \mbox{[}0,1\mbox{]} \\
+\hline
+\mbox{\texttt{ in}}  & {\em y\+\_\+t\+\_\+1} & Y coordinate of center of first circle \mbox{[}0,1\mbox{]} \\
+\hline
+\mbox{\texttt{ in}}  & {\em y\+\_\+t\+\_\+2} & Y coordinate of center of second circle \mbox{[}0,1\mbox{]} \\
+\hline
+\mbox{\texttt{ in}}  & {\em epsilon} & Defines smoothness transition from low to high stiffness values for both circles. \\
+\hline
+\mbox{\texttt{ in}}  & {\em noise} & Standard deviation of Gaussian noise \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classTwoCircles_aa69f345331b34d3398b546af41e808ba}\label{classTwoCircles_aa69f345331b34d3398b546af41e808ba}} 
+\index{TwoCircles@{TwoCircles}!checkReachability@{checkReachability}}
+\index{checkReachability@{checkReachability}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{checkReachability()}{checkReachability()}}
+{\footnotesize\ttfamily bool Two\+Circles\+::check\+Reachability (\begin{DoxyParamCaption}\item[{const vectord \&}]{query }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Checks reachability of query. Virtual function that is implemented by derived class. Note\+: function is not implemented in child classes but might be of value for implementation with hardware. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em query} & Vector with x and y coordinates. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em True} & if query is reachable. \\
+\hline
+\end{DoxyRetVals}
+
+
+Reimplemented from \mbox{\hyperlink{classShape_aa89d648d778d2279cadfc8a3bcee7221}{Shape}}.
+
+\mbox{\Hypertarget{classTwoCircles_ae6ae546dec3a145488046d395c197834}\label{classTwoCircles_ae6ae546dec3a145488046d395c197834}} 
+\index{TwoCircles@{TwoCircles}!evaluateSample@{evaluateSample}}
+\index{evaluateSample@{evaluateSample}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{evaluateSample()}{evaluateSample()}}
+{\footnotesize\ttfamily double Two\+Circles\+::evaluate\+Sample (\begin{DoxyParamCaption}\item[{const vectord \&}]{xin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Function called by bayesian optimization in bayes opt to query tumor model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em xin} & Takes bayesopt parameters \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em stiffness} & value/cost of global function that is optimized. \\
+\hline
+\end{DoxyRetVals}
+
+
+Reimplemented from \mbox{\hyperlink{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}{Shape}}.
+
+\mbox{\Hypertarget{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}\label{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}} 
+\index{TwoCircles@{TwoCircles}!f\_x@{f\_x}}
+\index{f\_x@{f\_x}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{f\_x()}{f\_x()}}
+{\footnotesize\ttfamily std\+::function$<$ double(const double \&)$>$ Two\+Circles\+::f\+\_\+x (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Returns parametric function of tumor model in x as function pointer. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Function} & pointer of parametric function in x. \\
+\hline
+\end{DoxyRetVals}
+
+
+Implements \mbox{\hyperlink{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}{Shape}}.
+
+\mbox{\Hypertarget{classTwoCircles_a41fa5f55a125e61db335e05067379175}\label{classTwoCircles_a41fa5f55a125e61db335e05067379175}} 
+\index{TwoCircles@{TwoCircles}!f\_y@{f\_y}}
+\index{f\_y@{f\_y}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{f\_y()}{f\_y()}}
+{\footnotesize\ttfamily std\+::function$<$ double(const double \&)$>$ Two\+Circles\+::f\+\_\+y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Returns parametric function of tumor model in y as function pointer. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Function} & pointer of parametric function in y. \\
+\hline
+\end{DoxyRetVals}
+
+
+Implements \mbox{\hyperlink{classShape_a095479eedc56524c5e9555785aa47ca7}{Shape}}.
+
+\mbox{\Hypertarget{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}\label{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}} 
+\index{TwoCircles@{TwoCircles}!saveGroundTruth@{saveGroundTruth}}
+\index{saveGroundTruth@{saveGroundTruth}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{saveGroundTruth()}{saveGroundTruth()}}
+{\footnotesize\ttfamily void Two\+Circles\+::save\+Ground\+Truth (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{c\+\_\+points,  }\item[{std\+::string}]{file\+\_\+path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Saves ground truth to file with resolution of c\+\_\+points. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em c\+\_\+points} & Takes bayesopt parameters \\
+\hline
+\mbox{\texttt{ in}}  & {\em file\+\_\+path} & absolute path to file. Filename is generated in method. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \mbox{\hyperlink{classShape_ae382aa8684736b35f87a7b6ec3af2a43}{Shape}}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/raphael/robolab/displaygp/include/tumor\+Model.\+hpp\item 
-/home/raphael/robolab/displaygp/src/tumor\+Model.\+cpp\end{DoxyCompactItemize}
+/home/raphael/robolab/displaygp/include/\mbox{\hyperlink{tumorModel_8hpp}{tumor\+Model.\+hpp}}\item 
+/home/raphael/robolab/displaygp/src/\mbox{\hyperlink{tumorModel_8cpp}{tumor\+Model.\+cpp}}\end{DoxyCompactItemize}

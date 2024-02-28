@@ -1,7 +1,10 @@
 #include "parameters.hpp"
 
 
-
+/**
+ * @file
+ * 
+ */
 
 void TumorModelParameters::loadModel(bayesopt::utils::FileParser &fp, TumorModelParameters &cp)
 {
@@ -66,7 +69,7 @@ void TumorModelParameters::loadModel(bayesopt::utils::FileParser &fp, TumorModel
               << ", Y Trans 1: " << two_circles_y_trans_1 << ", Y Trans 2: " << two_circles_y_trans_2
               << ", Epsilon: " << two_circles_epsilon << ", Noise: " << two_circles_noise << std::endl;
 }
-void ContourParamters::loadContour(bayesopt::utils::FileParser &fp, ContourParamters &cp)
+void ContourParameters::loadContour(bayesopt::utils::FileParser &fp, ContourParameters &cp)
 {
     fp.readOrWrite("n_exploration_directions", cp.n_exploration_directions);
     fp.readOrWrite("c_points", cp.c_points);
@@ -91,7 +94,7 @@ bool TumorModelParameters::loadModelParameters(std::string filename, TumorModelP
 
 }
 
-bool ContourParamters::loadContourParameters(std::string filename, ContourParamters &cp)
+bool ContourParameters::loadContourParameters(std::string filename, ContourParameters &cp)
 {
     bayesopt::utils::FileParser fp(filename);
     if(!fp.fileExists())
@@ -103,7 +106,7 @@ bool ContourParamters::loadContourParameters(std::string filename, ContourParamt
     loadContour(fp,cp);
     return true;
 }
-  void ContourParamters::PrintParameters() {
+  void ContourParameters::PrintParameters() {
         std::cout << "Contour Parameters:" << std::endl;
         std::cout << "Number of exploration directions: " << n_exploration_directions << std::endl;
         std::cout << "Number of contour points (c_points): " << c_points << std::endl;

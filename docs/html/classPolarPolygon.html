@@ -76,39 +76,174 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abf59f5585e20063f5b83526d7678515d"><td class="memItemLeft" align="right" valign="top"><a id="abf59f5585e20063f5b83526d7678515d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PolarPolygon</b> (size_t num_verices, double radius, double x_translation, double y_translation, double epsilon)</td></tr>
-<tr class="separator:abf59f5585e20063f5b83526d7678515d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3db4234c3c28d91c2912e8ba4c7061f"><td class="memItemLeft" align="right" valign="top"><a id="ae3db4234c3c28d91c2912e8ba4c7061f"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>evaluate</b> (const double &amp;theta, double rad)</td></tr>
-<tr class="separator:ae3db4234c3c28d91c2912e8ba4c7061f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12a885f8658d14956d581cbbc6b359b8"><td class="memItemLeft" align="right" valign="top"><a id="a12a885f8658d14956d581cbbc6b359b8"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>evaluateCircle</b> (const double &amp;theta, double rad)</td></tr>
-<tr class="separator:a12a885f8658d14956d581cbbc6b359b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a108ea05d513c17f536fa971cfb529235"><td class="memItemLeft" align="right" valign="top"><a id="a108ea05d513c17f536fa971cfb529235"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>insideCircle</b> (const double &amp;x, const double &amp;y)</td></tr>
-<tr class="separator:a108ea05d513c17f536fa971cfb529235"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa4bb13b75b6fe41a76bcd7fcf4d645e"><td class="memItemLeft" align="right" valign="top"><a id="afa4bb13b75b6fe41a76bcd7fcf4d645e"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>outsideCircle</b> (const double &amp;x, const double &amp;y, double epsilon)</td></tr>
-<tr class="separator:afa4bb13b75b6fe41a76bcd7fcf4d645e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99feb3f49fe57d2c113036e02e3162c8"><td class="memItemLeft" align="right" valign="top"><a id="a99feb3f49fe57d2c113036e02e3162c8"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>insidePolygon</b> (const double &amp;x, const double &amp;y)</td></tr>
-<tr class="separator:a99feb3f49fe57d2c113036e02e3162c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79742790b40a31ffb1c25e8a6a9f672e"><td class="memItemLeft" align="right" valign="top"><a id="a79742790b40a31ffb1c25e8a6a9f672e"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>outsidePolygon</b> (const double &amp;x, const double &amp;y, double epsilon)</td></tr>
-<tr class="separator:a79742790b40a31ffb1c25e8a6a9f672e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1eee164a377c0b805bdcb63b09961aaa"><td class="memItemLeft" align="right" valign="top"><a id="a1eee164a377c0b805bdcb63b09961aaa"></a>
-std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>fParametric_x</b> ()</td></tr>
+<tr class="memitem:acbf9baabbe1fe646b64287e71e543e07"><td class="memItemLeft" align="right" valign="top"><a id="acbf9baabbe1fe646b64287e71e543e07"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarPolygon.html#acbf9baabbe1fe646b64287e71e543e07">PolarPolygon</a> ()</td></tr>
+<tr class="memdesc:acbf9baabbe1fe646b64287e71e543e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. <br /></td></tr>
+<tr class="separator:acbf9baabbe1fe646b64287e71e543e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe67264a20befa55b7e05f56b8d9a88b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarPolygon.html#afe67264a20befa55b7e05f56b8d9a88b">PolarPolygon</a> (size_t num_vertices, double radius, double x_translation, double y_translation)</td></tr>
+<tr class="memdesc:afe67264a20befa55b7e05f56b8d9a88b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> class. Constructs either polygon for num_vertices greater 2 or circle for num_vertices smaller or equal to 2.  <a href="classPolarPolygon.html#afe67264a20befa55b7e05f56b8d9a88b">More...</a><br /></td></tr>
+<tr class="separator:afe67264a20befa55b7e05f56b8d9a88b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17bc124fe6320f8dabfae94cd039f2f9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarPolygon.html#a17bc124fe6320f8dabfae94cd039f2f9">polygonRadius</a> (const double &amp;x, const double &amp;y)</td></tr>
+<tr class="memdesc:a17bc124fe6320f8dabfae94cd039f2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for check whether point lies inside polygon or not. Takes a set of coordinates x and y and computes polar angle from it. Angle is used to query radius of polygon outline.  <a href="classPolarPolygon.html#a17bc124fe6320f8dabfae94cd039f2f9">More...</a><br /></td></tr>
+<tr class="separator:a17bc124fe6320f8dabfae94cd039f2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eee164a377c0b805bdcb63b09961aaa"><td class="memItemLeft" align="right" valign="top">std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarPolygon.html#a1eee164a377c0b805bdcb63b09961aaa">fParametric_x</a> ()</td></tr>
+<tr class="memdesc:a1eee164a377c0b805bdcb63b09961aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns function pointer to parametric representation of polygon in x.Values range from 0 to 1.  <a href="classPolarPolygon.html#a1eee164a377c0b805bdcb63b09961aaa">More...</a><br /></td></tr>
 <tr class="separator:a1eee164a377c0b805bdcb63b09961aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5ae3688aa4699b83505618afd500eb8"><td class="memItemLeft" align="right" valign="top"><a id="aa5ae3688aa4699b83505618afd500eb8"></a>
-std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>fParametric_y</b> ()</td></tr>
+<tr class="memitem:aa5ae3688aa4699b83505618afd500eb8"><td class="memItemLeft" align="right" valign="top">std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolarPolygon.html#aa5ae3688aa4699b83505618afd500eb8">fParametric_y</a> ()</td></tr>
+<tr class="memdesc:aa5ae3688aa4699b83505618afd500eb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns function pointer to parametric representation of polygon in y.Values range from 0 to 1.  <a href="classPolarPolygon.html#aa5ae3688aa4699b83505618afd500eb8">More...</a><br /></td></tr>
 <tr class="separator:aa5ae3688aa4699b83505618afd500eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> class. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="afe67264a20befa55b7e05f56b8d9a88b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe67264a20befa55b7e05f56b8d9a88b">&#9670;&nbsp;</a></span>PolarPolygon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PolarPolygon::PolarPolygon </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>num_vertices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x_translation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y_translation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor of <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> class. Constructs either polygon for num_vertices greater 2 or circle for num_vertices smaller or equal to 2. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">num_vertices</td><td>Number of vertices. If number &lt;=2, circle will be constructed, number &gt;2 polygon. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">radius</td><td>distance from center to vertices or radius of circle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x_translation</td><td>X coordinate of center. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y_translation</td><td>Y coordinate of center. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1eee164a377c0b805bdcb63b09961aaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1eee164a377c0b805bdcb63b09961aaa">&#9670;&nbsp;</a></span>fParametric_x()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; double(const double &amp;)&gt; PolarPolygon::fParametric_x </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns function pointer to parametric representation of polygon in x.Values range from 0 to 1. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Function</td><td>pointer of parametric polygon in x. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa5ae3688aa4699b83505618afd500eb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5ae3688aa4699b83505618afd500eb8">&#9670;&nbsp;</a></span>fParametric_y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; double(const double &amp;)&gt; PolarPolygon::fParametric_y </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns function pointer to parametric representation of polygon in y.Values range from 0 to 1. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Function</td><td>pointer of parametric polygon in y. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a17bc124fe6320f8dabfae94cd039f2f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17bc124fe6320f8dabfae94cd039f2f9">&#9670;&nbsp;</a></span>polygonRadius()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double PolarPolygon::polygonRadius </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Used for check whether point lies inside polygon or not. Takes a set of coordinates x and y and computes polar angle from it. Angle is used to query radius of polygon outline. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>X coordinate in global reference frame </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>Y coordinate in global reference frame </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Returns</td><td>radius(theta) of polygon for given points in cartesian coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="tumorModel_8hpp_source.html">tumorModel.hpp</a></li>
-<li>/home/raphael/robolab/displaygp/src/tumorModel.cpp</li>
+<li>/home/raphael/robolab/displaygp/src/<a class="el" href="tumorModel_8cpp.html">tumorModel.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

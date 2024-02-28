@@ -5,6 +5,10 @@
 #include"display2dgp.hpp"
 #include "dataset.hpp"
 #include "prob_distribution.hpp"
+/**
+ * @file
+ * 
+ */
  //Constructor
 DisplayHeatMap2D::DisplayHeatMap2D(): 
   MatPlot(), cx(1), cy(1), 
@@ -69,6 +73,8 @@ void DisplayHeatMap2D::init(Contour *contour, size_t dim)
   z_ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
   c_ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
   std_ = std::vector<std::vector<double>>(c_points, std::vector<double>(c_points));
+  lx = std::vector<double>(contour->getTotalNumberOfSamples());
+  ly = std::vector<double>(contour->getTotalNumberOfSamples());
   if (dim != 2) 
   { 
     throw std::invalid_argument("This display only works "
@@ -115,7 +121,7 @@ void DisplayHeatMap2D::updateData()
 {
       
     //1. get new Sample 
-    if ((status != STOP) && (state_ii < contour_->number_of_step_runs))
+    if ((status != STOP) && (state_ii < contour_->getNumberOfRuns()))
 	  {
 	      // We are moving. Next iteration
         ++state_ii;
@@ -136,7 +142,7 @@ void DisplayHeatMap2D::updateData()
     Read posterior, criterion and standard deviation for each iteration. 
     Readjust high and low values for each aspect to adapt colorbar in heatmap later.
     */
-    if(state_ii <= contour_->number_of_step_runs)
+    if(state_ii <= contour_->getNumberOfRuns())
     {
         std::vector<double> x,y;
         int n=c_points;
@@ -159,7 +165,7 @@ void DisplayHeatMap2D::updateData()
             q(1) = y[i]; q(0) = x[j];
             bayesopt::ProbabilityDistribution* pd = contour_->getPredictionGaussianProcess(q);
             c_[i][j] = -contour_->evaluateCriteriaGaussianProcess(q);     //Criteria value
-            z_[i][j] = pd->getMean(); //Expected value
+            z_[i][j] = pd->getMean(); //Posterior 
             std_[i][j] = pd->getStd();
             setHighLow(PLow,PHigh,z_[i][j]);
             setHighLow(StdLow,StdHigh,std_[i][j]);
@@ -233,7 +239,7 @@ void DisplayHeatMap2D::updateData()
     /*
     Write posterior to file after number of iterations is reached
     */
-    if ((status != STOP) && (state_ii == contour_->number_of_step_runs))
+    if ((status != STOP) && (state_ii == contour_->getNumberOfRuns()))
     {
       std::cout<<"write file"<<std::endl;
       std::string results_path = RESULTS_PATH;

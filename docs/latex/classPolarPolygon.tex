@@ -12,33 +12,17 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classPolarPolygon_abf59f5585e20063f5b83526d7678515d}\label{classPolarPolygon_abf59f5585e20063f5b83526d7678515d}} 
-{\bfseries Polar\+Polygon} (size\+\_\+t num\+\_\+verices, double radius, double x\+\_\+translation, double y\+\_\+translation, double epsilon)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_ae3db4234c3c28d91c2912e8ba4c7061f}\label{classPolarPolygon_ae3db4234c3c28d91c2912e8ba4c7061f}} 
-double {\bfseries evaluate} (const double \&theta, double rad)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_a12a885f8658d14956d581cbbc6b359b8}\label{classPolarPolygon_a12a885f8658d14956d581cbbc6b359b8}} 
-double {\bfseries evaluate\+Circle} (const double \&theta, double rad)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_a108ea05d513c17f536fa971cfb529235}\label{classPolarPolygon_a108ea05d513c17f536fa971cfb529235}} 
-double {\bfseries inside\+Circle} (const double \&x, const double \&y)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_afa4bb13b75b6fe41a76bcd7fcf4d645e}\label{classPolarPolygon_afa4bb13b75b6fe41a76bcd7fcf4d645e}} 
-double {\bfseries outside\+Circle} (const double \&x, const double \&y, double epsilon)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_a99feb3f49fe57d2c113036e02e3162c8}\label{classPolarPolygon_a99feb3f49fe57d2c113036e02e3162c8}} 
-double {\bfseries inside\+Polygon} (const double \&x, const double \&y)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_a79742790b40a31ffb1c25e8a6a9f672e}\label{classPolarPolygon_a79742790b40a31ffb1c25e8a6a9f672e}} 
-double {\bfseries outside\+Polygon} (const double \&x, const double \&y, double epsilon)
-\item 
-\mbox{\Hypertarget{classPolarPolygon_a1eee164a377c0b805bdcb63b09961aaa}\label{classPolarPolygon_a1eee164a377c0b805bdcb63b09961aaa}} 
-std\+::function$<$ double(const double \&)$>$ {\bfseries f\+Parametric\+\_\+x} ()
-\item 
-\mbox{\Hypertarget{classPolarPolygon_aa5ae3688aa4699b83505618afd500eb8}\label{classPolarPolygon_aa5ae3688aa4699b83505618afd500eb8}} 
-std\+::function$<$ double(const double \&)$>$ {\bfseries f\+Parametric\+\_\+y} ()
-\end{DoxyCompactItemize}
+\mbox{\Hypertarget{classPolarPolygon_acbf9baabbe1fe646b64287e71e543e07}\label{classPolarPolygon_acbf9baabbe1fe646b64287e71e543e07}} 
+\mbox{\hyperlink{classPolarPolygon_acbf9baabbe1fe646b64287e71e543e07}{Polar\+Polygon}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classPolarPolygon_afe67264a20befa55b7e05f56b8d9a88b}{Polar\+Polygon}} (size\+\_\+t num\+\_\+vertices, double radius, double x\+\_\+translation, double y\+\_\+translation)
+\begin{DoxyCompactList}\small\item\em Constructor of \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} class. Constructs either polygon for num\+\_\+vertices greater 2 or circle for num\+\_\+vertices smaller or equal to 2. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classPolarPolygon_a17bc124fe6320f8dabfae94cd039f2f9}{polygon\+Radius}} (const double \&x, const double \&y)
+\begin{DoxyCompactList}\small\item\em Used for check whether point lies inside polygon or not. Takes a set of coordinates x and y and computes polar angle from it. Angle is used to query radius of polygon outline. \end{DoxyCompactList}\item 
+std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classPolarPolygon_a1eee164a377c0b805bdcb63b09961aaa}{f\+Parametric\+\_\+x}} ()
+\begin{DoxyCompactList}\small\item\em Returns function pointer to parametric representation of polygon in x.\+Values range from 0 to 1. \end{DoxyCompactList}\item 
+std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classPolarPolygon_aa5ae3688aa4699b83505618afd500eb8}{f\+Parametric\+\_\+y}} ()
+\begin{DoxyCompactList}\small\item\em Returns function pointer to parametric representation of polygon in y.\+Values range from 0 to 1. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -46,7 +30,86 @@ std\+::function$<$ double(const double \&)$>$ {\bfseries f\+Parametric\+\_\+y} (
 
 
 
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPolarPolygon_afe67264a20befa55b7e05f56b8d9a88b}\label{classPolarPolygon_afe67264a20befa55b7e05f56b8d9a88b}} 
+\index{PolarPolygon@{PolarPolygon}!PolarPolygon@{PolarPolygon}}
+\index{PolarPolygon@{PolarPolygon}!PolarPolygon@{PolarPolygon}}
+\doxysubsubsection{\texorpdfstring{PolarPolygon()}{PolarPolygon()}}
+{\footnotesize\ttfamily Polar\+Polygon\+::\+Polar\+Polygon (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{num\+\_\+vertices,  }\item[{double}]{radius,  }\item[{double}]{x\+\_\+translation,  }\item[{double}]{y\+\_\+translation }\end{DoxyParamCaption})}
+
+
+
+Constructor of \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} class. Constructs either polygon for num\+\_\+vertices greater 2 or circle for num\+\_\+vertices smaller or equal to 2. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em num\+\_\+vertices} & Number of vertices. If number $<$=2, circle will be constructed, number $>$2 polygon. \\
+\hline
+\mbox{\texttt{ in}}  & {\em radius} & distance from center to vertices or radius of circle. \\
+\hline
+\mbox{\texttt{ in}}  & {\em x\+\_\+translation} & X coordinate of center. \\
+\hline
+\mbox{\texttt{ in}}  & {\em y\+\_\+translation} & Y coordinate of center. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPolarPolygon_a1eee164a377c0b805bdcb63b09961aaa}\label{classPolarPolygon_a1eee164a377c0b805bdcb63b09961aaa}} 
+\index{PolarPolygon@{PolarPolygon}!fParametric\_x@{fParametric\_x}}
+\index{fParametric\_x@{fParametric\_x}!PolarPolygon@{PolarPolygon}}
+\doxysubsubsection{\texorpdfstring{fParametric\_x()}{fParametric\_x()}}
+{\footnotesize\ttfamily std\+::function$<$ double(const double \&)$>$ Polar\+Polygon\+::f\+Parametric\+\_\+x (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns function pointer to parametric representation of polygon in x.\+Values range from 0 to 1. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Function} & pointer of parametric polygon in x. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classPolarPolygon_aa5ae3688aa4699b83505618afd500eb8}\label{classPolarPolygon_aa5ae3688aa4699b83505618afd500eb8}} 
+\index{PolarPolygon@{PolarPolygon}!fParametric\_y@{fParametric\_y}}
+\index{fParametric\_y@{fParametric\_y}!PolarPolygon@{PolarPolygon}}
+\doxysubsubsection{\texorpdfstring{fParametric\_y()}{fParametric\_y()}}
+{\footnotesize\ttfamily std\+::function$<$ double(const double \&)$>$ Polar\+Polygon\+::f\+Parametric\+\_\+y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns function pointer to parametric representation of polygon in y.\+Values range from 0 to 1. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Function} & pointer of parametric polygon in y. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{classPolarPolygon_a17bc124fe6320f8dabfae94cd039f2f9}\label{classPolarPolygon_a17bc124fe6320f8dabfae94cd039f2f9}} 
+\index{PolarPolygon@{PolarPolygon}!polygonRadius@{polygonRadius}}
+\index{polygonRadius@{polygonRadius}!PolarPolygon@{PolarPolygon}}
+\doxysubsubsection{\texorpdfstring{polygonRadius()}{polygonRadius()}}
+{\footnotesize\ttfamily double Polar\+Polygon\+::polygon\+Radius (\begin{DoxyParamCaption}\item[{const double \&}]{x,  }\item[{const double \&}]{y }\end{DoxyParamCaption})}
+
+
+
+Used for check whether point lies inside polygon or not. Takes a set of coordinates x and y and computes polar angle from it. Angle is used to query radius of polygon outline. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & X coordinate in global reference frame \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & Y coordinate in global reference frame \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & radius(theta) of polygon for given points in cartesian coordinates. \\
+\hline
+\end{DoxyRetVals}
+
+
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/raphael/robolab/displaygp/include/tumor\+Model.\+hpp\item 
-/home/raphael/robolab/displaygp/src/tumor\+Model.\+cpp\end{DoxyCompactItemize}
+/home/raphael/robolab/displaygp/include/\mbox{\hyperlink{tumorModel_8hpp}{tumor\+Model.\+hpp}}\item 
+/home/raphael/robolab/displaygp/src/\mbox{\hyperlink{tumorModel_8cpp}{tumor\+Model.\+cpp}}\end{DoxyCompactItemize}

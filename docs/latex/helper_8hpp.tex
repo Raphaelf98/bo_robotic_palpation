@@ -1,0 +1,85 @@
+\hypertarget{helper_8hpp}{}\doxysection{/home/raphael/robolab/displaygp/include/helper.hpp File Reference}
+\label{helper_8hpp}\index{/home/raphael/robolab/displaygp/include/helper.hpp@{/home/raphael/robolab/displaygp/include/helper.hpp}}
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$boost/numeric/ublas/vector.\+hpp$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$filesystem$>$}\newline
+{\ttfamily \#include $<$numeric$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+Include dependency graph for helper.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{helper_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{helper_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{helper_8hpp_acfc4886689fc312fa49b19f7a0d1bffe}\label{helper_8hpp_acfc4886689fc312fa49b19f7a0d1bffe}} 
+std\+::string \mbox{\hyperlink{helper_8hpp_acfc4886689fc312fa49b19f7a0d1bffe}{generate\+File\+Path}} (const char $\ast$dir, const char $\ast$file)
+\begin{DoxyCompactList}\small\item\em Returns absolute file paths. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_a7515e4d31582c407ed3a8c5805cd2375}\label{helper_8hpp_a7515e4d31582c407ed3a8c5805cd2375}} 
+bool \mbox{\hyperlink{helper_8hpp_a7515e4d31582c407ed3a8c5805cd2375}{create\+Or\+Overwrite\+Directory}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Create or Overwirte directory. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_a59701deaa96635c1c75be937c5685a83}\label{helper_8hpp_a59701deaa96635c1c75be937c5685a83}} 
+std\+::string \mbox{\hyperlink{helper_8hpp_a59701deaa96635c1c75be937c5685a83}{create\+Shape\+Directory}} (const std\+::string \&parent\+Dir, const std\+::string \&shape\+Base\+Name)
+\begin{DoxyCompactList}\small\item\em Creates directory according to shape name. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_a0fc0c31507e4c1c1f3936a16ead79543}\label{helper_8hpp_a0fc0c31507e4c1c1f3936a16ead79543}} 
+std\+::string \mbox{\hyperlink{helper_8hpp_a0fc0c31507e4c1c1f3936a16ead79543}{generate\+Experiment\+File\+Path}} (std\+::string experiment\+\_\+dir, const char $\ast$dir, const char $\ast$file)
+\begin{DoxyCompactList}\small\item\em Returns absolute file paths of experiment directories. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_a6b2213b3c8fd9937e66735fc1b301066}\label{helper_8hpp_a6b2213b3c8fd9937e66735fc1b301066}} 
+bool \mbox{\hyperlink{helper_8hpp_a6b2213b3c8fd9937e66735fc1b301066}{copy\+File\+To\+Directory}} (const std\+::string \&source\+File\+Path, const std\+::string \&destination\+Directory, const std\+::string \&destination\+Filename)
+\begin{DoxyCompactList}\small\item\em copy\+File\+To\+Directory \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_a1ecc8b545ca17887e9beda17f1ea1876}\label{helper_8hpp_a1ecc8b545ca17887e9beda17f1ea1876}} 
+bool \mbox{\hyperlink{helper_8hpp_a1ecc8b545ca17887e9beda17f1ea1876}{save\+Metrics\+To\+File}} (int pair\+Number, double specificity, double sensitivity, const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em save\+Metrics\+To\+File \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_afa90557fca384dffb4b13ef2bb5e2993}\label{helper_8hpp_afa90557fca384dffb4b13ef2bb5e2993}} 
+bool \mbox{\hyperlink{helper_8hpp_afa90557fca384dffb4b13ef2bb5e2993}{save\+File\+To\+C\+SV}} (const std\+::string \&filename, const std\+::vector$<$ std\+::vector$<$ double $>$$>$ \&data)
+\begin{DoxyCompactList}\small\item\em save\+File\+To\+C\+SV \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \mbox{\hyperlink{helper_8hpp_a460e10ba99adb8446696214bf596fa42}{convert\+Ublas\+To\+Std}} (const std\+::vector$<$ boost\+::numeric\+::ublas\+::vector$<$ double $>$$>$ \&ublas\+Vecs)
+\begin{DoxyCompactList}\small\item\em Type conversion std\+::vector$<$boost\+::numeric\+::ublas\+::vector$<$double$>$$>$ to std\+::vector$<$std\+::vector$<$double$>$$>$ \end{DoxyCompactList}\item 
+std\+::vector$<$ boost\+::numeric\+::ublas\+::vector$<$ double $>$ $>$ \mbox{\hyperlink{helper_8hpp_a94ba7bd404dcdd6e6239ee4f227ebe46}{convert\+Std\+To\+Ublas}} (const std\+::vector$<$ std\+::vector$<$ double $>$$>$ \&std\+Vecs)
+\begin{DoxyCompactList}\small\item\em Type conversion std\+::vector$<$std\+::vector$<$double$>$$>$ to std\+::vector$<$boost\+::numeric\+::ublas\+::vector$<$double$>$$>$ \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{helper_8hpp_a7d89c27ea70b6506efd1c7d8866bae46}\label{helper_8hpp_a7d89c27ea70b6506efd1c7d8866bae46}} 
+std\+::vector$<$ double $>$ {\bfseries lin\+Space} (double min, double max, int n)
+\item 
+\mbox{\Hypertarget{helper_8hpp_a7fa128cf9268352e10a0afd620b61e22}\label{helper_8hpp_a7fa128cf9268352e10a0afd620b61e22}} 
+double {\bfseries std\+Dev} (std\+::vector$<$ double $>$ v)
+\item 
+\mbox{\Hypertarget{helper_8hpp_aa55189de65162770f9128e99711015a4}\label{helper_8hpp_aa55189de65162770f9128e99711015a4}} 
+std\+::vector$<$ std\+::pair$<$ double, double $>$ $>$ \mbox{\hyperlink{helper_8hpp_aa55189de65162770f9128e99711015a4}{read\+Coordinates\+From\+C\+SV}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em read\+Coordinates\+From\+C\+SV \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{helper_8hpp_a94ba7bd404dcdd6e6239ee4f227ebe46}\label{helper_8hpp_a94ba7bd404dcdd6e6239ee4f227ebe46}} 
+\index{helper.hpp@{helper.hpp}!convertStdToUblas@{convertStdToUblas}}
+\index{convertStdToUblas@{convertStdToUblas}!helper.hpp@{helper.hpp}}
+\doxysubsubsection{\texorpdfstring{convertStdToUblas()}{convertStdToUblas()}}
+{\footnotesize\ttfamily std\+::vector$<$boost\+::numeric\+::ublas\+::vector$<$double$>$ $>$ convert\+Std\+To\+Ublas (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::vector$<$ double $>$$>$ \&}]{std\+Vecs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Type conversion std\+::vector$<$std\+::vector$<$double$>$$>$ to std\+::vector$<$boost\+::numeric\+::ublas\+::vector$<$double$>$$>$ 
+
+\mbox{\Hypertarget{helper_8hpp_a460e10ba99adb8446696214bf596fa42}\label{helper_8hpp_a460e10ba99adb8446696214bf596fa42}} 
+\index{helper.hpp@{helper.hpp}!convertUblasToStd@{convertUblasToStd}}
+\index{convertUblasToStd@{convertUblasToStd}!helper.hpp@{helper.hpp}}
+\doxysubsubsection{\texorpdfstring{convertUblasToStd()}{convertUblasToStd()}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$double$>$ $>$ convert\+Ublas\+To\+Std (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ boost\+::numeric\+::ublas\+::vector$<$ double $>$$>$ \&}]{ublas\+Vecs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Type conversion std\+::vector$<$boost\+::numeric\+::ublas\+::vector$<$double$>$$>$ to std\+::vector$<$std\+::vector$<$double$>$$>$ 
+

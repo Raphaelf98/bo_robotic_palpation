@@ -1,0 +1,98 @@
+\hypertarget{evaluation_8hpp}{}\doxysection{/home/raphael/robolab/displaygp/include/evaluation.hpp File Reference}
+\label{evaluation_8hpp}\index{/home/raphael/robolab/displaygp/include/evaluation.hpp@{/home/raphael/robolab/displaygp/include/evaluation.hpp}}
+{\ttfamily \#include $<$boost/math/quadrature/trapezoidal.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}stdafx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}interpolation.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}contour.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include $<$C\+G\+A\+L/\+Polygon\+\_\+2.\+h$>$}\newline
+{\ttfamily \#include $<$C\+G\+A\+L/\+Exact\+\_\+predicates\+\_\+exact\+\_\+constructions\+\_\+kernel.\+h$>$}\newline
+{\ttfamily \#include $<$C\+G\+A\+L/\+Boolean\+\_\+set\+\_\+operations\+\_\+2.\+h$>$}\newline
+{\ttfamily \#include $<$C\+G\+A\+L/\+Exact\+\_\+rational.\+h$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+Include dependency graph for evaluation.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{evaluation_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=261pt]{evaluation_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classContourPairAnalyzer}{Contour\+Pair\+Analyzer}}
+\begin{DoxyCompactList}\small\item\em This class analyses a pair of contours by polygonizing parametric (defined through spline functions) contours. Similarity of Contours is determined by scalars\+: \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_a31087db2e68310d772698c0f24b08c9a}\label{evaluation_8hpp_a31087db2e68310d772698c0f24b08c9a}} 
+typedef C\+G\+A\+L\+::\+Exact\+\_\+predicates\+\_\+exact\+\_\+constructions\+\_\+kernel {\bfseries Kernel}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_ab8a951692a5261d5dd24b550af05e147}\label{evaluation_8hpp_ab8a951692a5261d5dd24b550af05e147}} 
+typedef Kernel\+::\+Point\+\_\+2 {\bfseries Point\+\_\+2}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_a9e00699e05c9e7829bb4701dcbe7cdca}\label{evaluation_8hpp_a9e00699e05c9e7829bb4701dcbe7cdca}} 
+typedef C\+G\+A\+L\+::\+Polygon\+\_\+2$<$ Kernel $>$ {\bfseries Polygon\+\_\+2}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_a9a6248e961113467a7eaef1e2929ffc0}\label{evaluation_8hpp_a9a6248e961113467a7eaef1e2929ffc0}} 
+typedef C\+G\+A\+L\+::\+Polygon\+\_\+with\+\_\+holes\+\_\+2$<$ Kernel $>$ {\bfseries Polygon\+\_\+with\+\_\+holes\+\_\+2}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_ace17166676795dba6c5f9f9e88dabb66}\label{evaluation_8hpp_ace17166676795dba6c5f9f9e88dabb66}} 
+typedef std\+::list$<$ Polygon\+\_\+with\+\_\+holes\+\_\+2 $>$ {\bfseries Pwh\+\_\+list\+\_\+2}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_a8d53fbc3b3e013c87430d96ac50fdeb1}\label{evaluation_8hpp_a8d53fbc3b3e013c87430d96ac50fdeb1}} 
+typedef std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classContour}{Contour}} $\ast$, \mbox{\hyperlink{classContour}{Contour}} $\ast$ $>$ $>$ {\bfseries Contour\+Pairs}
+\item 
+\mbox{\Hypertarget{evaluation_8hpp_a001ca6367d888f65a16ed3600b3cb6b1}\label{evaluation_8hpp_a001ca6367d888f65a16ed3600b3cb6b1}} 
+typedef std\+::function$<$ double(const double \&)$>$ {\bfseries Function\+Ptr}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Kernel , class Container $>$ }\\void \mbox{\hyperlink{evaluation_8hpp_a1b880365c11078398cd20bbc6c6b1556}{print\+\_\+polygon}} (const C\+G\+A\+L\+::\+Polygon\+\_\+2$<$ Kernel, Container $>$ \&P)
+\begin{DoxyCompactList}\small\item\em Plot information on nodes and vertices of C\+G\+AL Polygon\+\_\+2. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Kernel , class Container $>$ }\\void \mbox{\hyperlink{evaluation_8hpp_aa2cf5211c53e3602381a5bb2ad626be8}{print\+\_\+polygon\+\_\+with\+\_\+holes}} (const C\+G\+A\+L\+::\+Polygon\+\_\+with\+\_\+holes\+\_\+2$<$ Kernel, Container $>$ \&pwh)
+\begin{DoxyCompactList}\small\item\em Plot information on nodes and vertices of C\+G\+AL Polygon\+\_\+with\+\_\+holes\+\_\+2. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{evaluation_8hpp_a1b880365c11078398cd20bbc6c6b1556}\label{evaluation_8hpp_a1b880365c11078398cd20bbc6c6b1556}} 
+\index{evaluation.hpp@{evaluation.hpp}!print\_polygon@{print\_polygon}}
+\index{print\_polygon@{print\_polygon}!evaluation.hpp@{evaluation.hpp}}
+\doxysubsubsection{\texorpdfstring{print\_polygon()}{print\_polygon()}}
+{\footnotesize\ttfamily template$<$class Kernel , class Container $>$ \\
+void print\+\_\+polygon (\begin{DoxyParamCaption}\item[{const C\+G\+A\+L\+::\+Polygon\+\_\+2$<$ Kernel, Container $>$ \&}]{P }\end{DoxyParamCaption})}
+
+
+
+Plot information on nodes and vertices of C\+G\+AL Polygon\+\_\+2. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em P} & Polygon object. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{evaluation_8hpp_aa2cf5211c53e3602381a5bb2ad626be8}\label{evaluation_8hpp_aa2cf5211c53e3602381a5bb2ad626be8}} 
+\index{evaluation.hpp@{evaluation.hpp}!print\_polygon\_with\_holes@{print\_polygon\_with\_holes}}
+\index{print\_polygon\_with\_holes@{print\_polygon\_with\_holes}!evaluation.hpp@{evaluation.hpp}}
+\doxysubsubsection{\texorpdfstring{print\_polygon\_with\_holes()}{print\_polygon\_with\_holes()}}
+{\footnotesize\ttfamily template$<$class Kernel , class Container $>$ \\
+void print\+\_\+polygon\+\_\+with\+\_\+holes (\begin{DoxyParamCaption}\item[{const C\+G\+A\+L\+::\+Polygon\+\_\+with\+\_\+holes\+\_\+2$<$ Kernel, Container $>$ \&}]{pwh }\end{DoxyParamCaption})}
+
+
+
+Plot information on nodes and vertices of C\+G\+AL Polygon\+\_\+with\+\_\+holes\+\_\+2. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em P} & Polygon object. \\
+\hline
+\end{DoxyParams}

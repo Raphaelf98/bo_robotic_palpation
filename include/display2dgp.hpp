@@ -6,6 +6,10 @@
 #include "matplotpp.h"
 #include "tumorModel.hpp"
 #include "contour.hpp"
+/**
+ * @file
+ * 
+ */
   /**
   * @brief Enum holding states for state machine used by DisplayHeatMap2D class to visualize Algorithm.
   *

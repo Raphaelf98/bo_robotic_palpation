@@ -70,7 +70,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classShape.html" title="Shape base class.">Shape</a> base class.  
+<p><a class="el" href="classShape.html" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple...">Shape</a> base class. Holds virtual functions that are unique to derived child class and need to be implemented by them. Inherits from bayesopt ContinousModel class.  
  <a href="classShape.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tumorModel_8hpp_source.html">tumorModel.hpp</a>&gt;</code></p>
@@ -79,12 +79,12 @@ Inheritance diagram for Shape:</div>
 <div class="dyncontent">
 <div class="center"><img src="classShape__inherit__graph.png" border="0" usemap="#Shape_inherit__map" alt="Inheritance graph"/></div>
 <map name="Shape_inherit__map" id="Shape_inherit__map">
-<area shape="rect" title="Shape base class." alt="" coords="197,80,260,107"/>
-<area shape="rect" href="classRectangle.html" title="Triangle child class." alt="" coords="5,155,92,181"/>
-<area shape="rect" href="classSmoothCircle.html" title="Triangle child class." alt="" coords="117,155,226,181"/>
-<area shape="rect" href="classTriangle.html" title="Triangle child class." alt="" coords="251,155,324,181"/>
-<area shape="rect" href="classTwoCircles.html" title="Triangle child class." alt="" coords="349,155,439,181"/>
-<area shape="rect" title=" " alt="" coords="127,5,330,32"/>
+<area shape="rect" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="153,80,215,107"/>
+<area shape="rect" href="classCircle.html" title="Circle child class." alt="" coords="5,155,64,181"/>
+<area shape="rect" href="classRectangle.html" title="Rectangle child class." alt="" coords="89,155,175,181"/>
+<area shape="rect" href="classTriangle.html" title="Triangle child class." alt="" coords="199,155,273,181"/>
+<area shape="rect" href="classTwoCircles.html" title="TwoCircles child class." alt="" coords="297,155,388,181"/>
+<area shape="rect" title=" " alt="" coords="83,5,285,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -92,33 +92,33 @@ Collaboration diagram for Shape:</div>
 <div class="dyncontent">
 <div class="center"><img src="classShape__coll__graph.png" border="0" usemap="#Shape_coll__map" alt="Collaboration graph"/></div>
 <map name="Shape_coll__map" id="Shape_coll__map">
-<area shape="rect" title="Shape base class." alt="" coords="75,80,138,107"/>
+<area shape="rect" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="75,80,138,107"/>
 <area shape="rect" title=" " alt="" coords="5,5,208,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aefb9a84b0c51b813fd1a171319ea9ce6"><td class="memItemLeft" align="right" valign="top"><a id="aefb9a84b0c51b813fd1a171319ea9ce6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Shape</b> (bayesopt::Parameters par)</td></tr>
+<tr class="memitem:aefb9a84b0c51b813fd1a171319ea9ce6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#aefb9a84b0c51b813fd1a171319ea9ce6">Shape</a> (bayesopt::Parameters par)</td></tr>
+<tr class="memdesc:aefb9a84b0c51b813fd1a171319ea9ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of shape base class.  <a href="classShape.html#aefb9a84b0c51b813fd1a171319ea9ce6">More...</a><br /></td></tr>
 <tr class="separator:aefb9a84b0c51b813fd1a171319ea9ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac72dc80d3de559ecd0d8d9b5d3e6d005"><td class="memItemLeft" align="right" valign="top"><a id="ac72dc80d3de559ecd0d8d9b5d3e6d005"></a>
-virtual std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>f_x</b> ()=0</td></tr>
+<tr class="memitem:ac72dc80d3de559ecd0d8d9b5d3e6d005"><td class="memItemLeft" align="right" valign="top">virtual std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ac72dc80d3de559ecd0d8d9b5d3e6d005">f_x</a> ()=0</td></tr>
+<tr class="memdesc:ac72dc80d3de559ecd0d8d9b5d3e6d005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function that is implemented by derived class. Returns parametric function of tumor model in x as function pointer.  <a href="classShape.html#ac72dc80d3de559ecd0d8d9b5d3e6d005">More...</a><br /></td></tr>
 <tr class="separator:ac72dc80d3de559ecd0d8d9b5d3e6d005"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a095479eedc56524c5e9555785aa47ca7"><td class="memItemLeft" align="right" valign="top"><a id="a095479eedc56524c5e9555785aa47ca7"></a>
-virtual std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>f_y</b> ()=0</td></tr>
+<tr class="memitem:a095479eedc56524c5e9555785aa47ca7"><td class="memItemLeft" align="right" valign="top">virtual std::function&lt; double(const double &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a095479eedc56524c5e9555785aa47ca7">f_y</a> ()=0</td></tr>
+<tr class="memdesc:a095479eedc56524c5e9555785aa47ca7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function that is implemented by derived class. Returns parametric function of tumor model in y as function pointer.  <a href="classShape.html#a095479eedc56524c5e9555785aa47ca7">More...</a><br /></td></tr>
 <tr class="separator:a095479eedc56524c5e9555785aa47ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87601dd2e5fcdb3fa15fbef2a0bc5bfc"><td class="memItemLeft" align="right" valign="top"><a id="a87601dd2e5fcdb3fa15fbef2a0bc5bfc"></a>
-virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>evaluateSample</b> (const vectord &amp;xin)</td></tr>
+<tr class="memitem:a87601dd2e5fcdb3fa15fbef2a0bc5bfc"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a87601dd2e5fcdb3fa15fbef2a0bc5bfc">evaluateSample</a> (const vectord &amp;xin)</td></tr>
+<tr class="memdesc:a87601dd2e5fcdb3fa15fbef2a0bc5bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function called by bayesian optimization in bayes opt to query tumor model. Virtual Function that is implemented by child classes. When deploying algorithm to hardware, stiffness measurements need to be generated in this function.  <a href="classShape.html#a87601dd2e5fcdb3fa15fbef2a0bc5bfc">More...</a><br /></td></tr>
 <tr class="separator:a87601dd2e5fcdb3fa15fbef2a0bc5bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7eddf7c981a63d8c62c0aa65295ff8c"><td class="memItemLeft" align="right" valign="top"><a id="ab7eddf7c981a63d8c62c0aa65295ff8c"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>smoothstep</b> (double edge0, double edge1, double x, double low, double high)</td></tr>
-<tr class="separator:ab7eddf7c981a63d8c62c0aa65295ff8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a20d9910b30dc1d963152807bea9236"><td class="memItemLeft" align="right" valign="top"><a id="a6a20d9910b30dc1d963152807bea9236"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>clamp</b> (double x, double lowerlimit, double upperlimit)</td></tr>
-<tr class="separator:a6a20d9910b30dc1d963152807bea9236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae382aa8684736b35f87a7b6ec3af2a43"><td class="memItemLeft" align="right" valign="top"><a id="ae382aa8684736b35f87a7b6ec3af2a43"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>saveGroundTruth</b> (const size_t c_points, std::string file_path)</td></tr>
+<tr class="memitem:aa89d648d778d2279cadfc8a3bcee7221"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#aa89d648d778d2279cadfc8a3bcee7221">checkReachability</a> (const vectord &amp;query)</td></tr>
+<tr class="memdesc:aa89d648d778d2279cadfc8a3bcee7221"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks reachability of query. Virtual function that is implemented by derived class. Note: function is not implemented in child classes but might be of value for implementation with hardware.  <a href="classShape.html#aa89d648d778d2279cadfc8a3bcee7221">More...</a><br /></td></tr>
+<tr class="separator:aa89d648d778d2279cadfc8a3bcee7221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97c1e61c2d4d5cf5fa3252caa83e1d6f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#a97c1e61c2d4d5cf5fa3252caa83e1d6f">smoothstep</a> (const double x_l, const double x_r, const double x, const double y_l, const double y_r)</td></tr>
+<tr class="memdesc:a97c1e61c2d4d5cf5fa3252caa83e1d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements a smooth step as a third degree polynomial. The polynomial is constrained through three conditions.  <a href="classShape.html#a97c1e61c2d4d5cf5fa3252caa83e1d6f">More...</a><br /></td></tr>
+<tr class="separator:a97c1e61c2d4d5cf5fa3252caa83e1d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae382aa8684736b35f87a7b6ec3af2a43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classShape.html#ae382aa8684736b35f87a7b6ec3af2a43">saveGroundTruth</a> (const size_t c_points, std::string file_path)</td></tr>
+<tr class="memdesc:ae382aa8684736b35f87a7b6ec3af2a43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual function implemented by child class. Saves ground truth to file with resolution of c_points.  <a href="classShape.html#ae382aa8684736b35f87a7b6ec3af2a43">More...</a><br /></td></tr>
 <tr class="separator:ae382aa8684736b35f87a7b6ec3af2a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -143,10 +143,308 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
 <tr class="separator:a8bc43dfc4c04b08d0c2e85750d1492e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classShape.html" title="Shape base class.">Shape</a> base class. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p><a class="el" href="classShape.html" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple...">Shape</a> base class. Holds virtual functions that are unique to derived child class and need to be implemented by them. Inherits from bayesopt ContinousModel class. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aefb9a84b0c51b813fd1a171319ea9ce6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefb9a84b0c51b813fd1a171319ea9ce6">&#9670;&nbsp;</a></span>Shape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Shape::Shape </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::Parameters&#160;</td>
+          <td class="paramname"><em>par</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor of shape base class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>Takes bayesopt parameters <br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa89d648d778d2279cadfc8a3bcee7221"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa89d648d778d2279cadfc8a3bcee7221">&#9670;&nbsp;</a></span>checkReachability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool Shape::checkReachability </td>
+          <td>(</td>
+          <td class="paramtype">const vectord &amp;&#160;</td>
+          <td class="paramname"><em>query</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks reachability of query. Virtual function that is implemented by derived class. Note: function is not implemented in child classes but might be of value for implementation with hardware. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">query</td><td>Vector with x and y coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">True</td><td>if query is reachable. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classCircle.html#a2294d0fcfdb64b954fc79b42bceaa01d">Circle</a>, <a class="el" href="classTwoCircles.html#aa69f345331b34d3398b546af41e808ba">TwoCircles</a>, <a class="el" href="classRectangle.html#a175eca860cf1dadcb8e6323d48ef1947">Rectangle</a>, and <a class="el" href="classTriangle.html#ab94e8beaf03ebbe62d16aab6e8a69b00">Triangle</a>.</p>
+
+</div>
+</div>
+<a id="a87601dd2e5fcdb3fa15fbef2a0bc5bfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87601dd2e5fcdb3fa15fbef2a0bc5bfc">&#9670;&nbsp;</a></span>evaluateSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double Shape::evaluateSample </td>
+          <td>(</td>
+          <td class="paramtype">const vectord &amp;&#160;</td>
+          <td class="paramname"><em>xin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Function called by bayesian optimization in bayes opt to query tumor model. Virtual Function that is implemented by child classes. When deploying algorithm to hardware, stiffness measurements need to be generated in this function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>Takes bayesopt parameters </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">stiffness</td><td>value/cost of global function that is optimized. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classCircle.html#a3abbc327e5b76bd6a32efd3cbf4640bb">Circle</a>, <a class="el" href="classTwoCircles.html#ae6ae546dec3a145488046d395c197834">TwoCircles</a>, <a class="el" href="classRectangle.html#a9340a7a5e3b8a74a63ba767333000a3c">Rectangle</a>, and <a class="el" href="classTriangle.html#a946399d487b41a7d39a99cf68aa9bd6b">Triangle</a>.</p>
+
+</div>
+</div>
+<a id="ac72dc80d3de559ecd0d8d9b5d3e6d005"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac72dc80d3de559ecd0d8d9b5d3e6d005">&#9670;&nbsp;</a></span>f_x()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::function&lt;double (const double&amp;)&gt; Shape::f_x </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Virtual function that is implemented by derived class. Returns parametric function of tumor model in x as function pointer. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Function</td><td>pointer of parametric function in x. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classCircle.html#ad8d952886a211acd54466a74657c9db9">Circle</a>, <a class="el" href="classTwoCircles.html#a09edc98f40f4cea8ac61b63e8f59d37c">TwoCircles</a>, <a class="el" href="classRectangle.html#a9cb7a91f359fea78c48f0ca5eea42151">Rectangle</a>, and <a class="el" href="classTriangle.html#a752039ea45a15dd041283547602205a4">Triangle</a>.</p>
+
+</div>
+</div>
+<a id="a095479eedc56524c5e9555785aa47ca7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a095479eedc56524c5e9555785aa47ca7">&#9670;&nbsp;</a></span>f_y()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::function&lt;double (const double&amp;)&gt; Shape::f_y </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Virtual function that is implemented by derived class. Returns parametric function of tumor model in y as function pointer. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Function</td><td>pointer of parametric function in y. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classCircle.html#ad514e561b4a94f9660b93e6b0622f5c5">Circle</a>, <a class="el" href="classTwoCircles.html#a41fa5f55a125e61db335e05067379175">TwoCircles</a>, <a class="el" href="classRectangle.html#a1a6d14f5be7c89935dee3d2b64164c6c">Rectangle</a>, and <a class="el" href="classTriangle.html#a1435d6bac0436b5e794bb94ee140f0b1">Triangle</a>.</p>
+
+</div>
+</div>
+<a id="ae382aa8684736b35f87a7b6ec3af2a43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae382aa8684736b35f87a7b6ec3af2a43">&#9670;&nbsp;</a></span>saveGroundTruth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Shape::saveGroundTruth </td>
+          <td>(</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>c_points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>file_path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Virtual function implemented by child class. Saves ground truth to file with resolution of c_points. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">c_points</td><td>Takes bayesopt parameters </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file_path</td><td>absolute path to file. Filename is generated in method. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classCircle.html#ad27519dfc09492010d39707b6450a9df">Circle</a>, <a class="el" href="classTwoCircles.html#a31e48f7d7c77483aae78d39e7ab32417">TwoCircles</a>, <a class="el" href="classRectangle.html#aa444cab142d7e1c20e6f74edc1a491ed">Rectangle</a>, and <a class="el" href="classTriangle.html#aed7fd475fbfc2f20b3e1d92ba4531402">Triangle</a>.</p>
+
+</div>
+</div>
+<a id="a97c1e61c2d4d5cf5fa3252caa83e1d6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97c1e61c2d4d5cf5fa3252caa83e1d6f">&#9670;&nbsp;</a></span>smoothstep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Shape::smoothstep </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>x_l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>x_r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>y_l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>y_r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function implements a smooth step as a third degree polynomial. The polynomial is constrained through three conditions. </p>
+<ol type="1">
+<li>f(x_1) = y_1 and f(x_2) = y_2</li>
+<li>f'(x_1) = 0 and f'(x_2) = 0</li>
+</ol>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x_l</td><td>Left x coordinate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x_r</td><td>Right x coordinate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>X value a which smooth step is evaluated. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y_l</td><td>Left y coordinate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y_r</td><td>Right y coordinate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">f(x)</td><td>function value of smoothstep. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="tumorModel_8hpp_source.html">tumorModel.hpp</a></li>
-<li>/home/raphael/robolab/displaygp/src/tumorModel.cpp</li>
+<li>/home/raphael/robolab/displaygp/src/<a class="el" href="tumorModel_8cpp.html">tumorModel.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

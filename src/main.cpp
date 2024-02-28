@@ -9,20 +9,49 @@
 #include "helper.hpp"
 #include "contour.hpp"
 using namespace bayesopt;
-
+/**
+ * @file
+ * 
+ */
 
 // Unfortunately OpenGL functions require no parameters, so the object
 // has to be global.
 DisplayHeatMap2D GLOBAL_MATPLOT;
-
+/**
+ * @brief Matplotpp callback function to display plot contents
+ * 
+ */
 void display( void ){ GLOBAL_MATPLOT.display(); }
+/**
+ * @brief Matplotpp callback function to reshape window
+ * 
+ */
 void reshape( int w,int h ){ GLOBAL_MATPLOT.reshape(w,h); }
+/**
+ * @brief Matplotpp callback function. Global callback functions, see freeglut_callbacks.c
+ * 
+ */
 void idle( void ) { glutPostRedisplay(); } 
-
+/**
+ * @brief Matplotpp callback function to handle mouse interaction.
+ * 
+ */
 void mouse(int button, int state, int x, int y ){ GLOBAL_MATPLOT.mouse(button,state,x,y); }
+/**
+ * @brief Matplotpp callback function to handle window motion.
+ * 
+ */
 void motion(int x, int y ){ GLOBAL_MATPLOT.motion(x,y); }
+/**
+ * @brief Matplotpp callback function passive motion
+ * 
+ */
 void passive(int x, int y ){ GLOBAL_MATPLOT.passivemotion(x,y); }
-
+/**
+ * @brief Matplotpp callback function to handy keyboard input. 
+ * State machine is set to run state by pressing 'r' or to step run if 's' is pressed.
+ * 
+ */
 void keyboard(unsigned char key, int x, int y)
 {
     GLOBAL_MATPLOT.keyboard(key, x, y); 
@@ -36,6 +65,10 @@ void keyboard(unsigned char key, int x, int y)
     }
  
 }
+/**
+ * @brief enum type that holds Shape type that is passed from CLI.
+ * 
+ */
 enum ShapeType {
     SHAPE_CIRCLE,
     SHAPE_TRIANGLE,
@@ -43,6 +76,10 @@ enum ShapeType {
     SHAPE_TWOCIRCLES,
     SHAPE_UNKNOWN // for unrecognized strings
 };
+/**
+ * @brief Returns enum type from string shape input
+ * @param[in] shape Name of Shape options are Circle, Triangle, Rectangle and TwoCircles at the moment.
+ */
 ShapeType getShapeType(const std::string& shape) {
     if (shape == "Circle") return SHAPE_CIRCLE;
     if (shape == "Triangle") return SHAPE_TRIANGLE;
@@ -50,12 +87,17 @@ ShapeType getShapeType(const std::string& shape) {
     if (shape == "TwoCircles") return SHAPE_TWOCIRCLES;
     return SHAPE_UNKNOWN;
 }
+/**
+ * @brief Main function to run algorithm. Takes in a shape as argument and instantiates the desired tumor model. Runs optimization and visualization.
+ * @param[in] argc Argument number
+ * @param[in] argv Name of Shape options are Circle, Triangle, Rectangle and TwoCircles at the moment.
+ */
 int main(int argc, char* argv[])
 {
 
   bayesopt::Parameters par;
   TumorModelParameters model_parameters;
-  ContourParamters contour_parameters;
+  ContourParameters contour_parameters;
   //Either load bayesian optimization parameters from file or set them manually
   //TODO adjust file parsing
   std::string config_path = generateFilePath(CONFIG_PATH,"");
@@ -199,7 +241,6 @@ int main(int argc, char* argv[])
   glutMouseFunc( mouse );
   glutPassiveMotionFunc(passive);    
   glutKeyboardFunc( keyboard );     
-  
   glutMainLoop();    
   
 

@@ -4,7 +4,10 @@
 #include"parameters.hpp"
 #include"fileparser.hpp"
 
-
+/**
+ * @file
+ * 
+ */
 GaussianNoise::GaussianNoise(double mean, double std):dist_(mean,std){}
 double GaussianNoise::noise()
 {
@@ -16,7 +19,7 @@ PolarPolygon::PolarPolygon(size_t num_vertices, double radius, double x_translat
 {
   if(num_vertices>2)
   {
-      computeVertices();
+      computeVertices_();
       circle_ = false;
   }
   else
@@ -26,7 +29,7 @@ PolarPolygon::PolarPolygon(size_t num_vertices, double radius, double x_translat
   }
   
 }
-void PolarPolygon::computeVertices()
+void PolarPolygon::computeVertices_()
 {
   for(size_t i= 0; i<num_vertices_; i++)
   {
@@ -151,15 +154,6 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
     double d = (x_l*x_l*x_l*y_r - 3*x_l*x_l*x_r*y_r + 3*x_l*x_r*x_r*y_l - x_r*x_r*x_r*y_l)/(x_l*x_l*x_l - 3*x_l*x_l*x_r + 3*x_l*x_r*x_r - x_r*x_r*x_r);
     return a*x*x*x + b*x*x + c*x + d;
   }
-  double Shape::clamp(double x, double lowerlimit, double upperlimit) {
-    if (x < lowerlimit)
-        x = lowerlimit;
-    if (x > upperlimit)
-        x = upperlimit;
-    return x;
-}
-
-
 
 
  Triangle::Triangle(bayesopt::Parameters par, double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise):

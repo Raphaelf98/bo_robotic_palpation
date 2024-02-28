@@ -1,8 +1,8 @@
 <map id="Shape" name="Shape">
-<area shape="rect" id="node1" title="Shape base class." alt="" coords="197,80,260,107"/>
-<area shape="rect" id="node3" href="$classRectangle.html" title="Triangle child class." alt="" coords="5,155,92,181"/>
-<area shape="rect" id="node4" href="$classSmoothCircle.html" title="Triangle child class." alt="" coords="117,155,226,181"/>
-<area shape="rect" id="node5" href="$classTriangle.html" title="Triangle child class." alt="" coords="251,155,324,181"/>
-<area shape="rect" id="node6" href="$classTwoCircles.html" title="Triangle child class." alt="" coords="349,155,439,181"/>
-<area shape="rect" id="node2" title=" " alt="" coords="127,5,330,32"/>
+<area shape="rect" id="node1" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="153,80,215,107"/>
+<area shape="rect" id="node3" href="$classCircle.html" title="Circle child class." alt="" coords="5,155,64,181"/>
+<area shape="rect" id="node4" href="$classRectangle.html" title="Rectangle child class." alt="" coords="89,155,175,181"/>
+<area shape="rect" id="node5" href="$classTriangle.html" title="Triangle child class." alt="" coords="199,155,273,181"/>
+<area shape="rect" id="node6" href="$classTwoCircles.html" title="TwoCircles child class." alt="" coords="297,155,388,181"/>
+<area shape="rect" id="node2" title=" " alt="" coords="83,5,285,32"/>
 </map>

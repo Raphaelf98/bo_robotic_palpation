@@ -9,6 +9,10 @@
 #include"parameters.hpp"
 #include "helper.hpp"
 /**
+ * @file
+ * 
+ */
+/**
  * @brief This struct holds x and y coordinates.
  *
  * 
@@ -76,7 +80,7 @@ public:
     *
     * @retval Returns true if successful.
     */
-    bool saveDataToCSV();
+    bool saveNormalizedDataToCSV();
      /**
     * @brief Save Centroids to CSV.
     * @param[in] name Filename

@@ -19,7 +19,10 @@
 #include "prob_distribution.hpp"
 #include "fileparser.hpp"
 #include "param_loader.hpp"
-
+/**
+ * @file
+ * 
+ */
 
 using namespace alglib;
 namespace ublas = boost::numeric::ublas;
@@ -311,8 +314,8 @@ double ContourPairAnalyzer::computeSensitivity(Polygon_2 &GroundTruth, Polygon_2
 }
 
 
-/*
-Approximates two dimensional parametric function defined analytical expressions through a pair of splines. 
+/**
+* @brief Approximates two dimensional parametric function defined analytical expressions through a pair of splines. 
 
 */
 std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::spline1dinterpolant>> f_param(std::ofstream &file,std::string file_path, FunctionPtr &f_x, FunctionPtr &f_y, int n_samples_ = SPLINE_SAMPLES)
@@ -357,9 +360,10 @@ std::pair<std::unique_ptr<alglib::spline1dinterpolant>,std::unique_ptr<alglib::s
     return std::make_pair(std::make_unique<alglib::spline1dinterpolant>(s1),std::make_unique<alglib::spline1dinterpolant>(s2));
 }
 
-/*
-enum to carry tumor model shapes
-*/
+/**
+ * @brief enum type that holds Shape type that is passed from CLI.
+ * 
+ */
 enum ShapeType {
     SHAPE_CIRCLE,
     SHAPE_TRIANGLE,
@@ -367,8 +371,12 @@ enum ShapeType {
     SHAPE_TWOCIRCLES,
     SHAPE_UNKNOWN // for unrecognized strings
 };
-
-ShapeType getShapeType(const std::string& shape) {
+/**
+ * @brief Returns enum type from string shape input
+ * @param[in] shape Name of Shape options are Circle, Triangle, Rectangle and TwoCircles at the moment.
+ */
+ShapeType getShapeType(const std::string& shape) 
+{
     if (shape == "Circle") return SHAPE_CIRCLE;
     if (shape == "Triangle") return SHAPE_TRIANGLE;
     if (shape == "Rectangle") return SHAPE_RECTANGLE;
@@ -377,16 +385,18 @@ ShapeType getShapeType(const std::string& shape) {
 }
 
 
-
-
-
+/**
+ * @brief Main function to run algorithm. Takes in a shape as argument and instantiates the desired tumor model. Runs optimization and evaluation.
+ * @param[in] argc Argument number
+ * @param[in] argv Name of Shape options are Circle, Triangle, Rectangle and TwoCircles at the moment.
+ */
 int main(int argc, char *argv[])
 {
 
   
   bayesopt::Parameters par;
   TumorModelParameters model_parameters;
-  ContourParamters contour_parameters;
+  ContourParameters contour_parameters;
   //Either load bayesian optimization parameters from file or set them manually
   //TODO adjust file parsing
   std::string config_path = generateFilePath(CONFIG_PATH,"");
@@ -527,7 +537,7 @@ int main(int argc, char *argv[])
     file << "X,Y\n";
     file.close();
     std::vector<int> idx_list ={0};
-    //selects the correct index based on list of centroids provided in ms_centroids.csv for list iterating over over gorund truth contours
+    //selects the correct index based on list of centroids provided in ms_centroids.csv for list iterating over over ground truth contours
     if (groundTruths.size() > 1)
 
     {   idx_list.clear();

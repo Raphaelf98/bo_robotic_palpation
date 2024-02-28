@@ -1,40 +1,13 @@
 #include "helper.hpp"
-/*
-Type conversion std::vector<boost::numeric::ublas::vector<double>> to std::vector<std::vector<double>>
-*/
-std::vector<std::vector<double>> convertUblasToStd(
-    const std::vector<boost::numeric::ublas::vector<double>>& ublasVecs) 
-{
-    std::vector<std::vector<double>> stdVecs;
-    stdVecs.reserve(ublasVecs.size());
+/**
+ * @file
+ * 
+ */
 
-    for (const auto& ublasVec : ublasVecs) {
-        std::vector<double> tempVec(ublasVec.size());
-        std::copy(ublasVec.begin(), ublasVec.end(), tempVec.begin());
-        stdVecs.push_back(std::move(tempVec));
-    }
 
-    return stdVecs;
-}
-/*
-Type conversion std::vector<std::vector<double>> to std::vector<boost::numeric::ublas::vector<double>> 
-*/
-std::vector<boost::numeric::ublas::vector<double>> convertStdToUblas(
-    const std::vector<std::vector<double>>& stdVecs) 
-{
-    std::vector<boost::numeric::ublas::vector<double>> ublasVecs;
-    ublasVecs.reserve(stdVecs.size());
 
-    for (const auto& stdVec : stdVecs) {
-        boost::numeric::ublas::vector<double> tempVec(stdVec.size());
-        std::copy(stdVec.begin(), stdVec.end(), tempVec.begin());
-        ublasVecs.push_back(std::move(tempVec));
-    }
-
-    return ublasVecs;
-}
-/*
-Returns absolut file paths.
+/**
+* @brief Returns absolute file paths.
 */
 std::string generateFilePath(const char* dir, const char* file)
 {   
@@ -47,8 +20,8 @@ std::string generateFilePath(const char* dir, const char* file)
     std::cout<<"PATH  "<<path<<std::endl;
     return path;
 }
-/*
-Returns Absolut file paths of experiment directories.
+/**
+* @brief Returns absolute file paths of experiment directories.
 */
 std::string generateExperimentFilePath(std::string experiment_dir, const char* dir, const char* file)
 {   
@@ -59,8 +32,8 @@ std::string generateExperimentFilePath(std::string experiment_dir, const char* d
     
     return path;
 }
-/*
-Create or Overwirte directory
+/**
+* @brief Create or Overwirte directory
 */
 bool createOrOverwriteDirectory(const std::string& path) {
     try {
@@ -85,8 +58,8 @@ bool createOrOverwriteDirectory(const std::string& path) {
         return false;
     }
 }
-/*
-Creates directory according to shape name.
+/**
+* @brief Creates directory according to shape name.
 */
 std::string createShapeDirectory(const std::string& parentDir, const std::string& shapeBaseName) {
     int dirNumber = 1;
@@ -111,7 +84,9 @@ std::string createShapeDirectory(const std::string& parentDir, const std::string
     std::string path =  dirPath;
     return path;
 }
-
+/**
+* @brief copyFileToDirectory
+*/
 bool copyFileToDirectory(const std::string& sourceFilePath, const std::string& destinationDirectory, const std::string& destinationFilename) {
     // Construct the full source and destination file paths
     std::filesystem::path srcFilePath = std::filesystem::path(sourceFilePath);
@@ -140,6 +115,9 @@ bool copyFileToDirectory(const std::string& sourceFilePath, const std::string& d
     std::cout << "File copied successfully to " << destFilePath << std::endl;
     return true;
 }
+/**
+* @brief saveMetricsToFile
+*/
 bool saveMetricsToFile(int pairNumber, double specificity, double sensitivity, const std::string& filePath) {
     std::ofstream file(filePath, std::ios::app); // Open in append mode
 
@@ -155,6 +133,9 @@ bool saveMetricsToFile(int pairNumber, double specificity, double sensitivity, c
     file.close();
     return true;
 }
+/**
+* @brief saveFileToCSV
+*/
 bool saveFileToCSV(const std::string& filename, const std::vector<std::vector<double>>& data) {
     std::ofstream file(filename);
 
@@ -176,6 +157,9 @@ bool saveFileToCSV(const std::string& filename, const std::vector<std::vector<do
     file.close();
     return true;
 }
+/**
+* @brief readCoordinatesFromCSV
+*/
 std::vector<std::pair<double, double>> readCoordinatesFromCSV(const std::string& filePath) {
     std::vector<std::pair<double, double>> points;
     std::ifstream file(filePath);

@@ -24,6 +24,10 @@ void \mbox{\hyperlink{classContour_a58e663eb8b5699e61139a5ffa06ee230}{get\+Initi
 \begin{DoxyCompactList}\small\item\em Get initial samples from initialization routine. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classContour_a0bc3a1a3fba08efeeb07b6e37f288bbc}{evaluate\+Gaussian\+Process}} (const bayesopt\+::vectord \&q)
 \begin{DoxyCompactList}\small\item\em Evaluates ground truth at desired point. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classContour_ad17a1a64011bc6add7d4412b1ec0223a}{get\+Total\+Number\+Of\+Samples}} ()
+\begin{DoxyCompactList}\small\item\em Get number of total number of sampels (initial samples + runs). \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classContour_a1edb311d772de101784b647132c4facd}{get\+Number\+Of\+Runs}} ()
+\begin{DoxyCompactList}\small\item\em Get number of number of optimization iterations. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classContour_a98e2fc50dd4156928ce537afd8474010}{evaluate\+Criteria\+Gaussian\+Process}} (const bayesopt\+::vectord \&q)
 \begin{DoxyCompactList}\small\item\em Get value of criterion (Expected Improvement) at desired point. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classContour_ad5f82c77a65cfecc1173469a4d62042e}{prepare\+Gaussian\+Process}} ()
@@ -52,12 +56,6 @@ void \mbox{\hyperlink{classContour_ade1add10333ef9ad8620c0670afcffeb}{compute\+S
 \begin{DoxyCompactList}\small\item\em Computes stiffness threshold used to detect contour points. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classContour_a9a232f01cb3d0ebc1dbee1ee26f39e6e}{print\+Parameters}} (const bayesopt\+::\+Parameters \&par)
 \begin{DoxyCompactList}\small\item\em Log parameters used for optimization. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{classContour_a3fc0ed48e1d7977eaba395a62c63bb4e}\label{classContour_a3fc0ed48e1d7977eaba395a62c63bb4e}} 
-size\+\_\+t {\bfseries number\+\_\+of\+\_\+step\+\_\+runs}
-\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -241,6 +239,21 @@ Get last sample from Gaussian process.
 {\em Returns} & vector of last sample. \\
 \hline
 \end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_a1edb311d772de101784b647132c4facd}\label{classContour_a1edb311d772de101784b647132c4facd}} 
+\index{Contour@{Contour}!getNumberOfRuns@{getNumberOfRuns}}
+\index{getNumberOfRuns@{getNumberOfRuns}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getNumberOfRuns()}{getNumberOfRuns()}}
+{\footnotesize\ttfamily size\+\_\+t Contour\+::get\+Number\+Of\+Runs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get number of number of optimization iterations. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Number} & of samples \\
+\hline
+\end{DoxyRetVals}
 \mbox{\Hypertarget{classContour_ad7190b8b91e0d6b4b2551cf396a17902}\label{classContour_ad7190b8b91e0d6b4b2551cf396a17902}} 
 \index{Contour@{Contour}!getPredictionGaussianProcess@{getPredictionGaussianProcess}}
 \index{getPredictionGaussianProcess@{getPredictionGaussianProcess}!Contour@{Contour}}
@@ -291,6 +304,21 @@ Get pair of spline interpolants in x and y.
 {\em Returns} & pair of spline interpolants that can be used to query parametric contour. \\
 \hline
 \end{DoxyRetVals}
+\mbox{\Hypertarget{classContour_ad17a1a64011bc6add7d4412b1ec0223a}\label{classContour_ad17a1a64011bc6add7d4412b1ec0223a}} 
+\index{Contour@{Contour}!getTotalNumberOfSamples@{getTotalNumberOfSamples}}
+\index{getTotalNumberOfSamples@{getTotalNumberOfSamples}!Contour@{Contour}}
+\doxysubsubsection{\texorpdfstring{getTotalNumberOfSamples()}{getTotalNumberOfSamples()}}
+{\footnotesize\ttfamily size\+\_\+t Contour\+::get\+Total\+Number\+Of\+Samples (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get number of total number of sampels (initial samples + runs). 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Number} & of samples \\
+\hline
+\end{DoxyRetVals}
 \mbox{\Hypertarget{classContour_ad5f82c77a65cfecc1173469a4d62042e}\label{classContour_ad5f82c77a65cfecc1173469a4d62042e}} 
 \index{Contour@{Contour}!prepareGaussianProcess@{prepareGaussianProcess}}
 \index{prepareGaussianProcess@{prepareGaussianProcess}!Contour@{Contour}}
@@ -313,9 +341,14 @@ Log parameters used for optimization.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em par} & Bayes\+Opt paramters. \\
+\mbox{\texttt{ in}}  & {\em par} & Bayes\+Opt parameters. \\
 \hline
 \end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em True} & if file write operation was successful. \\
+\hline
+\end{DoxyRetVals}
 \mbox{\Hypertarget{classContour_a415a681a627e19462d9776dc67d60d2e}\label{classContour_a415a681a627e19462d9776dc67d60d2e}} 
 \index{Contour@{Contour}!runGaussianProcess@{runGaussianProcess}}
 \index{runGaussianProcess@{runGaussianProcess}!Contour@{Contour}}
@@ -330,5 +363,5 @@ Wrapper to perform single step optimization.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/raphael/robolab/displaygp/include/contour.\+hpp\item 
-/home/raphael/robolab/displaygp/src/contour.\+cpp\end{DoxyCompactItemize}
+/home/raphael/robolab/displaygp/include/\mbox{\hyperlink{contour_8hpp}{contour.\+hpp}}\item 
+/home/raphael/robolab/displaygp/src/\mbox{\hyperlink{contour_8cpp}{contour.\+cpp}}\end{DoxyCompactItemize}

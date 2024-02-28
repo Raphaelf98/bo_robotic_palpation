@@ -10,7 +10,10 @@
 #include<numeric>
 
 #include"helper.hpp"
-
+/**
+ * @file
+ * 
+ */
 typedef std::unique_ptr<alglib::spline1dinterpolant> SplineInterpolant1d_ptr;
 typedef std::pair<std::shared_ptr<alglib::spline1dinterpolant>,std::shared_ptr<alglib::spline1dinterpolant>> SplineInterpolant_ptr_pair;
 typedef std::vector<SplineInterpolant_ptr_pair> SplineInterpolant_ptr_pair_vec;
@@ -32,7 +35,10 @@ private:
     
     // Bayesian Optimization variables
     bayesopt::BayesOptBase* bopt_model_;
-    std::vector<std::vector<double>> c_;// Holds posterior
+    std::vector<std::vector<double>> posterior_;// Holds posterior
+    std::vector<std::vector<double>> std_dev_;
+    std::vector<Point> samples_list_;
+    size_t state_ii_;
     // Mean Shift variables
     MeanShift mean_shift_;
     std::vector<std::vector<double>> ms_data_; 
@@ -45,6 +51,7 @@ private:
     size_t lim_steps_;
     size_t n_directions_;
     double multiplier_;
+    
     //Containers to store approximation data
     std::vector<std::vector<Point>> contours_;
     alglib::spline1dinterpolant spline_1_, spline_2_;
@@ -53,6 +60,8 @@ private:
     //k-means variables
     std::vector<double> y_values_;
     size_t total_number_of_iterations_; 
+    size_t number_of_step_runs_;
+    size_t number_of_init_samples_;
     std::vector<double> tumor_stiffness_vec_;
     double tumor_stiffness_std_;
     double tumor_stiffness_mean_;
@@ -64,12 +73,48 @@ private:
 
     //File handling
     std::string experiment_path_; 
-    
+    /**
+    * @brief Returns true if stiffness value is smaller than threshold. 
+    * (Note: bayesopt lib offers only minimization of global function and here stiffness observations are negated)
+    * 
+    */
     bool contourPoint_(double &stiffness);
+    /**
+    * @brief Clusters observed stiffness values in tumor (high-stiffness) and non-tumor (low-stiffness) values.
+    *  (Note: bayesopt lib offers only minimization of global function and here stiffness observations are negated)
+    * 
+    */
     void labelData_();
+     /**
+    * @brief Calculates stiffness threshold for contour point search. 
+    * 
+    */
     void computeStiffnessThreshold_();
+     /**
+    * @brief Stores initial samples that are computed by bayesopt initialization routine. 
+    * 
+    */
+    void storeProcessData_();
+    void storeInitialSamples_();
+    /**
+    * @brief After successful optimization, posterior can be written to txt file.
+    * 
+    */
+    bool savePosteriorToFile_();
+    /**
+    * @brief After successful optimization, standard deviation can be written to txt file.
+    * 
+    */
+    bool saveStandardDeviationToFile_();
+     /**
+    * @brief Save Points type to CSV.
+    * @param[in] name Filename
+    * @param[in] points_ Points with x,y coordinates.
+    * @retval Returns true if successful.
+    */
+    bool savePointsToCSV_();
 public:
-    size_t number_of_step_runs;
+    
     
     //Contour(bayesopt::BayesOptBase* bopt_model, size_t n_exploration_directions);
     /**
@@ -81,7 +126,7 @@ public:
     * 
     * 
     */
-    Contour(bayesopt::BayesOptBase* bopt_model,ContourParamters cp, std::string experiment_path);
+    Contour(bayesopt::BayesOptBase* bopt_model,ContourParameters cp, std::string experiment_path);
     Contour(){}
     ~Contour();
 
@@ -131,8 +176,26 @@ public:
     * @retval returns stiffness value.
     * 
     */
+    
     double evaluateGaussianProcess(const bayesopt::vectord &q);
-
+    /**
+    * @brief Get number of total number of sampels (initial samples + runs).
+    *
+    *
+    *
+    * @retval Number of samples
+    * 
+    */
+    size_t getTotalNumberOfSamples();
+    /**
+    * @brief Get number of  number of optimization iterations.
+    *
+    *
+    *
+    * @retval Number of samples
+    * 
+    */
+    size_t getNumberOfRuns();
     /**
     * @brief Get value of criterion (Expected Improvement) at desired point.
     *
@@ -221,15 +284,16 @@ public:
     * 
     */
     void computeStiffnessThreshold();
-   
+    
     /**
     * @brief Log parameters used for optimization.
     *
-    * @param[in] par BayesOpt paramters.
-    *
+    * @param[in] par BayesOpt parameters.
+    * @retval True if file write operation was successful.
     * 
     * 
     */
+   
     void printParameters(const bayesopt::Parameters& par);
 };
 

@@ -1,0 +1,187 @@
+\hypertarget{main_8cpp}{}\doxysection{/home/raphael/robolab/displaygp/src/main.cpp File Reference}
+\label{main_8cpp}\index{/home/raphael/robolab/displaygp/src/main.cpp@{/home/raphael/robolab/displaygp/src/main.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$bayesopt/bayesopt.\+hpp$>$}\newline
+{\ttfamily \#include $<$bayesopt/parameters.\+hpp$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}param\+\_\+loader.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}display2dgp.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}testfunctions.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}helper.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}contour.\+hpp\char`\"{}}\newline
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{main_8cpp_a5a4538eeab397888d88a4eefcc5a1345}{Shape\+Type}} \{ \newline
+{\bfseries S\+H\+A\+P\+E\+\_\+\+C\+I\+R\+C\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+T\+R\+I\+A\+N\+G\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+R\+E\+C\+T\+A\+N\+G\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+T\+W\+O\+C\+I\+R\+C\+L\+ES}, 
+\newline
+{\bfseries S\+H\+A\+P\+E\+\_\+\+U\+N\+K\+N\+O\+WN}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+C\+I\+R\+C\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+T\+R\+I\+A\+N\+G\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+R\+E\+C\+T\+A\+N\+G\+LE}, 
+\newline
+{\bfseries S\+H\+A\+P\+E\+\_\+\+T\+W\+O\+C\+I\+R\+C\+L\+ES}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+U\+N\+K\+N\+O\+WN}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+C\+I\+R\+C\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+T\+R\+I\+A\+N\+G\+LE}, 
+\newline
+{\bfseries S\+H\+A\+P\+E\+\_\+\+R\+E\+C\+T\+A\+N\+G\+LE}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+T\+W\+O\+C\+I\+R\+C\+L\+ES}, 
+{\bfseries S\+H\+A\+P\+E\+\_\+\+U\+N\+K\+N\+O\+WN}
+ \}
+\begin{DoxyCompactList}\small\item\em enum type that holds \mbox{\hyperlink{classShape}{Shape}} type that is passed from C\+LI. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a4ea013001a5fb47853d0fab8f8de35cd}{display}} (void)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function to display plot contents. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_acc1ffe65e6869931318610cae7210078}{reshape}} (int w, int h)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function to reshape window. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a01131b63acf241e9db91704d89ce15d2}{idle}} (void)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function. Global callback functions, see freeglut\+\_\+callbacks.\+c. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_ac76a5d78172a826cd6ee9512b89a86c0}{mouse}} (int button, int state, int x, int y)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function to handle mouse interaction. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a45a7d7c86c97ca6a2d4d32ce2d263f67}{motion}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function to handle window motion. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a45a5d808a5a96efcea3dbca1867c9c52}{passive}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function passive motion. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_aef7ba2f69afb2d954545f64c7fe24b14}{keyboard}} (unsigned char key, int x, int y)
+\begin{DoxyCompactList}\small\item\em Matplotpp callback function to handy keyboard input. State machine is set to run state by pressing \textquotesingle{}r\textquotesingle{} or to step run if \textquotesingle{}s\textquotesingle{} is pressed. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{main_8cpp_a5a4538eeab397888d88a4eefcc5a1345}{Shape\+Type}} \mbox{\hyperlink{main_8cpp_a561b3bc92b7cb138c4e392be325927f6}{get\+Shape\+Type}} (const std\+::string \&shape)
+\begin{DoxyCompactList}\small\item\em Returns enum type from string shape input. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Main function to run algorithm. Takes in a shape as argument and instantiates the desired tumor model. Runs optimization and visualization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{main_8cpp_aec9e68c773293559140389fdc686eca0}\label{main_8cpp_aec9e68c773293559140389fdc686eca0}} 
+\mbox{\hyperlink{classDisplayHeatMap2D}{Display\+Heat\+Map2D}} {\bfseries G\+L\+O\+B\+A\+L\+\_\+\+M\+A\+T\+P\+L\+OT}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{main_8cpp_a5a4538eeab397888d88a4eefcc5a1345}\label{main_8cpp_a5a4538eeab397888d88a4eefcc5a1345}} 
+\index{main.cpp@{main.cpp}!ShapeType@{ShapeType}}
+\index{ShapeType@{ShapeType}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ShapeType}{ShapeType}}
+{\footnotesize\ttfamily enum Shape\+Type}
+
+
+
+enum type that holds \mbox{\hyperlink{classShape}{Shape}} type that is passed from C\+LI. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_a4ea013001a5fb47853d0fab8f8de35cd}\label{main_8cpp_a4ea013001a5fb47853d0fab8f8de35cd}} 
+\index{main.cpp@{main.cpp}!display@{display}}
+\index{display@{display}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily void display (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function to display plot contents. 
+
+\mbox{\Hypertarget{main_8cpp_a561b3bc92b7cb138c4e392be325927f6}\label{main_8cpp_a561b3bc92b7cb138c4e392be325927f6}} 
+\index{main.cpp@{main.cpp}!getShapeType@{getShapeType}}
+\index{getShapeType@{getShapeType}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{getShapeType()}{getShapeType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{main_8cpp_a5a4538eeab397888d88a4eefcc5a1345}{Shape\+Type}} get\+Shape\+Type (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{shape }\end{DoxyParamCaption})}
+
+
+
+Returns enum type from string shape input. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em shape} & Name of \mbox{\hyperlink{classShape}{Shape}} options are \mbox{\hyperlink{classCircle}{Circle}}, \mbox{\hyperlink{classTriangle}{Triangle}}, \mbox{\hyperlink{classRectangle}{Rectangle}} and \mbox{\hyperlink{classTwoCircles}{Two\+Circles}} at the moment. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8cpp_a01131b63acf241e9db91704d89ce15d2}\label{main_8cpp_a01131b63acf241e9db91704d89ce15d2}} 
+\index{main.cpp@{main.cpp}!idle@{idle}}
+\index{idle@{idle}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{idle()}{idle()}}
+{\footnotesize\ttfamily void idle (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function. Global callback functions, see freeglut\+\_\+callbacks.\+c. 
+
+\mbox{\Hypertarget{main_8cpp_aef7ba2f69afb2d954545f64c7fe24b14}\label{main_8cpp_aef7ba2f69afb2d954545f64c7fe24b14}} 
+\index{main.cpp@{main.cpp}!keyboard@{keyboard}}
+\index{keyboard@{keyboard}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{keyboard()}{keyboard()}}
+{\footnotesize\ttfamily void keyboard (\begin{DoxyParamCaption}\item[{unsigned char}]{key,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function to handy keyboard input. State machine is set to run state by pressing \textquotesingle{}r\textquotesingle{} or to step run if \textquotesingle{}s\textquotesingle{} is pressed. 
+
+\mbox{\Hypertarget{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}\label{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Main function to run algorithm. Takes in a shape as argument and instantiates the desired tumor model. Runs optimization and visualization. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em argc} & Argument number \\
+\hline
+\mbox{\texttt{ in}}  & {\em argv} & Name of \mbox{\hyperlink{classShape}{Shape}} options are \mbox{\hyperlink{classCircle}{Circle}}, \mbox{\hyperlink{classTriangle}{Triangle}}, \mbox{\hyperlink{classRectangle}{Rectangle}} and \mbox{\hyperlink{classTwoCircles}{Two\+Circles}} at the moment. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8cpp_a45a7d7c86c97ca6a2d4d32ce2d263f67}\label{main_8cpp_a45a7d7c86c97ca6a2d4d32ce2d263f67}} 
+\index{main.cpp@{main.cpp}!motion@{motion}}
+\index{motion@{motion}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{motion()}{motion()}}
+{\footnotesize\ttfamily void motion (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function to handle window motion. 
+
+\mbox{\Hypertarget{main_8cpp_ac76a5d78172a826cd6ee9512b89a86c0}\label{main_8cpp_ac76a5d78172a826cd6ee9512b89a86c0}} 
+\index{main.cpp@{main.cpp}!mouse@{mouse}}
+\index{mouse@{mouse}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{mouse()}{mouse()}}
+{\footnotesize\ttfamily void mouse (\begin{DoxyParamCaption}\item[{int}]{button,  }\item[{int}]{state,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function to handle mouse interaction. 
+
+\mbox{\Hypertarget{main_8cpp_a45a5d808a5a96efcea3dbca1867c9c52}\label{main_8cpp_a45a5d808a5a96efcea3dbca1867c9c52}} 
+\index{main.cpp@{main.cpp}!passive@{passive}}
+\index{passive@{passive}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{passive()}{passive()}}
+{\footnotesize\ttfamily void passive (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function passive motion. 
+
+\mbox{\Hypertarget{main_8cpp_acc1ffe65e6869931318610cae7210078}\label{main_8cpp_acc1ffe65e6869931318610cae7210078}} 
+\index{main.cpp@{main.cpp}!reshape@{reshape}}
+\index{reshape@{reshape}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{reshape()}{reshape()}}
+{\footnotesize\ttfamily void reshape (\begin{DoxyParamCaption}\item[{int}]{w,  }\item[{int}]{h }\end{DoxyParamCaption})}
+
+
+
+Matplotpp callback function to reshape window. 
+

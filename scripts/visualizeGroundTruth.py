@@ -4,6 +4,14 @@ import argparse
 from pathlib import Path
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
 def plot_heatmap_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
@@ -76,3 +84,4 @@ if __name__ == "__main__":
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
     plot_heatmap_from_csv(data_dir+"groundTruthHeatMap.csv")
     plot_3d_from_csv(data_dir+"groundTruthHeatMap.csv")
+    

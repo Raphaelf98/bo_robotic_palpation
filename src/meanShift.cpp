@@ -5,6 +5,10 @@
 
 #include "meanShift.hpp"
 #include "prob_distribution.hpp"
+/**
+ * @file
+ * 
+ */
 MeanShift::MeanShift(){}
 /*
 Constructor that reads in data, means shift bandwidth, samples and experiment file path.
@@ -44,7 +48,7 @@ MeanShift::MeanShift(std::vector<std::vector<double>> data, double bandwidth, in
        
 	}
 
-    saveDataToCSV();
+    saveNormalizedDataToCSV();
     scatterData(scattered_points);
     
     std::string path = generateExperimentFilePath(experiment_path_,LOG_PATH, FILE_SCATTERED_DATA);
@@ -151,7 +155,7 @@ void MeanShift::printClusters()
         std::cout <<"X: "<< newCenters[i].x << "Y: " << newCenters[i].y << std::endl;
     }
 }
-bool MeanShift::saveDataToCSV()
+bool MeanShift::saveNormalizedDataToCSV()
 {   
      std::string path = generateExperimentFilePath(experiment_path_, LOG_PATH, FILE_NORMALIZED_DATA);
   std::ofstream file(path);
@@ -240,7 +244,7 @@ K_means::K_means(const std::vector<double> &vals, const double low_stiffness_gue
    
     data_.reshape(1,data_.size());
     //pre-fill centroids_ with guesses for initial clusters
-    //std::vector<double> cs = {0.1,0.9,0.5};
+    
      std::vector<double> cs = {low_stiffness_guess,high_stifness_guess,(high_stifness_guess+low_stiffness_guess)/2.0};
     centroids_ = arma::mat(cs);
 

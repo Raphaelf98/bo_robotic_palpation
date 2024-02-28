@@ -2,7 +2,7 @@
 \label{classShape}\index{Shape@{Shape}}
 
 
-\mbox{\hyperlink{classShape}{Shape}} base class.  
+\mbox{\hyperlink{classShape}{Shape}} base class. Holds virtual functions that are unique to derived child class and need to be implemented by them. Inherits from bayesopt Continous\+Model class.  
 
 
 
@@ -30,27 +30,20 @@ Collaboration diagram for Shape\+:\nopagebreak
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}\label{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}} 
-{\bfseries Shape} (bayesopt\+::\+Parameters par)
-\item 
-\mbox{\Hypertarget{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}\label{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}} 
-virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+x} ()=0
-\item 
-\mbox{\Hypertarget{classShape_a095479eedc56524c5e9555785aa47ca7}\label{classShape_a095479eedc56524c5e9555785aa47ca7}} 
-virtual std\+::function$<$ double(const double \&)$>$ {\bfseries f\+\_\+y} ()=0
-\item 
-\mbox{\Hypertarget{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}\label{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}} 
-virtual double {\bfseries evaluate\+Sample} (const vectord \&xin)
-\item 
-\mbox{\Hypertarget{classShape_ab7eddf7c981a63d8c62c0aa65295ff8c}\label{classShape_ab7eddf7c981a63d8c62c0aa65295ff8c}} 
-double {\bfseries smoothstep} (double edge0, double edge1, double x, double low, double high)
-\item 
-\mbox{\Hypertarget{classShape_a6a20d9910b30dc1d963152807bea9236}\label{classShape_a6a20d9910b30dc1d963152807bea9236}} 
-double {\bfseries clamp} (double x, double lowerlimit, double upperlimit)
-\item 
-\mbox{\Hypertarget{classShape_ae382aa8684736b35f87a7b6ec3af2a43}\label{classShape_ae382aa8684736b35f87a7b6ec3af2a43}} 
-virtual void {\bfseries save\+Ground\+Truth} (const size\+\_\+t c\+\_\+points, std\+::string file\+\_\+path)
-\end{DoxyCompactItemize}
+\mbox{\hyperlink{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}{Shape}} (bayesopt\+::\+Parameters par)
+\begin{DoxyCompactList}\small\item\em Constructor of shape base class. \end{DoxyCompactList}\item 
+virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}{f\+\_\+x}} ()=0
+\begin{DoxyCompactList}\small\item\em Virtual function that is implemented by derived class. Returns parametric function of tumor model in x as function pointer. \end{DoxyCompactList}\item 
+virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classShape_a095479eedc56524c5e9555785aa47ca7}{f\+\_\+y}} ()=0
+\begin{DoxyCompactList}\small\item\em Virtual function that is implemented by derived class. Returns parametric function of tumor model in y as function pointer. \end{DoxyCompactList}\item 
+virtual double \mbox{\hyperlink{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}{evaluate\+Sample}} (const vectord \&xin)
+\begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayes opt to query tumor model. Virtual Function that is implemented by child classes. When deploying algorithm to hardware, stiffness measurements need to be generated in this function. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{classShape_aa89d648d778d2279cadfc8a3bcee7221}{check\+Reachability}} (const vectord \&query)
+\begin{DoxyCompactList}\small\item\em Checks reachability of query. Virtual function that is implemented by derived class. Note\+: function is not implemented in child classes but might be of value for implementation with hardware. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classShape_a97c1e61c2d4d5cf5fa3252caa83e1d6f}{smoothstep}} (const double x\+\_\+l, const double x\+\_\+r, const double x, const double y\+\_\+l, const double y\+\_\+r)
+\begin{DoxyCompactList}\small\item\em This function implements a smooth step as a third degree polynomial. The polynomial is constrained through three conditions. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classShape_ae382aa8684736b35f87a7b6ec3af2a43}{save\+Ground\+Truth}} (const size\+\_\+t c\+\_\+points, std\+::string file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Virtual function implemented by child class. Saves ground truth to file with resolution of c\+\_\+points. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -75,11 +68,174 @@ double {\bfseries epsilon\+\_\+}
 
 
 \doxysubsection{Detailed Description}
-\mbox{\hyperlink{classShape}{Shape}} base class. 
+\mbox{\hyperlink{classShape}{Shape}} base class. Holds virtual functions that are unique to derived child class and need to be implemented by them. Inherits from bayesopt Continous\+Model class. 
 
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}\label{classShape_aefb9a84b0c51b813fd1a171319ea9ce6}} 
+\index{Shape@{Shape}!Shape@{Shape}}
+\index{Shape@{Shape}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{Shape()}{Shape()}}
+{\footnotesize\ttfamily Shape\+::\+Shape (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par }\end{DoxyParamCaption})}
+
+
+
+Constructor of shape base class. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Takes bayesopt parameters ~\newline
+ \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classShape_aa89d648d778d2279cadfc8a3bcee7221}\label{classShape_aa89d648d778d2279cadfc8a3bcee7221}} 
+\index{Shape@{Shape}!checkReachability@{checkReachability}}
+\index{checkReachability@{checkReachability}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{checkReachability()}{checkReachability()}}
+{\footnotesize\ttfamily virtual bool Shape\+::check\+Reachability (\begin{DoxyParamCaption}\item[{const vectord \&}]{query }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Checks reachability of query. Virtual function that is implemented by derived class. Note\+: function is not implemented in child classes but might be of value for implementation with hardware. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em query} & Vector with x and y coordinates. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em True} & if query is reachable. \\
+\hline
+\end{DoxyRetVals}
+
+
+Reimplemented in \mbox{\hyperlink{classCircle_a2294d0fcfdb64b954fc79b42bceaa01d}{Circle}}, \mbox{\hyperlink{classTwoCircles_aa69f345331b34d3398b546af41e808ba}{Two\+Circles}}, \mbox{\hyperlink{classRectangle_a175eca860cf1dadcb8e6323d48ef1947}{Rectangle}}, and \mbox{\hyperlink{classTriangle_ab94e8beaf03ebbe62d16aab6e8a69b00}{Triangle}}.
+
+\mbox{\Hypertarget{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}\label{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}} 
+\index{Shape@{Shape}!evaluateSample@{evaluateSample}}
+\index{evaluateSample@{evaluateSample}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{evaluateSample()}{evaluateSample()}}
+{\footnotesize\ttfamily virtual double Shape\+::evaluate\+Sample (\begin{DoxyParamCaption}\item[{const vectord \&}]{xin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Function called by bayesian optimization in bayes opt to query tumor model. Virtual Function that is implemented by child classes. When deploying algorithm to hardware, stiffness measurements need to be generated in this function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & Takes bayesopt parameters \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em stiffness} & value/cost of global function that is optimized. \\
+\hline
+\end{DoxyRetVals}
+
+
+Reimplemented in \mbox{\hyperlink{classCircle_a3abbc327e5b76bd6a32efd3cbf4640bb}{Circle}}, \mbox{\hyperlink{classTwoCircles_ae6ae546dec3a145488046d395c197834}{Two\+Circles}}, \mbox{\hyperlink{classRectangle_a9340a7a5e3b8a74a63ba767333000a3c}{Rectangle}}, and \mbox{\hyperlink{classTriangle_a946399d487b41a7d39a99cf68aa9bd6b}{Triangle}}.
+
+\mbox{\Hypertarget{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}\label{classShape_ac72dc80d3de559ecd0d8d9b5d3e6d005}} 
+\index{Shape@{Shape}!f\_x@{f\_x}}
+\index{f\_x@{f\_x}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{f\_x()}{f\_x()}}
+{\footnotesize\ttfamily virtual std\+::function$<$double (const double\&)$>$ Shape\+::f\+\_\+x (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Virtual function that is implemented by derived class. Returns parametric function of tumor model in x as function pointer. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Function} & pointer of parametric function in x. \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{classCircle_ad8d952886a211acd54466a74657c9db9}{Circle}}, \mbox{\hyperlink{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}{Two\+Circles}}, \mbox{\hyperlink{classRectangle_a9cb7a91f359fea78c48f0ca5eea42151}{Rectangle}}, and \mbox{\hyperlink{classTriangle_a752039ea45a15dd041283547602205a4}{Triangle}}.
+
+\mbox{\Hypertarget{classShape_a095479eedc56524c5e9555785aa47ca7}\label{classShape_a095479eedc56524c5e9555785aa47ca7}} 
+\index{Shape@{Shape}!f\_y@{f\_y}}
+\index{f\_y@{f\_y}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{f\_y()}{f\_y()}}
+{\footnotesize\ttfamily virtual std\+::function$<$double (const double\&)$>$ Shape\+::f\+\_\+y (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Virtual function that is implemented by derived class. Returns parametric function of tumor model in y as function pointer. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em Function} & pointer of parametric function in y. \\
+\hline
+\end{DoxyRetVals}
+
+
+Implemented in \mbox{\hyperlink{classCircle_ad514e561b4a94f9660b93e6b0622f5c5}{Circle}}, \mbox{\hyperlink{classTwoCircles_a41fa5f55a125e61db335e05067379175}{Two\+Circles}}, \mbox{\hyperlink{classRectangle_a1a6d14f5be7c89935dee3d2b64164c6c}{Rectangle}}, and \mbox{\hyperlink{classTriangle_a1435d6bac0436b5e794bb94ee140f0b1}{Triangle}}.
+
+\mbox{\Hypertarget{classShape_ae382aa8684736b35f87a7b6ec3af2a43}\label{classShape_ae382aa8684736b35f87a7b6ec3af2a43}} 
+\index{Shape@{Shape}!saveGroundTruth@{saveGroundTruth}}
+\index{saveGroundTruth@{saveGroundTruth}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{saveGroundTruth()}{saveGroundTruth()}}
+{\footnotesize\ttfamily virtual void Shape\+::save\+Ground\+Truth (\begin{DoxyParamCaption}\item[{const size\+\_\+t}]{c\+\_\+points,  }\item[{std\+::string}]{file\+\_\+path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Virtual function implemented by child class. Saves ground truth to file with resolution of c\+\_\+points. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em c\+\_\+points} & Takes bayesopt parameters \\
+\hline
+\mbox{\texttt{ in}}  & {\em file\+\_\+path} & absolute path to file. Filename is generated in method. \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \mbox{\hyperlink{classCircle_ad27519dfc09492010d39707b6450a9df}{Circle}}, \mbox{\hyperlink{classTwoCircles_a31e48f7d7c77483aae78d39e7ab32417}{Two\+Circles}}, \mbox{\hyperlink{classRectangle_aa444cab142d7e1c20e6f74edc1a491ed}{Rectangle}}, and \mbox{\hyperlink{classTriangle_aed7fd475fbfc2f20b3e1d92ba4531402}{Triangle}}.
+
+\mbox{\Hypertarget{classShape_a97c1e61c2d4d5cf5fa3252caa83e1d6f}\label{classShape_a97c1e61c2d4d5cf5fa3252caa83e1d6f}} 
+\index{Shape@{Shape}!smoothstep@{smoothstep}}
+\index{smoothstep@{smoothstep}!Shape@{Shape}}
+\doxysubsubsection{\texorpdfstring{smoothstep()}{smoothstep()}}
+{\footnotesize\ttfamily double Shape\+::smoothstep (\begin{DoxyParamCaption}\item[{const double}]{x\+\_\+l,  }\item[{const double}]{x\+\_\+r,  }\item[{const double}]{x,  }\item[{const double}]{y\+\_\+l,  }\item[{const double}]{y\+\_\+r }\end{DoxyParamCaption})}
+
+
+
+This function implements a smooth step as a third degree polynomial. The polynomial is constrained through three conditions. 
+
+
+\begin{DoxyEnumerate}
+\item f(x\+\_\+1) = y\+\_\+1 and f(x\+\_\+2) = y\+\_\+2
+\item f\textquotesingle{}(x\+\_\+1) = 0 and f\textquotesingle{}(x\+\_\+2) = 0
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x\+\_\+l} & Left x coordinate \\
+\hline
+\mbox{\texttt{ in}}  & {\em x\+\_\+r} & Right x coordinate \\
+\hline
+\mbox{\texttt{ in}}  & {\em x} & X value a which smooth step is evaluated. \\
+\hline
+\mbox{\texttt{ in}}  & {\em y\+\_\+l} & Left y coordinate \\
+\hline
+\mbox{\texttt{ in}}  & {\em y\+\_\+r} & Right y coordinate \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em f(x)} & function value of smoothstep. \\
+\hline
+\end{DoxyRetVals}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/raphael/robolab/displaygp/include/tumor\+Model.\+hpp\item 
-/home/raphael/robolab/displaygp/src/tumor\+Model.\+cpp\end{DoxyCompactItemize}
+/home/raphael/robolab/displaygp/include/\mbox{\hyperlink{tumorModel_8hpp}{tumor\+Model.\+hpp}}\item 
+/home/raphael/robolab/displaygp/src/\mbox{\hyperlink{tumorModel_8cpp}{tumor\+Model.\+cpp}}\end{DoxyCompactItemize}

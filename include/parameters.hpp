@@ -23,8 +23,13 @@
 #define FILE_CONTOUR_APPRX "contour_"
 #define FILE_EVAL_GROUND_TRUTH "groundTruth.csv"
 #define FILE_POSTERIOR "posterior.txt"
+#define FILE_STANDARDDEV "standard_deviation.txt"
+#define FILE_GP_SAMPLES "gp_samples.csv"
 #define FILE_GROUND_TRUTH_HEATMAP "groundTruthHeatMap.csv"
-
+/**
+ * @file
+ * 
+ */
 /** 
  * @brief Tumor model parameters.
  *This struct holds parameters for triangle, rectangle, circle and two circle tumor models.
@@ -92,7 +97,7 @@ struct TumorModelParameters
  * @brief Contour class parameters.
  *This struct holds parameters to control the behaviour of centroid computation and counter point search in Contour class.
  */
-struct ContourParamters{
+struct ContourParameters{
     size_t n_exploration_directions=10;
     size_t c_points=100;
     double means_shift_bandwidth=0.05;
@@ -106,14 +111,14 @@ struct ContourParamters{
  *@param[in] fp file parser object that hold information about parameter file.
  *@param[in] cp TumorModelParameters class object that parameters from file are written into.
  */
-    void loadContour(bayesopt::utils::FileParser &fp, ContourParamters &cp);
+    void loadContour(bayesopt::utils::FileParser &fp, ContourParameters &cp);
      /** 
  * @brief Read contour parameters from file and store them into ContourParameters object. Calls loadContour routine. 
  * 
  *@param[in] filename absolute file path to parameter file.
  *@param[in] cp ContourParameters class object that parameters from file are written into.
  */
-    bool loadContourParameters(std::string filename, ContourParamters &cp);
+    bool loadContourParameters(std::string filename, ContourParameters &cp);
      /** 
  * @brief Prints current parameters.
 

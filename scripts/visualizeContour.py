@@ -1,9 +1,18 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+
 import numpy as np
 import argparse
 import os
 from pathlib import Path
+import matplotlib
+matplotlib.use("pgf")
+matplotlib.rcParams.update({
+    "pgf.texsystem": "pdflatex",
+    'font.family': 'serif',
+    'text.usetex': True,
+    'pgf.rcfonts': False,
+})
 def read_contour_data(file_path):
     contours = []
     current_contour = {}
@@ -53,7 +62,7 @@ data1 = pd.read_csv(data_dir+'contour_1.csv')
 contour_points_2 =[]
 data2 = []
 result_file   = result_dir+"metrics.txt"
-
+contour_data = None
 
  # Check if metricsPath exists
 if os.path.exists(result_file):
@@ -69,16 +78,25 @@ gt_points_x_1 =[]
 gt_points_y_1 =[]
 gt_points_x_2 =[]
 gt_points_y_2 =[]
-plt.scatter(cx1, cy1,  label="Centroid")
+plt.scatter(cx1, cy1,  label="Centroid 1")
+# Plot lines connecting each point in contour_points_1 to the centroid
+for x, y in zip(contour_points_1['X'], contour_points_1['Y']):
+    plt.plot([cx1, x], [cy1, y], 'k--', linewidth=0.5)  # 'k-' sets the color to black
+
+    
 if(len(x1) == 2000):
     contour_points_2 = pd.read_csv(data_dir+'contour_points_2.csv')
+    # Similar code for the second set of contour points and centroid
+    cx2, cy2 = centroids.iloc[1]
+    for x, y in zip(contour_points_2['X'], contour_points_2['Y']):
+        plt.plot([cx2, x], [cy2, y], 'k--', linewidth=0.5)  # 'k-' sets the color to black
     data2 = pd.read_csv(data_dir+'contour_2.csv')
     gt_points_x_1 = x1[:1000]
     gt_points_y_1 = y1[:1000]
     gt_points_x_2 = x1[1000:]
     gt_points_y_2 = y1[1000:]
     cx2, cy2 = centroids.iloc[1]  
-    plt.scatter(cx2, cy2,  label="Centroid")
+    plt.scatter(cx2, cy2,  label="Centroid 2")
 else:
     gt_points_x_1 = x1
     gt_points_y_1 = y1
@@ -88,8 +106,8 @@ points_y_1 = contour_points_1['Y']
 
 
 # Plot the points
-plt.plot(points_x_1,points_y_1, "bo", label="Contour points")
-plt.plot(gt_points_x_1, gt_points_y_1,"g-",  label="Ground truth")
+plt.plot(points_x_1,points_y_1, "bo", label="Contour Points")
+plt.plot(gt_points_x_1, gt_points_y_1,"g-",  label="Ground Truth")
 #plot specificity and sensitivity
 
 
@@ -131,4 +149,5 @@ for i, contour in enumerate(contour_data, start=1):
 
 
 plt.legend(loc='lower left', frameon=False)
+plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_contour_plot.pgf')
 plt.show()

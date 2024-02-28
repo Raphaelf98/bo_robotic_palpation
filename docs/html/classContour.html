@@ -63,7 +63,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classContour-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Contour Class Reference</div>  </div>
@@ -95,6 +94,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0bc3a1a3fba08efeeb07b6e37f288bbc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContour.html#a0bc3a1a3fba08efeeb07b6e37f288bbc">evaluateGaussianProcess</a> (const bayesopt::vectord &amp;q)</td></tr>
 <tr class="memdesc:a0bc3a1a3fba08efeeb07b6e37f288bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates ground truth at desired point.  <a href="classContour.html#a0bc3a1a3fba08efeeb07b6e37f288bbc">More...</a><br /></td></tr>
 <tr class="separator:a0bc3a1a3fba08efeeb07b6e37f288bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad17a1a64011bc6add7d4412b1ec0223a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContour.html#ad17a1a64011bc6add7d4412b1ec0223a">getTotalNumberOfSamples</a> ()</td></tr>
+<tr class="memdesc:ad17a1a64011bc6add7d4412b1ec0223a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of total number of sampels (initial samples + runs).  <a href="classContour.html#ad17a1a64011bc6add7d4412b1ec0223a">More...</a><br /></td></tr>
+<tr class="separator:ad17a1a64011bc6add7d4412b1ec0223a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1edb311d772de101784b647132c4facd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContour.html#a1edb311d772de101784b647132c4facd">getNumberOfRuns</a> ()</td></tr>
+<tr class="memdesc:a1edb311d772de101784b647132c4facd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of number of optimization iterations.  <a href="classContour.html#a1edb311d772de101784b647132c4facd">More...</a><br /></td></tr>
+<tr class="separator:a1edb311d772de101784b647132c4facd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98e2fc50dd4156928ce537afd8474010"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContour.html#a98e2fc50dd4156928ce537afd8474010">evaluateCriteriaGaussianProcess</a> (const bayesopt::vectord &amp;q)</td></tr>
 <tr class="memdesc:a98e2fc50dd4156928ce537afd8474010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get value of criterion (Expected Improvement) at desired point.  <a href="classContour.html#a98e2fc50dd4156928ce537afd8474010">More...</a><br /></td></tr>
 <tr class="separator:a98e2fc50dd4156928ce537afd8474010"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,12 +141,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a9a232f01cb3d0ebc1dbee1ee26f39e6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classContour.html#a9a232f01cb3d0ebc1dbee1ee26f39e6e">printParameters</a> (const bayesopt::Parameters &amp;par)</td></tr>
 <tr class="memdesc:a9a232f01cb3d0ebc1dbee1ee26f39e6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log parameters used for optimization.  <a href="classContour.html#a9a232f01cb3d0ebc1dbee1ee26f39e6e">More...</a><br /></td></tr>
 <tr class="separator:a9a232f01cb3d0ebc1dbee1ee26f39e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a3fc0ed48e1d7977eaba395a62c63bb4e"><td class="memItemLeft" align="right" valign="top"><a id="a3fc0ed48e1d7977eaba395a62c63bb4e"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>number_of_step_runs</b></td></tr>
-<tr class="separator:a3fc0ed48e1d7977eaba395a62c63bb4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class handles the methods to perform. </p>
@@ -455,6 +454,31 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>number_of_step_runs
 
 </div>
 </div>
+<a id="a1edb311d772de101784b647132c4facd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1edb311d772de101784b647132c4facd">&#9670;&nbsp;</a></span>getNumberOfRuns()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Contour::getNumberOfRuns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get number of number of optimization iterations. </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Number</td><td>of samples </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ad7190b8b91e0d6b4b2551cf396a17902"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7190b8b91e0d6b4b2551cf396a17902">&#9670;&nbsp;</a></span>getPredictionGaussianProcess()</h2>
 
@@ -537,6 +561,31 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>number_of_step_runs
 
 </div>
 </div>
+<a id="ad17a1a64011bc6add7d4412b1ec0223a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad17a1a64011bc6add7d4412b1ec0223a">&#9670;&nbsp;</a></span>getTotalNumberOfSamples()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t Contour::getTotalNumberOfSamples </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get number of total number of sampels (initial samples + runs). </p>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Number</td><td>of samples </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ad5f82c77a65cfecc1173469a4d62042e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5f82c77a65cfecc1173469a4d62042e">&#9670;&nbsp;</a></span>prepareGaussianProcess()</h2>
 
@@ -575,7 +624,13 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>number_of_step_runs
 <p>Log parameters used for optimization. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>BayesOpt paramters. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>BayesOpt parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">True</td><td>if file write operation was successful. </td></tr>
   </table>
   </dd>
 </dl>
@@ -603,7 +658,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>number_of_step_runs
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/raphael/robolab/displaygp/include/<a class="el" href="contour_8hpp_source.html">contour.hpp</a></li>
-<li>/home/raphael/robolab/displaygp/src/contour.cpp</li>
+<li>/home/raphael/robolab/displaygp/src/<a class="el" href="contour_8cpp.html">contour.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
