@@ -59,10 +59,10 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
     gt_points_x_2 =[]
     gt_points_y_2 =[]
     if(len(x1) == 2000):
-        gt_points_x_1 = x1[:1000]
-        gt_points_y_1 = y1[:1000]
-        gt_points_x_2 = x1[1000:]
-        gt_points_y_2 = y1[1000:]
+        gt_points_x_1 = x1[:1001]
+        gt_points_y_1 = y1[:1001]
+        gt_points_x_2 = x1[1001:]
+        gt_points_y_2 = y1[1001:]
     else:
         gt_points_x_1 = x1
         gt_points_y_1 = y1
@@ -110,7 +110,7 @@ def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroids
 
     xp1 = data1['X']
     yp1 = data1['Y']
-
+    print()
     # Plot the points
     ax.plot(xp1, yp1,"r-", label="Approximated Contour")
 

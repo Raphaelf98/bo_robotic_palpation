@@ -72,6 +72,7 @@ void TumorModelParameters::loadModel(bayesopt::utils::FileParser &fp, TumorModel
 void ContourParameters::loadContour(bayesopt::utils::FileParser &fp, ContourParameters &cp)
 {
     fp.readOrWrite("n_exploration_directions", cp.n_exploration_directions);
+    fp.readOrWrite("n_exploration_stepsize", cp.stepsize);
     fp.readOrWrite("c_points", cp.c_points);
     fp.readOrWrite("means_shift_bandwidth", cp.means_shift_bandwidth);
     fp.readOrWrite("lim_steps", cp.lim_steps);
@@ -109,6 +110,7 @@ bool ContourParameters::loadContourParameters(std::string filename, ContourParam
   void ContourParameters::PrintParameters() {
         std::cout << "Contour Parameters:" << std::endl;
         std::cout << "Number of exploration directions: " << n_exploration_directions << std::endl;
+         std::cout << "Magnitude of exploration step: " << stepsize << std::endl;
         std::cout << "Number of contour points (c_points): " << c_points << std::endl;
         std::cout << "Mean shift bandwidth: " << means_shift_bandwidth << std::endl;
         std::cout << "Limit steps (lim_steps): " << lim_steps << std::endl;

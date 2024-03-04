@@ -50,8 +50,10 @@ private:
     size_t c_points_;
     size_t lim_steps_;
     size_t n_directions_;
+    double stepsize_;
     double multiplier_;
     
+
     //Containers to store approximation data
     std::vector<std::vector<Point>> contours_;
     alglib::spline1dinterpolant spline_1_, spline_2_;
@@ -279,11 +281,7 @@ public:
     * @brief Perform approximation on Contour points.
     */
     void approximateContour();
-    /**
-    * @brief Computes stiffness threshold used to detect contour points.
-    * 
-    */
-    void computeStiffnessThreshold();
+   
     
     /**
     * @brief Log parameters used for optimization.

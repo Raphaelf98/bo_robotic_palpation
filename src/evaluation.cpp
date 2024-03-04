@@ -449,13 +449,13 @@ int main(int argc, char *argv[])
     std::cout<<"Could not load tumor_model_parameters"<< std::endl;
   }
 
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <Shape>\n";
-        return 1;
-    }
+    // if (argc != 2) {
+    //     std::cerr << "Usage: " << argv[0] << " <Shape>\n";
+    //     return 1;
+    // }
 
-    std::string arg = argv[1];
-    //std::string arg = "TwoCircles";
+    //std::string arg = argv[1];
+    std::string arg = "Triangle";
     std::string experiment_path = generateFilePath(DATA_PATH,"");
     std::string dirName = createShapeDirectory(experiment_path,arg);
     std::string log_dir = LOG_PATH;
@@ -486,7 +486,7 @@ int main(int argc, char *argv[])
     
     std::unique_ptr<Shape> shape;
     std::vector< std::pair <std::function<double (const double&)> ,std::function<double (const double&)>> > groundTruths;
-    switch (type) {
+   switch (type) {
 
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
@@ -517,6 +517,7 @@ int main(int argc, char *argv[])
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             groundTruths.push_back(std::make_pair(shape->f_x(), shape->f_y()));
             break;
+
             
         default:
             std::cout << "Unknown Shape: " << arg << std::endl;

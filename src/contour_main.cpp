@@ -121,27 +121,28 @@ int main(int argc, char *argv[])
 
         case SHAPE_CIRCLE:
             std::cout << "Running Experiment on Circle" << std::endl;
-            shape = std::make_unique<Circle>(par,model_parameters.circle_low,model_parameters.circle_high,model_parameters.circle_radius,
-                                                    model_parameters.circle_x_trans,model_parameters.circle_y_trans,model_parameters.circle_epsilon,model_parameters.circle_noise); 
+             
+            shape = std::make_unique<Circle>(par,model_parameters); 
+           
             break;
 
         case SHAPE_TRIANGLE:
             std::cout << "Running Experiment on Triangle" << std::endl;
-            shape = std::make_unique<Triangle>(par,model_parameters.triangle_low,model_parameters.triangle_high,model_parameters.triangle_radius,
-                                                    model_parameters.triangle_x_trans,model_parameters.triangle_y_trans,model_parameters.triangle_epsilon, model_parameters.triangle_noise); 
+            
+            shape = std::make_unique<Triangle>(par,model_parameters);                                        
+            
             break;
 
         case SHAPE_RECTANGLE:
             std::cout << "Running Experiment on Rectangle" << std::endl;
-            shape = std::make_unique<Rectangle>(par,model_parameters.rectangle_low,model_parameters.rectangle_high,model_parameters.rectangle_radius,
-                                                    model_parameters.rectangle_x_trans,model_parameters.rectangle_y_trans,model_parameters.rectangle_epsilon, model_parameters.rectangle_noise); 
+            
+            shape = std::make_unique<Rectangle>(par,model_parameters);
             break;
 
         case SHAPE_TWOCIRCLES:
             std::cout << "Running Experiment on Two Circles" << std::endl;
-            shape = std::make_unique<TwoCircles>(par,model_parameters.two_circles_low,model_parameters.two_circles_high,model_parameters.two_circles_radius_1,model_parameters.two_circles_radius_2,
-                                                    model_parameters.two_circles_x_trans_1,model_parameters.two_circles_x_trans_2,  model_parameters.two_circles_y_trans_1, model_parameters.two_circles_y_trans_2,
-                                                            model_parameters.rectangle_epsilon, model_parameters.two_circles_noise);
+            
+            shape = std::make_unique<TwoCircles>(par,model_parameters);
             break;
             
         default:

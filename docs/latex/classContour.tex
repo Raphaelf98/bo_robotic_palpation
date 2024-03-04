@@ -12,7 +12,7 @@ This class handles the methods to perform.
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classContour_ac12404b69e37e3fe66bdeadcde969fef}{Contour}} (bayesopt\+::\+Bayes\+Opt\+Base $\ast$bopt\+\_\+model, \mbox{\hyperlink{structContourParamters}{Contour\+Paramters}} cp, std\+::string experiment\+\_\+path)
+\mbox{\hyperlink{classContour_a122a1fe5d561947c5294d6b8c9ccfdd9}{Contour}} (bayesopt\+::\+Bayes\+Opt\+Base $\ast$bopt\+\_\+model, \mbox{\hyperlink{structContourParameters}{Contour\+Parameters}} cp, std\+::string experiment\+\_\+path)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classContour}{Contour}} class constructor. \end{DoxyCompactList}\item 
 size\+\_\+t \mbox{\hyperlink{classContour_ab375b32b88aa75a68dc484798fabeaee}{get\+C\+Points}} ()
 \begin{DoxyCompactList}\small\item\em Returns granularity of two dimensional gaussian process. \end{DoxyCompactList}\item 
@@ -52,8 +52,6 @@ void \mbox{\hyperlink{classContour_a839ab903603334c7358d35ffd795d024}{explore\+C
 \mbox{\Hypertarget{classContour_a3eb1ba9cddd03fff3388f42be2392a35}\label{classContour_a3eb1ba9cddd03fff3388f42be2392a35}} 
 void \mbox{\hyperlink{classContour_a3eb1ba9cddd03fff3388f42be2392a35}{approximate\+Contour}} ()
 \begin{DoxyCompactList}\small\item\em Perform approximation on \mbox{\hyperlink{classContour}{Contour}} points. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classContour_ade1add10333ef9ad8620c0670afcffeb}{compute\+Stiffness\+Threshold}} ()
-\begin{DoxyCompactList}\small\item\em Computes stiffness threshold used to detect contour points. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classContour_a9a232f01cb3d0ebc1dbee1ee26f39e6e}{print\+Parameters}} (const bayesopt\+::\+Parameters \&par)
 \begin{DoxyCompactList}\small\item\em Log parameters used for optimization. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -70,11 +68,11 @@ This class handles the methods to perform.
 \end{DoxyEnumerate}
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classContour_ac12404b69e37e3fe66bdeadcde969fef}\label{classContour_ac12404b69e37e3fe66bdeadcde969fef}} 
+\mbox{\Hypertarget{classContour_a122a1fe5d561947c5294d6b8c9ccfdd9}\label{classContour_a122a1fe5d561947c5294d6b8c9ccfdd9}} 
 \index{Contour@{Contour}!Contour@{Contour}}
 \index{Contour@{Contour}!Contour@{Contour}}
 \doxysubsubsection{\texorpdfstring{Contour()}{Contour()}}
-{\footnotesize\ttfamily Contour\+::\+Contour (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Bayes\+Opt\+Base $\ast$}]{bopt\+\_\+model,  }\item[{\mbox{\hyperlink{structContourParamters}{Contour\+Paramters}}}]{cp,  }\item[{std\+::string}]{experiment\+\_\+path }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Contour\+::\+Contour (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Bayes\+Opt\+Base $\ast$}]{bopt\+\_\+model,  }\item[{\mbox{\hyperlink{structContourParameters}{Contour\+Parameters}}}]{cp,  }\item[{std\+::string}]{experiment\+\_\+path }\end{DoxyParamCaption})}
 
 
 
@@ -101,16 +99,6 @@ This class handles the methods to perform.
 
 
 Wrapper to call clustering routine. 
-
-\mbox{\Hypertarget{classContour_ade1add10333ef9ad8620c0670afcffeb}\label{classContour_ade1add10333ef9ad8620c0670afcffeb}} 
-\index{Contour@{Contour}!computeStiffnessThreshold@{computeStiffnessThreshold}}
-\index{computeStiffnessThreshold@{computeStiffnessThreshold}!Contour@{Contour}}
-\doxysubsubsection{\texorpdfstring{computeStiffnessThreshold()}{computeStiffnessThreshold()}}
-{\footnotesize\ttfamily void Contour\+::compute\+Stiffness\+Threshold (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Computes stiffness threshold used to detect contour points. 
 
 \mbox{\Hypertarget{classContour_a98e2fc50dd4156928ce537afd8474010}\label{classContour_a98e2fc50dd4156928ce537afd8474010}} 
 \index{Contour@{Contour}!evaluateCriteriaGaussianProcess@{evaluateCriteriaGaussianProcess}}

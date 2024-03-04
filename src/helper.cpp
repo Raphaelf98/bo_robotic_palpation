@@ -186,3 +186,4 @@ std::vector<std::pair<double, double>> readCoordinatesFromCSV(const std::string&
 
     return points;
 }
+

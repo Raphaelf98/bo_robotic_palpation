@@ -159,7 +159,7 @@ void DisplayHeatMap2D::updateData()
         CVLow = -contour_->evaluateCriteriaGaussianProcess(q);
         for(size_t i=0; i<n; ++i)
 	      {
-        
+  
           for (size_t j=0; j<n; ++j)
           {
             q(1) = y[i]; q(0) = x[j];

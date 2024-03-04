@@ -87,4 +87,6 @@ inline double stdDev(std::vector<double> v)
 
 };
 std::vector<std::pair<double, double>> readCoordinatesFromCSV(const std::string& filePath);
+
+void loadDataFP(std::string filename, std::vector<std::vector<double>> &data);
 #endif

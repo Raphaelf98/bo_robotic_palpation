@@ -35,13 +35,10 @@ private:
 
     std::string experiment_path_;
     std::vector<std::vector<double>> data_;
-    
-    std::vector<Point> newPoints, newCenters;
     std::vector<Point> scattered_points_;
-    std::vector<Point> centers;
     double bandwidth_;
-    int samples_;
     arma::mat centroids_;
+    arma::Row<size_t> assignments_;  // Cluster assignments.
     std::string working_dir_path_;
     /**
     * @brief Function used to produce scattered data from two dimensional posterior distribution.
@@ -49,8 +46,27 @@ private:
     * @retval Point or no point.
     * 
     */
-    bool pointNoPoint(float probabilityOfPoint);
-
+    bool pointNoPoint_(float probabilityOfPoint);
+     /**
+    * @brief Convert posterior distribution to scattered data representation. 
+    * @param[in] points_ holds scattered points. 
+    * 
+    */
+    void scatterData_(std::vector<Point>& points_);
+     /**
+    * @brief Save scattered data to CSV.
+    *
+    * @retval Returns true if successful.
+    */
+    bool saveNormalizedDataToCSV_();
+     /**
+    * @brief Save Centroids to CSV.
+    * @param[in] name Filename
+    * @param[in] points_ Centroids
+    * @retval Returns true if successful.
+    */
+    bool savePointsToCSV_(std::string name, std::vector<Point>& points_);
+    void loadDataFP_(std::string filename, std::vector<std::vector<double>> &data);
 public:
     /**
     * @brief MeanShift default class constructor.
@@ -67,7 +83,17 @@ public:
     * 
     * 
     */
-    MeanShift(std::vector<std::vector<double>> data, double bandwidth, int samples, std::string experiment_path);
+    MeanShift(std::vector<std::vector<double>> data, double bandwidth, std::string experiment_path);
+     /**
+    * @brief MeanShift class constructor that reads data from file.
+    *
+    * @param[in] file Posterior distribution to run means shift on from file.
+    * @param[in] bandwidth Means shift bandwidth parameter.
+    * @param[in] experiment_path Current working directory path as string.
+    * 
+    * 
+    */
+    MeanShift(std::string file, double bandwidth, std::string experiment_path);
     ~MeanShift();
     /**
     * @brief Print clusters.
@@ -75,25 +101,6 @@ public:
     * 
     */
     void printClusters();
-     /**
-    * @brief Save scattered data to CSV.
-    *
-    * @retval Returns true if successful.
-    */
-    bool saveNormalizedDataToCSV();
-     /**
-    * @brief Save Centroids to CSV.
-    * @param[in] name Filename
-    * @param[in] points_ Centroids
-    * @retval Returns true if successful.
-    */
-    bool savePointsToCSV(std::string name, std::vector<Point>& points_);
-    /**
-    * @brief Convert posterior distribution to scattered data representation. 
-    * @param[in] points_ holds scattered points. 
-    * 
-    */
-    void scatterData(std::vector<Point>& points_);
     /**
     * @brief Run the means-shift algorithm.
     * 
@@ -104,6 +111,11 @@ public:
     *  @retval Vector of centroid points
     */
     std::vector<std::vector<double>> getCentroids();
+    /**
+    * @brief Stores assignments and centroids to file. File is stored und experiment_path and file names are set in parameters.hpp
+    * 
+    */
+    void saveResultsToFile();
 };
 
 /**

@@ -82,16 +82,13 @@ double PolarPolygon::polygonRadius(const double &x, const double & y)
   }
   else return radius_;
 }
-
-
-double PolarPolygon::evaluate_(const double & theta, double rad)
+double PolarPolygon::evaluate_(const double & theta, const double & rad)
 {
   int idx = 0;
   //deals with undefined behaviour for theta = 0
   if(theta == 0){
     return rad;
   }
-
   for (size_t i = 0; i < radians_lookup_.size(); i++)
   {
       
@@ -102,10 +99,8 @@ double PolarPolygon::evaluate_(const double & theta, double rad)
       }
 
   }
-  
- double rt = rTheta_(std::make_pair( polar_x_(radians_lookup_[idx-1], rad) ,polar_x_(radians_lookup_[idx],rad)), std::make_pair( polar_y_(radians_lookup_[idx-1],rad), polar_y_(radians_lookup_[idx],rad) ), theta);
+  double rt = rTheta_(std::make_pair( polar_x_(radians_lookup_[idx-1], rad) ,polar_x_(radians_lookup_[idx],rad)), std::make_pair( polar_y_(radians_lookup_[idx-1],rad), polar_y_(radians_lookup_[idx],rad) ), theta);
   return rt;
-
 }
 //s e [0,1] (parametric function variable)
 double  PolarPolygon::f_x_(const double& s)
@@ -169,6 +164,20 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
       outer_triangle_ = PolarPolygon(3,radius_+epsilon,x_trans_,y_trans_);
       groundTruth_triangle_ = PolarPolygon(3,radius_+epsilon*0.5,x_trans_,y_trans_);
    }
+   Triangle::Triangle(bayesopt::Parameters par, TumorModelParameters &model_parameters):
+   Shape(par),  gaussianNoise_(0.0,model_parameters.triangle_noise) 
+   {
+      low_stiffness_ = model_parameters.triangle_low;
+      high_stiffness_= model_parameters.triangle_high;
+      radius_ = model_parameters.triangle_radius;
+      x_trans_= model_parameters.triangle_x_trans;
+      y_trans_ = model_parameters.triangle_y_trans;
+      epsilon_ = model_parameters.triangle_epsilon;
+
+      inner_triangle_ = PolarPolygon(3,radius_,x_trans_,y_trans_);
+      outer_triangle_ = PolarPolygon(3,radius_+epsilon_,x_trans_,y_trans_);
+      groundTruth_triangle_ = PolarPolygon(3,radius_+epsilon_*0.5,x_trans_,y_trans_);
+   }
 
   std::function<double (const double&)> Triangle::f_x()
   {
@@ -205,8 +214,6 @@ double Shape::smoothstep(const double x_l, const double x_r, const double x, con
         // smoothstep to interpolate between 1 and 0 for the edge of the circle
         return smoothstep(radius_inner, radius_outer, r, -high_stiffness_,-low_stiffness_);
       }
-
-   
   }
 
   bool Triangle::checkReachability(const vectord &query)
@@ -254,15 +261,28 @@ void Triangle::saveGroundTruth(const size_t c_points, std::string file_path)
       groundTruth_rectangle_ =PolarPolygon(4,radius_+epsilon*0.5,x_trans_,y_trans_);
 
    }
+  Rectangle::Rectangle(bayesopt::Parameters par, TumorModelParameters &model_parameters):
+   Shape(par),  gaussianNoise_(0.0,model_parameters.rectangle_noise) 
+   {
+      low_stiffness_ = model_parameters.rectangle_low;
+      high_stiffness_= model_parameters.rectangle_high;
+      radius_ = model_parameters.rectangle_radius;
+      x_trans_= model_parameters.rectangle_x_trans;
+      y_trans_ = model_parameters.rectangle_y_trans;
+      epsilon_ = model_parameters.rectangle_epsilon;
 
+      inner_rectangle_ = PolarPolygon(4,radius_,x_trans_,y_trans_);
+      outer_rectangle_ = PolarPolygon(4,radius_+epsilon_,x_trans_,y_trans_);
+      groundTruth_rectangle_ = PolarPolygon(4,radius_+epsilon_*0.5,x_trans_,y_trans_);
+   }
   
 
   double Rectangle::evaluateSample( const vectord& xin)
   {
      if (xin.size() != 2)
       {
-	std::cout << "WARNING: This only works for 2D inputs." << std::endl
-		  << "WARNING: Using only first two components." << std::endl;
+	        std::cout << "WARNING: This only works for 2D inputs." << std::endl
+		      << "WARNING: Using only first two components." << std::endl;
       }
       
     double x = xin(0);
@@ -344,7 +364,32 @@ TwoCircles::TwoCircles(bayesopt::Parameters par,double low_stiffness, double hig
                           high_stiffness_ = high_stiffness;
                       }
 
+TwoCircles::TwoCircles(bayesopt::Parameters par, TumorModelParameters &model_parameters):
+   Shape(par),  
+   gaussianNoise_(0.0,model_parameters.two_circles_noise) , 
+   circle_count_(1)
+   {
+      low_stiffness_ = model_parameters.two_circles_low;
+      high_stiffness_= model_parameters.two_circles_high;
+      epsilon_ = model_parameters.two_circles_epsilon;
 
+      r_1_ = model_parameters.two_circles_radius_1;
+      x_t_1_= model_parameters.two_circles_x_trans_1;
+      y_t_1_ = model_parameters.two_circles_y_trans_1;
+      
+      r_2_ = model_parameters.two_circles_radius_2;
+      x_t_2_= model_parameters.two_circles_x_trans_2;
+      y_t_2_ = model_parameters.two_circles_y_trans_2;
+
+      inner_circle_1_ = PolarPolygon(1,r_1_,x_t_1_,y_t_1_);
+      outer_circle_1_ = PolarPolygon(1,r_1_+epsilon_,x_t_1_,y_t_1_);
+      groundTruth_circle_1_ = PolarPolygon(1,r_1_+epsilon_*0.5,x_t_1_,y_t_1_);
+
+      inner_circle_2_ = PolarPolygon(1,r_2_,x_t_2_,y_t_2_);
+      outer_circle_2_ = PolarPolygon(1,r_2_+epsilon_,x_t_2_,y_t_2_);
+      groundTruth_circle_2_ = PolarPolygon(1,r_2_+epsilon_*0.5,x_t_2_,y_t_2_);
+   }
+  
   
   double TwoCircles::evaluateSample( const vectord& xin)
   {
@@ -473,11 +518,23 @@ Circle::Circle(bayesopt::Parameters par,double low,double high, double radius, d
       y_trans_ = y_trans;
       epsilon_ = epsilon;
       
-      groundTruth_circle_ = PolarPolygon(1,radius_+epsilon,x_trans_,y_trans_);
+      groundTruth_circle_ = PolarPolygon(1,radius_+epsilon*0.5,x_trans_,y_trans_);
 
 
     }
+Circle::Circle(bayesopt::Parameters par, TumorModelParameters &model_parameters):
+   Shape(par),  gaussianNoise_(0.0,model_parameters.circle_noise) 
+   {
+      low_stiffness_ = model_parameters.circle_low;
+      high_stiffness_= model_parameters.circle_high;
+      radius_ = model_parameters.circle_radius;
+      x_trans_= model_parameters.circle_x_trans;
+      y_trans_ = model_parameters.circle_y_trans;
+      epsilon_ = model_parameters.circle_epsilon;
 
+      
+      groundTruth_circle_ = PolarPolygon(1,radius_+epsilon_*0.5,x_trans_,y_trans_);
+   }
   
   double Circle::evaluateSample( const vectord& xin)
   {

@@ -105,6 +105,7 @@ struct ContourParameters{
     double threshold_multiplier=3.0;
     double tumor_stiffness_guess_low = 0.1;
     double tumor_stiffness_guess_high = 0.9;
+    double stepsize = 0.003;
     /** 
  * @brief Read contour parameters from file and store them into ContourParameters object. Is called by loadContour.
  *

@@ -4,6 +4,7 @@
 #include <random>
 #include <functional>
 #include"helper.hpp"
+#include"parameters.hpp"
 /**
  * @file
  * 
@@ -88,7 +89,7 @@ class PolarPolygon{
    * @param[in] rad Polar radius
    * @retval Returns radius r(theta) of polygon.
    */
-   double evaluate_(const double & theta, double rad);
+   double evaluate_(const double & theta, const double &rad);
     /**
    * @brief Function of which pointer is returned by fParametric_x.
    * @param[in] s Parametric function variable s e [0,1].
@@ -202,18 +203,21 @@ class Shape : public bayesopt::ContinuousModel
    */
   virtual void saveGroundTruth(const size_t c_points, std::string file_path){}
   protected:
+  
   double low_stiffness_, high_stiffness_;
   double x_trans_, y_trans_, radius_;
   double epsilon_;
+
 };
 /**
- * @brief Triangle child class.
+ * @brief Triangle child class.  
  * 
  */
 class Triangle: public Shape
   {
     GaussianNoise gaussianNoise_;
     PolarPolygon inner_triangle_, outer_triangle_, groundTruth_triangle_;
+    
    public:
    /**
    * @brief Triangle constructor. Instantiates PolarPolygon with three vertices.
@@ -227,6 +231,12 @@ class Triangle: public Shape
    * @param[in] noise Standard deviation of Gaussian noise 
    */
     Triangle(bayesopt::Parameters par, double low, double high, double radius, double x_trans, double y_trans, double epsilon,double noise);
+    /**
+   * @brief Triangle constructor. Instantiates PolarPolygon with three vertices.
+   * @param[in] par Parameters needed to run bayesian optimization.
+   * @param[in] model_parameters Parameters object with shape parameters.
+   */
+    Triangle(bayesopt::Parameters par,TumorModelParameters &model_parameters);
    /**
    * @brief Function called by bayesian optimization in bayes opt to query tumor model.
    * 
@@ -280,6 +290,12 @@ class Rectangle: public Shape
    * @param[in] noise Standard deviation of Gaussian noise 
    */
     Rectangle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise);
+     /**
+   * @brief Rectangle constructor. Instantiates PolarPolygon with four vertices.
+   * @param[in] par Parameters needed to run bayesian optimization.
+   * @param[in] model_parameters Parameters object with shape parameters.
+   */
+    Rectangle(bayesopt::Parameters par,TumorModelParameters &model_parameters);
   /**
    * @brief Function called by bayesian optimization in bayes opt to query tumor model.
    * 
@@ -320,7 +336,7 @@ class TwoCircles: public Shape
   {
   public:
    /**
-   * @brief Rectangle constructor. Instantiates PolarPolygon with four vertices.
+   * @brief TwoCircles constructor. Instantiates two circle shapes.
    * @param[in] par Parameters needed to run bayesian optimization.
    * @param[in] low Low stiffness value in Model
    * @param[in] high High stiffness value in Model
@@ -335,6 +351,12 @@ class TwoCircles: public Shape
    */
     TwoCircles(bayesopt::Parameters par,double low_stiffness, double high_stiffness , double r_1, double r_2,double x_t_1,double x_t_2,
                         double y_t_1,double y_t_2,double epsilon,double noise);
+   /**
+   * @brief  TwoCircles constructor. Instantiates two circle shapes.
+   * @param[in] par Parameters needed to run bayesian optimization.
+   * @param[in] model_parameters Parameters object with shape parameters.
+   */
+    TwoCircles(bayesopt::Parameters par,TumorModelParameters &model_parameters);
    /**
    * @brief Function called by bayesian optimization in bayes opt to query tumor model.
    * 
@@ -394,6 +416,12 @@ class Circle: public Shape
    */
     Circle(bayesopt::Parameters par,double low,double high, double radius, double x_trans, double y_trans, double epsilon, double noise);
    /**
+   * @brief Circle constructor. Instantiates PolarPolygon as circle.
+   * @param[in] par Parameters needed to run bayesian optimization.
+   * @param[in] model_parameters Parameters object with shape parameters.
+   */
+    Circle(bayesopt::Parameters par,TumorModelParameters &model_parameters);
+   /**
    * @brief Function called by bayesian optimization in bayes opt to query tumor model.
    * 
    * @param[in] xin Takes bayesopt parameters
@@ -427,5 +455,37 @@ class Circle: public Shape
    
     GaussianNoise gaussianNoise_;
     PolarPolygon inner_circle_, outer_circle_,groundTruth_circle_;
+};
+/**
+ * @brief RoboticPalpation Class serves as a class to interface tumor loacalization and segmentation 
+ *    functionality with a real-world tumor detection problem.
+ * The class is not yet implemented but future works might develop necessary functionality to run the algorithm on a robot.
+ */
+class RoboticPalpation: public Shape
+  {
+   
+  public:
+   /**
+   * @brief Circle constructor. Instantiates PolarPolygon as circle.
+   * @param[in] par Parameters needed to run bayesian optimization.
+   * @param[in] model_parameters Parameters object with shape parameters.
+   */
+    RoboticPalpation(bayesopt::Parameters par,TumorModelParameters &palpation_parameters);
+   /**
+   * @brief Function called by bayesian optimization in bayesopt to probe tumorous tissue.
+   * 
+   * @param[in] xin Takes bayesopt parameters
+   * @retval stiffness value/cost of global function that is optimized.
+   */
+    double evaluateSample( const vectord& xin);
+    /**
+   * @brief Checks reachability of query. Virtual function that is implemented by derived class. 
+   * Note: function is not implemented in child classes but might be of value for implementation with hardware.
+   * @param[in] query Vector with x and y coordinates.
+   * @retval True if query is reachable.
+   */
+    bool checkReachability(const vectord &query);
+  private:
+   
 };
 #endif

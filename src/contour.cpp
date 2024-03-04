@@ -26,14 +26,14 @@ Contour::Contour(bayesopt::BayesOptBase* bopt_model, ContourParameters cp, std::
         n_samples_(n_directions_+1),
         posterior_(cp.c_points,std::vector<double>(cp.c_points)),
         std_dev_(cp.c_points,std::vector<double>(cp.c_points)),
-        
+        stepsize_(cp.stepsize),
         multiplier_(cp.threshold_multiplier),
         experiment_path_(experiment_path),
         tumor_stiffness_guess_low_(cp.tumor_stiffness_guess_low),
         tumor_stiffness_guess_high_(cp.tumor_stiffness_guess_high)
 
 {
-    //c_ = std::vector<std::vector<double>>(c_points_,std::vector<double>(c_points_));
+    //c_ = std::vector<std::vector<double>>(c_points_,std::vector<double>(c_points_))
     printParameters(*(bopt_model_->getParameters()));
     number_of_step_runs_ = bopt_model_->getParameters()->n_iterations ;
     number_of_init_samples_ = bopt_model_->getParameters()->n_init_samples;
@@ -55,11 +55,9 @@ void Contour::runGaussianProcess(){
     
     
     bopt_model_->initializeOptimization();
-    size_t nruns = bopt_model_->getParameters()->n_iterations;
     storeInitialSamples_();
-    while(state_ii_  < nruns)
+    while(state_ii_  < number_of_step_runs_)
     {
-        
         bopt_model_->stepOptimization();
         bayesopt::vectord current_sample = bopt_model_->getData()->getLastSampleX();
         samples_list_[number_of_init_samples_-1+state_ii_ ].x = current_sample(0);
@@ -101,9 +99,10 @@ void Contour::computeCluster()
 
    
 
-    mean_shift_ = MeanShift(posterior_, bandwidth_, samples_, experiment_path_);
+    mean_shift_ = MeanShift(posterior_, bandwidth_, experiment_path_);
     mean_shift_.meanshift_mlpack();
-
+    mean_shift_.saveResultsToFile();
+    mean_shift_.printClusters();
     std::vector<std::vector<double>> vec = mean_shift_.getCentroids();
     clusters_ = std::vector<Point>(vec[0].size());
     
@@ -112,7 +111,6 @@ void Contour::computeCluster()
         
         clusters_[j].x = vec[0][j];
         clusters_[j].y = vec[1][j];
-        std::cout<<"Cluster #"<<j<< " X: "<<clusters_[j].x<< " Y: "<<clusters_[j].y<<std::endl;
     }
     
 }
@@ -172,37 +170,28 @@ bool Contour::contourPoint_(double &stiffness)
 {
     return stiffness >= threshold_;
 }
-void Contour::exploreContour(){
-    /*
-    TODO: 
-    */
+void Contour::exploreContour()
+{
+    
     labelData_();
     computeStiffnessThreshold_();
 
     for(auto &p1 : clusters_)
     {
         
-        double stepsize = 0.003;
-        
         double delta_theta = 360 /static_cast<double>(n_directions_);
-        //explore
-        vectord q1(2);
-	    q1(0) = p1.x; q1(1) = p1.y;
-
+        
 	    std::cout<<"Compute contour points for center at: X: " <<p1.x <<" Y: "<<p1.y<<std::endl;
-    
         double theta = 0.0;
         std::vector<Point> contour_vec{n_directions_+1};
-        std::vector<std::vector<double>> stiffness_vec{n_directions_+1};
+
         for (size_t i = 0; i < n_directions_+1; i++)
         {   
             theta = delta_theta* i;
-            double delta_x = stepsize * sin(theta*M_PI/180.0);
-            double delta_y = stepsize * cos(theta*M_PI/180.0);
+            double delta_x = stepsize_ * sin(theta*M_PI/180.0);
+            double delta_y = stepsize_ * cos(theta*M_PI/180.0);
             int j = 0;
             Point p = p1;
-            double old_stiffness;
-            int contour_position_idx;
 
             while(j < lim_steps_)
             {   
@@ -213,29 +202,21 @@ void Contour::exploreContour(){
                 q(0) = p.x; 
                 q(1) = p.y;
                 double new_stiffness = bopt_model_->evaluateSample(q);
-                stiffness_vec[i].push_back(new_stiffness);
-                if (j>0)
-                {
-                    if (contourPoint_(new_stiffness))
-                    //if(new_stiffness > 1.5)
-                    {   
-                        contour_vec[i] = p;
-                        std::cout<<"Contour point at "<<theta<< " at: X: " <<p.x <<" Y: "<<p.y<< " with step: dx / dy "<< delta_x<< " / " << delta_y<<std::endl;
-
-                        contour_position_idx = j;
-                        j = lim_steps_ +1;
-                    }
+                
+                if (contourPoint_(new_stiffness))
+                {   
+                    contour_vec[i] = p;
+                    std::cout<<"Contour point at "<<theta<< " at: X: " <<p.x <<" Y: "<<p.y<< " with step: dx / dy "<< delta_x<< " / " << delta_y<<std::endl;
+                    j = lim_steps_ +1;
                 }
+                
                 j++;
+
                 if(j == lim_steps_)
                 {
                     std::cout<<"No contour point for theta at "<< theta<<std::endl;
                 }
-                old_stiffness = new_stiffness;
             }
-
-
-
         }
         contours_.push_back(contour_vec);
     }
@@ -254,7 +235,6 @@ void Contour::approximateContour()
 {
     int file_num = 1;
     //Iterate over all 
-    //TODO implement file write in extra function
     for(std::vector<Point> &contour : contours_)
     {
         double t[n_samples_];
@@ -326,6 +306,7 @@ void Contour::approximateContour()
         spline_contours_.push_back(std::make_pair(ptr1, ptr2));
     }
 }
+
 SplineInterpolant_ptr_pair_vec Contour::getSplineInterpolant()
 {
     

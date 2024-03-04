@@ -15,7 +15,7 @@ The localization can be run in two different modes. The first option, which offe
 # 1. Run on your local machine
 ## Installation
 ### 1. Install dependencies 
-For Ubuntu/Debian, the minimum dependencies (C/C++) can be optained by running: 
+For Ubuntu/Debian, the minimum dependencies (C/C++) can be obtained by running: 
 ```
 sudo apt-get update
 sudo apt install  cmake g++ build-essential
@@ -83,7 +83,7 @@ The following parameters listed in /config/contour_parameters.txt can be tuned t
 -  means_shift_bandwidth, sets the bandwidth for the means shift algorithm https://github.com/mlpack/mlpack/tree/master/src/mlpack/methods/mean_shift
 -   lim_steps, determines the maximum amount of samples that are taken in each direction
 
--   threshold_multiplier, determines the stiffness threshold. To do so, all previously seen sample stiffnesses are clustered by a k-means algorithm. Given that high stiffness values correlate with tumorous tissue, the cluster with the highest values is selected and its mean value and uncertainty calculated. Based on these measures, the threshold_multiplier parameter will define how many standard deviations from the mean value of the tumor stiffness cluster are categorized as tumor tissue. 
+-   threshold_multiplier, determines the stiffness threshold. To do so, all previously seen sample stiffness observations are clustered by a k-means algorithm. Given that high stiffness values correlate with tumorous tissue, the cluster with the highest values is selected and its mean value and uncertainty calculated. Based on these measurements, the threshold_multiplier parameter will define how many standard deviations from the mean value of the tumor stiffness cluster are categorized as tumor tissue. 
 
 ### 2. Run the optimization
 The algorithm can be executed with four different tumor models. The algorithm can be simulated with a triangle-, rectangle-, circle and two-circle-shaped tumor model of adjustable size and stiffness.
@@ -99,15 +99,15 @@ cd build
 cd build
 ./display_gp Rectangle
 ```
-3. Cricle experiment
+3. Circle experiment
 ```
 cd build
-./display_gp Cricle
+./display_gp Circle
 ```
-4. Two-Cricles experiment
+4. Two-Circles experiment
 ```
 cd build
-./display_gp TwoCricles
+./display_gp TwoCircles
 ```
 Press "r" to run the algorithm, press "s" to perform a single step and press "q" to stop it.
 
