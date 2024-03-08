@@ -153,4 +153,22 @@ Example: Once a Triangle experiment was evaluated the script can be launched the
 python3 visualize.py Triangle1
 
 ```
-
+# Doxygen Documentation
+Additional documentation can be compiled with Doxygen. 
+Install Doxygen by running:
+```
+sudo apt-add-repository universe
+sudo apt-get update
+sudo apt-get install doxygen
+```
+After successful installation you can navigate to the docs directory and launch doxygen:
+```
+cd docs/
+doxygen Doxyfile
+```
+This will compile the documentation and place all related files inside the docs/ directory.
+Next, launch a browser inside the docs/ directory (e.g firefox) to see the doxygen page. 
+```
+cd docs/
+firefox ./html/index.html
+```

@@ -31,7 +31,9 @@ Collaboration diagram for Two\+Circles\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}{Two\+Circles}} (bayesopt\+::\+Parameters par, double low\+\_\+stiffness, double high\+\_\+stiffness, double r\+\_\+1, double r\+\_\+2, double x\+\_\+t\+\_\+1, double x\+\_\+t\+\_\+2, double y\+\_\+t\+\_\+1, double y\+\_\+t\+\_\+2, double epsilon, double noise)
-\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classTwoCircles}{Two\+Circles}} constructor. Instantiates two circle shapes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classTwoCircles_a2d698e58df94f906f3bec104a4fb3c12}{Two\+Circles}} (bayesopt\+::\+Parameters par, \mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&model\+\_\+parameters)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classTwoCircles}{Two\+Circles}} constructor. Instantiates two circle shapes. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classTwoCircles_ae6ae546dec3a145488046d395c197834}{evaluate\+Sample}} (const vectord \&xin)
 \begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayes opt to query tumor model. \end{DoxyCompactList}\item 
 virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classTwoCircles_a09edc98f40f4cea8ac61b63e8f59d37c}{f\+\_\+x}} ()
@@ -54,12 +56,12 @@ bool \mbox{\hyperlink{classTwoCircles_aa69f345331b34d3398b546af41e808ba}{check\+
 \mbox{\Hypertarget{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}\label{classTwoCircles_a55adf67b19cdb53a7bf3264261f72f9b}} 
 \index{TwoCircles@{TwoCircles}!TwoCircles@{TwoCircles}}
 \index{TwoCircles@{TwoCircles}!TwoCircles@{TwoCircles}}
-\doxysubsubsection{\texorpdfstring{TwoCircles()}{TwoCircles()}}
+\doxysubsubsection{\texorpdfstring{TwoCircles()}{TwoCircles()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Two\+Circles\+::\+Two\+Circles (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{double}]{low\+\_\+stiffness,  }\item[{double}]{high\+\_\+stiffness,  }\item[{double}]{r\+\_\+1,  }\item[{double}]{r\+\_\+2,  }\item[{double}]{x\+\_\+t\+\_\+1,  }\item[{double}]{x\+\_\+t\+\_\+2,  }\item[{double}]{y\+\_\+t\+\_\+1,  }\item[{double}]{y\+\_\+t\+\_\+2,  }\item[{double}]{epsilon,  }\item[{double}]{noise }\end{DoxyParamCaption})}
 
 
 
-\mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. 
+\mbox{\hyperlink{classTwoCircles}{Two\+Circles}} constructor. Instantiates two circle shapes. 
 
 
 \begin{DoxyParams}[1]{Parameters}
@@ -84,6 +86,23 @@ bool \mbox{\hyperlink{classTwoCircles_aa69f345331b34d3398b546af41e808ba}{check\+
 \mbox{\texttt{ in}}  & {\em epsilon} & Defines smoothness transition from low to high stiffness values for both circles. \\
 \hline
 \mbox{\texttt{ in}}  & {\em noise} & Standard deviation of Gaussian noise \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classTwoCircles_a2d698e58df94f906f3bec104a4fb3c12}\label{classTwoCircles_a2d698e58df94f906f3bec104a4fb3c12}} 
+\index{TwoCircles@{TwoCircles}!TwoCircles@{TwoCircles}}
+\index{TwoCircles@{TwoCircles}!TwoCircles@{TwoCircles}}
+\doxysubsubsection{\texorpdfstring{TwoCircles()}{TwoCircles()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Two\+Circles\+::\+Two\+Circles (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{\mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&}]{model\+\_\+parameters }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classTwoCircles}{Two\+Circles}} constructor. Instantiates two circle shapes. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Parameters needed to run bayesian optimization. \\
+\hline
+\mbox{\texttt{ in}}  & {\em model\+\_\+parameters} & Parameters object with shape parameters. \\
 \hline
 \end{DoxyParams}
 

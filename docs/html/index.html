@@ -76,7 +76,7 @@ Example Image</div></div>
 Installation</h2>
 <h3><a class="anchor" id="autotoc_md3"></a>
 1. Install dependencies</h3>
-<p>For Ubuntu/Debian, the minimum dependencies (C/C++) can be optained by running: </p><div class="fragment"><div class="line">sudo apt-get update</div>
+<p>For Ubuntu/Debian, the minimum dependencies (C/C++) can be obtained by running: </p><div class="fragment"><div class="line">sudo apt-get update</div>
 <div class="line">sudo apt install  cmake g++ build-essential</div>
 <div class="line">sudo apt install libboost-dev freeglut3-dev libcgal-dev libomp-dev libarmadillo-dev libensmallen-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev  libstb-dev </div>
 </div><!-- fragment --><p>Navigate to a desired install location for cereal library and run the following command: </p><div class="fragment"><div class="line">sudo wget https://github.com/USCiLab/cereal/archive/refs/tags/v1.1.2.tar.gz \</div>
@@ -127,7 +127,7 @@ Using the package</h2>
 <li>c_points, granularity of gaussian process. Will define how many points are used in x and y directions</li>
 <li>means_shift_bandwidth, sets the bandwidth for the means shift algorithm <a href="https://github.com/mlpack/mlpack/tree/master/src/mlpack/methods/mean_shift">https://github.com/mlpack/mlpack/tree/master/src/mlpack/methods/mean_shift</a></li>
 <li>lim_steps, determines the maximum amount of samples that are taken in each direction</li>
-<li>threshold_multiplier, determines the stiffness threshold. To do so, all previously seen sample stiffnesses are clustered by a k-means algorithm. Given that high stiffness values correlate with tumorous tissue, the cluster with the highest values is selected and its mean value and uncertainty calculated. Based on these measures, the threshold_multiplier parameter will define how many standard deviations from the mean value of the tumor stiffness cluster are categorized as tumor tissue.</li>
+<li>threshold_multiplier, determines the stiffness threshold. To do so, all previously seen sample stiffness observations are clustered by a k-means algorithm. Given that high stiffness values correlate with tumorous tissue, the cluster with the highest values is selected and its mean value and uncertainty calculated. Based on these measurements, the threshold_multiplier parameter will define how many standard deviations from the mean value of the tumor stiffness cluster are categorized as tumor tissue.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md9"></a>
 2. Run the optimization</h3>
@@ -138,11 +138,11 @@ Using the package</h2>
 <li><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> experiment: <div class="fragment"><div class="line">cd build</div>
 <div class="line">./display_gp Rectangle</div>
 </div><!-- fragment --></li>
-<li>Cricle experiment <div class="fragment"><div class="line">cd build</div>
-<div class="line">./display_gp Cricle</div>
+<li><a class="el" href="classCircle.html" title="Circle child class.">Circle</a> experiment <div class="fragment"><div class="line">cd build</div>
+<div class="line">./display_gp Circle</div>
 </div><!-- fragment --></li>
-<li>Two-Cricles experiment <div class="fragment"><div class="line">cd build</div>
-<div class="line">./display_gp TwoCricles</div>
+<li>Two-Circles experiment <div class="fragment"><div class="line">cd build</div>
+<div class="line">./display_gp TwoCircles</div>
 </div><!-- fragment --></li>
 </ol>
 <p>Press "r" to run the algorithm, press "s" to perform a single step and press "q" to stop it.</p>
@@ -171,6 +171,10 @@ Visualize Data</h2>
 <p>The results will be written to the host data directory (make sure to not run the following command in the container since visualize.py depends on matplotlib which can't be run inside the container in the current version) and can be visualized through: </p><div class="fragment"><div class="line">cd /scripts/</div>
 <div class="line">python3 visualize.py YOUR_DESIRED_SHAPE + Number</div>
 </div><!-- fragment --><p>Example: Once a <a class="el" href="classTriangle.html" title="Triangle child class.">Triangle</a> experiment was evaluated the script can be launched the following way: </p><div class="fragment"><div class="line">python3 visualize.py Triangle1</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md15"></a>
+Doxygen Documentation</h1>
+<p>Additional documentation can be compiled with Doxygen. For this navigate to the docs directory and launch doxygen </p><div class="fragment"><div class="line">cd docs/</div>
+<div class="line">doxygen Doxyfile</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

@@ -97,8 +97,11 @@ Collaboration diagram for TwoCircles:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a55adf67b19cdb53a7bf3264261f72f9b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTwoCircles.html#a55adf67b19cdb53a7bf3264261f72f9b">TwoCircles</a> (bayesopt::Parameters par, double low_stiffness, double high_stiffness, double r_1, double r_2, double x_t_1, double x_t_2, double y_t_1, double y_t_2, double epsilon, double noise)</td></tr>
-<tr class="memdesc:a55adf67b19cdb53a7bf3264261f72f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with four vertices.  <a href="classTwoCircles.html#a55adf67b19cdb53a7bf3264261f72f9b">More...</a><br /></td></tr>
+<tr class="memdesc:a55adf67b19cdb53a7bf3264261f72f9b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classTwoCircles.html" title="TwoCircles child class.">TwoCircles</a> constructor. Instantiates two circle shapes.  <a href="classTwoCircles.html#a55adf67b19cdb53a7bf3264261f72f9b">More...</a><br /></td></tr>
 <tr class="separator:a55adf67b19cdb53a7bf3264261f72f9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d698e58df94f906f3bec104a4fb3c12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTwoCircles.html#a2d698e58df94f906f3bec104a4fb3c12">TwoCircles</a> (bayesopt::Parameters par, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;model_parameters)</td></tr>
+<tr class="memdesc:a2d698e58df94f906f3bec104a4fb3c12"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classTwoCircles.html" title="TwoCircles child class.">TwoCircles</a> constructor. Instantiates two circle shapes.  <a href="classTwoCircles.html#a2d698e58df94f906f3bec104a4fb3c12">More...</a><br /></td></tr>
+<tr class="separator:a2d698e58df94f906f3bec104a4fb3c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6ae546dec3a145488046d395c197834"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTwoCircles.html#ae6ae546dec3a145488046d395c197834">evaluateSample</a> (const vectord &amp;xin)</td></tr>
 <tr class="memdesc:ae6ae546dec3a145488046d395c197834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function called by bayesian optimization in bayes opt to query tumor model.  <a href="classTwoCircles.html#ae6ae546dec3a145488046d395c197834">More...</a><br /></td></tr>
 <tr class="separator:ae6ae546dec3a145488046d395c197834"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,7 +151,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
 <div class="textblock"><p><a class="el" href="classTwoCircles.html" title="TwoCircles child class.">TwoCircles</a> child class. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a55adf67b19cdb53a7bf3264261f72f9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55adf67b19cdb53a7bf3264261f72f9b">&#9670;&nbsp;</a></span>TwoCircles()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a55adf67b19cdb53a7bf3264261f72f9b">&#9670;&nbsp;</a></span>TwoCircles() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -227,7 +230,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with four vertices. </p>
+<p><a class="el" href="classTwoCircles.html" title="TwoCircles child class.">TwoCircles</a> constructor. Instantiates two circle shapes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>Parameters needed to run bayesian optimization. </td></tr>
@@ -241,6 +244,43 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
     <tr><td class="paramdir">[in]</td><td class="paramname">y_t_2</td><td>Y coordinate of center of second circle [0,1] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">epsilon</td><td>Defines smoothness transition from low to high stiffness values for both circles. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">noise</td><td>Standard deviation of Gaussian noise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2d698e58df94f906f3bec104a4fb3c12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d698e58df94f906f3bec104a4fb3c12">&#9670;&nbsp;</a></span>TwoCircles() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TwoCircles::TwoCircles </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::Parameters&#160;</td>
+          <td class="paramname"><em>par</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>model_parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classTwoCircles.html" title="TwoCircles child class.">TwoCircles</a> constructor. Instantiates two circle shapes. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>Parameters needed to run bayesian optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">model_parameters</td><td>Parameters object with shape parameters. </td></tr>
   </table>
   </dd>
 </dl>

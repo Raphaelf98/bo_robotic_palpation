@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['rectangle_124',['Rectangle',['../classRectangle.html',1,'']]]
+  ['rectangle_123',['Rectangle',['../classRectangle.html',1,'']]],
+  ['roboticpalpation_124',['RoboticPalpation',['../classRoboticPalpation.html',1,'']]]
 ];

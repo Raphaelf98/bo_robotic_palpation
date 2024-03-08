@@ -1,8 +1,9 @@
 <map id="Shape" name="Shape">
-<area shape="rect" id="node1" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="153,80,215,107"/>
+<area shape="rect" id="node1" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="234,80,297,107"/>
 <area shape="rect" id="node3" href="$classCircle.html" title="Circle child class." alt="" coords="5,155,64,181"/>
 <area shape="rect" id="node4" href="$classRectangle.html" title="Rectangle child class." alt="" coords="89,155,175,181"/>
-<area shape="rect" id="node5" href="$classTriangle.html" title="Triangle child class." alt="" coords="199,155,273,181"/>
-<area shape="rect" id="node6" href="$classTwoCircles.html" title="TwoCircles child class." alt="" coords="297,155,388,181"/>
-<area shape="rect" id="node2" title=" " alt="" coords="83,5,285,32"/>
+<area shape="rect" id="node5" href="$classRoboticPalpation.html" title="RoboticPalpation Class serves as a class to interface tumor loacalization and segmentation functional..." alt="" coords="200,155,331,181"/>
+<area shape="rect" id="node6" href="$classTriangle.html" title="Triangle child class." alt="" coords="355,155,429,181"/>
+<area shape="rect" id="node7" href="$classTwoCircles.html" title="TwoCircles child class." alt="" coords="453,155,544,181"/>
+<area shape="rect" id="node2" title=" " alt="" coords="164,5,367,32"/>
 </map>

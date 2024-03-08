@@ -1,0 +1,120 @@
+\hypertarget{classRoboticPalpation}{}\doxysection{Robotic\+Palpation Class Reference}
+\label{classRoboticPalpation}\index{RoboticPalpation@{RoboticPalpation}}
+
+
+\mbox{\hyperlink{classRoboticPalpation}{Robotic\+Palpation}} Class serves as a class to interface tumor loacalization and segmentation functionality with a real-\/world tumor detection problem. The class is not yet implemented but future works might develop necessary functionality to run the algorithm on a robot.  
+
+
+
+
+{\ttfamily \#include $<$tumor\+Model.\+hpp$>$}
+
+
+
+Inheritance diagram for Robotic\+Palpation\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classRoboticPalpation__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Robotic\+Palpation\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classRoboticPalpation__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classRoboticPalpation_ae8f8eba44e30d6b9067988376a98579c}{Robotic\+Palpation}} (bayesopt\+::\+Parameters par, \mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&palpation\+\_\+parameters)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classCircle}{Circle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} as circle. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classRoboticPalpation_a85b944a09fc73e7f86654d45e40be0fb}{evaluate\+Sample}} (const vectord \&xin)
+\begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayesopt to probe tumorous tissue. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classRoboticPalpation_a567a2eb3c71643de1f31fd868e8f47f8}{check\+Reachability}} (const vectord \&query)
+\begin{DoxyCompactList}\small\item\em Checks reachability of query. Virtual function that is implemented by derived class. Note\+: function is not implemented in child classes but might be of value for implementation with hardware. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classRoboticPalpation}{Robotic\+Palpation}} Class serves as a class to interface tumor loacalization and segmentation functionality with a real-\/world tumor detection problem. The class is not yet implemented but future works might develop necessary functionality to run the algorithm on a robot. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classRoboticPalpation_ae8f8eba44e30d6b9067988376a98579c}\label{classRoboticPalpation_ae8f8eba44e30d6b9067988376a98579c}} 
+\index{RoboticPalpation@{RoboticPalpation}!RoboticPalpation@{RoboticPalpation}}
+\index{RoboticPalpation@{RoboticPalpation}!RoboticPalpation@{RoboticPalpation}}
+\doxysubsubsection{\texorpdfstring{RoboticPalpation()}{RoboticPalpation()}}
+{\footnotesize\ttfamily Robotic\+Palpation\+::\+Robotic\+Palpation (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{\mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&}]{palpation\+\_\+parameters }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classCircle}{Circle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} as circle. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Parameters needed to run bayesian optimization. \\
+\hline
+\mbox{\texttt{ in}}  & {\em model\+\_\+parameters} & Parameters object with shape parameters. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classRoboticPalpation_a567a2eb3c71643de1f31fd868e8f47f8}\label{classRoboticPalpation_a567a2eb3c71643de1f31fd868e8f47f8}} 
+\index{RoboticPalpation@{RoboticPalpation}!checkReachability@{checkReachability}}
+\index{checkReachability@{checkReachability}!RoboticPalpation@{RoboticPalpation}}
+\doxysubsubsection{\texorpdfstring{checkReachability()}{checkReachability()}}
+{\footnotesize\ttfamily bool Robotic\+Palpation\+::check\+Reachability (\begin{DoxyParamCaption}\item[{const vectord \&}]{query }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Checks reachability of query. Virtual function that is implemented by derived class. Note\+: function is not implemented in child classes but might be of value for implementation with hardware. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em query} & Vector with x and y coordinates. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em True} & if query is reachable. \\
+\hline
+\end{DoxyRetVals}
+
+
+Reimplemented from \mbox{\hyperlink{classShape_aa89d648d778d2279cadfc8a3bcee7221}{Shape}}.
+
+\mbox{\Hypertarget{classRoboticPalpation_a85b944a09fc73e7f86654d45e40be0fb}\label{classRoboticPalpation_a85b944a09fc73e7f86654d45e40be0fb}} 
+\index{RoboticPalpation@{RoboticPalpation}!evaluateSample@{evaluateSample}}
+\index{evaluateSample@{evaluateSample}!RoboticPalpation@{RoboticPalpation}}
+\doxysubsubsection{\texorpdfstring{evaluateSample()}{evaluateSample()}}
+{\footnotesize\ttfamily double Robotic\+Palpation\+::evaluate\+Sample (\begin{DoxyParamCaption}\item[{const vectord \&}]{xin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Function called by bayesian optimization in bayesopt to probe tumorous tissue. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em xin} & Takes bayesopt parameters \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em stiffness} & value/cost of global function that is optimized. \\
+\hline
+\end{DoxyRetVals}
+
+
+Reimplemented from \mbox{\hyperlink{classShape_a87601dd2e5fcdb3fa15fbef2a0bc5bfc}{Shape}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/raphael/robolab/displaygp/include/\mbox{\hyperlink{tumorModel_8hpp}{tumor\+Model.\+hpp}}\end{DoxyCompactItemize}

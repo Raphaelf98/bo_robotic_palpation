@@ -1,8 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,81,140,108"/>
-<area shape="rect" id="node2" href="$classShape.html" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="188,81,251,108"/>
-<area shape="rect" id="node3" href="$classCircle.html" title="Circle child class." alt="" coords="315,5,373,32"/>
-<area shape="rect" id="node4" href="$classRectangle.html" title="Rectangle child class." alt="" coords="301,56,387,83"/>
-<area shape="rect" id="node5" href="$classTriangle.html" title="Triangle child class." alt="" coords="307,107,381,133"/>
-<area shape="rect" id="node6" href="$classTwoCircles.html" title="TwoCircles child class." alt="" coords="299,157,389,184"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,107,140,133"/>
+<area shape="rect" id="node2" href="$classShape.html" title="Shape base class. Holds virtual functions that are unique to derived child class and need to be imple..." alt="" coords="188,107,251,133"/>
+<area shape="rect" id="node3" href="$classCircle.html" title="Circle child class." alt="" coords="335,5,393,32"/>
+<area shape="rect" id="node4" href="$classRectangle.html" title="Rectangle child class." alt="" coords="321,56,407,83"/>
+<area shape="rect" id="node5" href="$classRoboticPalpation.html" title="RoboticPalpation Class serves as a class to interface tumor loacalization and segmentation functional..." alt="" coords="299,107,429,133"/>
+<area shape="rect" id="node6" href="$classTriangle.html" title="Triangle child class." alt="" coords="327,157,401,184"/>
+<area shape="rect" id="node7" href="$classTwoCircles.html" title="TwoCircles child class." alt="" coords="319,208,409,235"/>
 </map>

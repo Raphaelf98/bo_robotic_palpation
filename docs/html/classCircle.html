@@ -99,6 +99,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a425650eece5b7d2cd9e468506c1abc67"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCircle.html#a425650eece5b7d2cd9e468506c1abc67">Circle</a> (bayesopt::Parameters par, double low, double high, double radius, double x_trans, double y_trans, double epsilon, double noise)</td></tr>
 <tr class="memdesc:a425650eece5b7d2cd9e468506c1abc67"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classCircle.html" title="Circle child class.">Circle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with less than 3 vertices (circle).  <a href="classCircle.html#a425650eece5b7d2cd9e468506c1abc67">More...</a><br /></td></tr>
 <tr class="separator:a425650eece5b7d2cd9e468506c1abc67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af77fd05376281fbc71c36143dee75a0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCircle.html#af77fd05376281fbc71c36143dee75a0a">Circle</a> (bayesopt::Parameters par, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;model_parameters)</td></tr>
+<tr class="memdesc:af77fd05376281fbc71c36143dee75a0a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classCircle.html" title="Circle child class.">Circle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> as circle.  <a href="classCircle.html#af77fd05376281fbc71c36143dee75a0a">More...</a><br /></td></tr>
+<tr class="separator:af77fd05376281fbc71c36143dee75a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3abbc327e5b76bd6a32efd3cbf4640bb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCircle.html#a3abbc327e5b76bd6a32efd3cbf4640bb">evaluateSample</a> (const vectord &amp;xin)</td></tr>
 <tr class="memdesc:a3abbc327e5b76bd6a32efd3cbf4640bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function called by bayesian optimization in bayes opt to query tumor model.  <a href="classCircle.html#a3abbc327e5b76bd6a32efd3cbf4640bb">More...</a><br /></td></tr>
 <tr class="separator:a3abbc327e5b76bd6a32efd3cbf4640bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,7 +151,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
 <div class="textblock"><p><a class="el" href="classCircle.html" title="Circle child class.">Circle</a> child class. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a425650eece5b7d2cd9e468506c1abc67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a425650eece5b7d2cd9e468506c1abc67">&#9670;&nbsp;</a></span>Circle()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a425650eece5b7d2cd9e468506c1abc67">&#9670;&nbsp;</a></span>Circle() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,6 +223,43 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
     <tr><td class="paramdir">[in]</td><td class="paramname">y_trans</td><td>Center of <a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> y coordinate y_trans e [0,1] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">epsilon</td><td>Defines smoothness transition from low to high stiffness values. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">noise</td><td>Standard deviation of Gaussian noise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af77fd05376281fbc71c36143dee75a0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af77fd05376281fbc71c36143dee75a0a">&#9670;&nbsp;</a></span>Circle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Circle::Circle </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::Parameters&#160;</td>
+          <td class="paramname"><em>par</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>model_parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classCircle.html" title="Circle child class.">Circle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> as circle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>Parameters needed to run bayesian optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">model_parameters</td><td>Parameters object with shape parameters. </td></tr>
   </table>
   </dd>
 </dl>

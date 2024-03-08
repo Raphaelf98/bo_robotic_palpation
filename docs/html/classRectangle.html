@@ -99,6 +99,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaeb777c4a9f4c27e7fb86a70dc071a37"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRectangle.html#aaeb777c4a9f4c27e7fb86a70dc071a37">Rectangle</a> (bayesopt::Parameters par, double low, double high, double radius, double x_trans, double y_trans, double epsilon, double noise)</td></tr>
 <tr class="memdesc:aaeb777c4a9f4c27e7fb86a70dc071a37"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with four vertices.  <a href="classRectangle.html#aaeb777c4a9f4c27e7fb86a70dc071a37">More...</a><br /></td></tr>
 <tr class="separator:aaeb777c4a9f4c27e7fb86a70dc071a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecce875292a64b44ce55b2896d9f5b1e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRectangle.html#aecce875292a64b44ce55b2896d9f5b1e">Rectangle</a> (bayesopt::Parameters par, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;model_parameters)</td></tr>
+<tr class="memdesc:aecce875292a64b44ce55b2896d9f5b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with four vertices.  <a href="classRectangle.html#aecce875292a64b44ce55b2896d9f5b1e">More...</a><br /></td></tr>
+<tr class="separator:aecce875292a64b44ce55b2896d9f5b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9340a7a5e3b8a74a63ba767333000a3c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRectangle.html#a9340a7a5e3b8a74a63ba767333000a3c">evaluateSample</a> (const vectord &amp;xin)</td></tr>
 <tr class="memdesc:a9340a7a5e3b8a74a63ba767333000a3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function called by bayesian optimization in bayes opt to query tumor model.  <a href="classRectangle.html#a9340a7a5e3b8a74a63ba767333000a3c">More...</a><br /></td></tr>
 <tr class="separator:a9340a7a5e3b8a74a63ba767333000a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,7 +151,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
 <div class="textblock"><p><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> child class. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aaeb777c4a9f4c27e7fb86a70dc071a37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaeb777c4a9f4c27e7fb86a70dc071a37">&#9670;&nbsp;</a></span>Rectangle()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeb777c4a9f4c27e7fb86a70dc071a37">&#9670;&nbsp;</a></span>Rectangle() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,6 +223,43 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
     <tr><td class="paramdir">[in]</td><td class="paramname">y_trans</td><td>Center of <a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> y coordinate y_trans e [0,1] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">epsilon</td><td>Defines smoothness transition from low to high stiffness values. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">noise</td><td>Standard deviation of Gaussian noise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aecce875292a64b44ce55b2896d9f5b1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecce875292a64b44ce55b2896d9f5b1e">&#9670;&nbsp;</a></span>Rectangle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Rectangle::Rectangle </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::Parameters&#160;</td>
+          <td class="paramname"><em>par</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>model_parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classRectangle.html" title="Rectangle child class.">Rectangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with four vertices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>Parameters needed to run bayesian optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">model_parameters</td><td>Parameters object with shape parameters. </td></tr>
   </table>
   </dd>
 </dl>

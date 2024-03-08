@@ -32,6 +32,8 @@ Collaboration diagram for Circle\+:\nopagebreak
 \item 
 \mbox{\hyperlink{classCircle_a425650eece5b7d2cd9e468506c1abc67}{Circle}} (bayesopt\+::\+Parameters par, double low, double high, double radius, double x\+\_\+trans, double y\+\_\+trans, double epsilon, double noise)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classCircle}{Circle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with less than 3 vertices (circle). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classCircle_af77fd05376281fbc71c36143dee75a0a}{Circle}} (bayesopt\+::\+Parameters par, \mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&model\+\_\+parameters)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classCircle}{Circle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} as circle. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classCircle_a3abbc327e5b76bd6a32efd3cbf4640bb}{evaluate\+Sample}} (const vectord \&xin)
 \begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayes opt to query tumor model. \end{DoxyCompactList}\item 
 virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classCircle_ad8d952886a211acd54466a74657c9db9}{f\+\_\+x}} ()
@@ -54,7 +56,7 @@ bool \mbox{\hyperlink{classCircle_a2294d0fcfdb64b954fc79b42bceaa01d}{check\+Reac
 \mbox{\Hypertarget{classCircle_a425650eece5b7d2cd9e468506c1abc67}\label{classCircle_a425650eece5b7d2cd9e468506c1abc67}} 
 \index{Circle@{Circle}!Circle@{Circle}}
 \index{Circle@{Circle}!Circle@{Circle}}
-\doxysubsubsection{\texorpdfstring{Circle()}{Circle()}}
+\doxysubsubsection{\texorpdfstring{Circle()}{Circle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Circle\+::\+Circle (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{double}]{low,  }\item[{double}]{high,  }\item[{double}]{radius,  }\item[{double}]{x\+\_\+trans,  }\item[{double}]{y\+\_\+trans,  }\item[{double}]{epsilon,  }\item[{double}]{noise }\end{DoxyParamCaption})}
 
 
@@ -78,6 +80,23 @@ bool \mbox{\hyperlink{classCircle_a2294d0fcfdb64b954fc79b42bceaa01d}{check\+Reac
 \mbox{\texttt{ in}}  & {\em epsilon} & Defines smoothness transition from low to high stiffness values. \\
 \hline
 \mbox{\texttt{ in}}  & {\em noise} & Standard deviation of Gaussian noise \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classCircle_af77fd05376281fbc71c36143dee75a0a}\label{classCircle_af77fd05376281fbc71c36143dee75a0a}} 
+\index{Circle@{Circle}!Circle@{Circle}}
+\index{Circle@{Circle}!Circle@{Circle}}
+\doxysubsubsection{\texorpdfstring{Circle()}{Circle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Circle\+::\+Circle (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{\mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&}]{model\+\_\+parameters }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classCircle}{Circle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} as circle. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Parameters needed to run bayesian optimization. \\
+\hline
+\mbox{\texttt{ in}}  & {\em model\+\_\+parameters} & Parameters object with shape parameters. \\
 \hline
 \end{DoxyParams}
 

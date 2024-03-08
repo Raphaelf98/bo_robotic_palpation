@@ -100,6 +100,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8bd839097fc46355ffa94f009fe44d1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTriangle.html#a8bd839097fc46355ffa94f009fe44d1d">Triangle</a> (bayesopt::Parameters par, double low, double high, double radius, double x_trans, double y_trans, double epsilon, double noise)</td></tr>
 <tr class="memdesc:a8bd839097fc46355ffa94f009fe44d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classTriangle.html" title="Triangle child class.">Triangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with three vertices.  <a href="classTriangle.html#a8bd839097fc46355ffa94f009fe44d1d">More...</a><br /></td></tr>
 <tr class="separator:a8bd839097fc46355ffa94f009fe44d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6713674cd227b709d15c794e479c461"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTriangle.html#aa6713674cd227b709d15c794e479c461">Triangle</a> (bayesopt::Parameters par, <a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;model_parameters)</td></tr>
+<tr class="memdesc:aa6713674cd227b709d15c794e479c461"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classTriangle.html" title="Triangle child class.">Triangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with three vertices.  <a href="classTriangle.html#aa6713674cd227b709d15c794e479c461">More...</a><br /></td></tr>
+<tr class="separator:aa6713674cd227b709d15c794e479c461"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a946399d487b41a7d39a99cf68aa9bd6b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTriangle.html#a946399d487b41a7d39a99cf68aa9bd6b">evaluateSample</a> (const vectord &amp;xin)</td></tr>
 <tr class="memdesc:a946399d487b41a7d39a99cf68aa9bd6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function called by bayesian optimization in bayes opt to query tumor model.  <a href="classTriangle.html#a946399d487b41a7d39a99cf68aa9bd6b">More...</a><br /></td></tr>
 <tr class="separator:a946399d487b41a7d39a99cf68aa9bd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,7 +153,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
  </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8bd839097fc46355ffa94f009fe44d1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bd839097fc46355ffa94f009fe44d1d">&#9670;&nbsp;</a></span>Triangle()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bd839097fc46355ffa94f009fe44d1d">&#9670;&nbsp;</a></span>Triangle() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,6 +225,43 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>epsilon_</b></td></
     <tr><td class="paramdir">[in]</td><td class="paramname">y_trans</td><td>Center of <a class="el" href="classTriangle.html" title="Triangle child class.">Triangle</a> y coordinate y_trans e [0,1] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">epsilon</td><td>Defines smoothness transition from low to high stiffness values. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">noise</td><td>Standard deviation of Gaussian noise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa6713674cd227b709d15c794e479c461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6713674cd227b709d15c794e479c461">&#9670;&nbsp;</a></span>Triangle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Triangle::Triangle </td>
+          <td>(</td>
+          <td class="paramtype">bayesopt::Parameters&#160;</td>
+          <td class="paramname"><em>par</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structTumorModelParameters.html">TumorModelParameters</a> &amp;&#160;</td>
+          <td class="paramname"><em>model_parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classTriangle.html" title="Triangle child class.">Triangle</a> constructor. Instantiates <a class="el" href="classPolarPolygon.html" title="PolarPolygon class.">PolarPolygon</a> with three vertices. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">par</td><td>Parameters needed to run bayesian optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">model_parameters</td><td>Parameters object with shape parameters. </td></tr>
   </table>
   </dd>
 </dl>

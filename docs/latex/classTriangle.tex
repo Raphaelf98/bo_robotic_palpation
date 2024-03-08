@@ -33,6 +33,8 @@ Collaboration diagram for Triangle\+:\nopagebreak
 \item 
 \mbox{\hyperlink{classTriangle_a8bd839097fc46355ffa94f009fe44d1d}{Triangle}} (bayesopt\+::\+Parameters par, double low, double high, double radius, double x\+\_\+trans, double y\+\_\+trans, double epsilon, double noise)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classTriangle}{Triangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with three vertices. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classTriangle_aa6713674cd227b709d15c794e479c461}{Triangle}} (bayesopt\+::\+Parameters par, \mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&model\+\_\+parameters)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classTriangle}{Triangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with three vertices. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classTriangle_a946399d487b41a7d39a99cf68aa9bd6b}{evaluate\+Sample}} (const vectord \&xin)
 \begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayes opt to query tumor model. \end{DoxyCompactList}\item 
 virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classTriangle_a752039ea45a15dd041283547602205a4}{f\+\_\+x}} ()
@@ -56,7 +58,7 @@ virtual bool \mbox{\hyperlink{classTriangle_ab94e8beaf03ebbe62d16aab6e8a69b00}{c
 \mbox{\Hypertarget{classTriangle_a8bd839097fc46355ffa94f009fe44d1d}\label{classTriangle_a8bd839097fc46355ffa94f009fe44d1d}} 
 \index{Triangle@{Triangle}!Triangle@{Triangle}}
 \index{Triangle@{Triangle}!Triangle@{Triangle}}
-\doxysubsubsection{\texorpdfstring{Triangle()}{Triangle()}}
+\doxysubsubsection{\texorpdfstring{Triangle()}{Triangle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Triangle\+::\+Triangle (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{double}]{low,  }\item[{double}]{high,  }\item[{double}]{radius,  }\item[{double}]{x\+\_\+trans,  }\item[{double}]{y\+\_\+trans,  }\item[{double}]{epsilon,  }\item[{double}]{noise }\end{DoxyParamCaption})}
 
 
@@ -80,6 +82,23 @@ virtual bool \mbox{\hyperlink{classTriangle_ab94e8beaf03ebbe62d16aab6e8a69b00}{c
 \mbox{\texttt{ in}}  & {\em epsilon} & Defines smoothness transition from low to high stiffness values. \\
 \hline
 \mbox{\texttt{ in}}  & {\em noise} & Standard deviation of Gaussian noise \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classTriangle_aa6713674cd227b709d15c794e479c461}\label{classTriangle_aa6713674cd227b709d15c794e479c461}} 
+\index{Triangle@{Triangle}!Triangle@{Triangle}}
+\index{Triangle@{Triangle}!Triangle@{Triangle}}
+\doxysubsubsection{\texorpdfstring{Triangle()}{Triangle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Triangle\+::\+Triangle (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{\mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&}]{model\+\_\+parameters }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classTriangle}{Triangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with three vertices. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Parameters needed to run bayesian optimization. \\
+\hline
+\mbox{\texttt{ in}}  & {\em model\+\_\+parameters} & Parameters object with shape parameters. \\
 \hline
 \end{DoxyParams}
 

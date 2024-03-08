@@ -32,6 +32,8 @@ Collaboration diagram for Rectangle\+:\nopagebreak
 \item 
 \mbox{\hyperlink{classRectangle_aaeb777c4a9f4c27e7fb86a70dc071a37}{Rectangle}} (bayesopt\+::\+Parameters par, double low, double high, double radius, double x\+\_\+trans, double y\+\_\+trans, double epsilon, double noise)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classRectangle_aecce875292a64b44ce55b2896d9f5b1e}{Rectangle}} (bayesopt\+::\+Parameters par, \mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&model\+\_\+parameters)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classRectangle_a9340a7a5e3b8a74a63ba767333000a3c}{evaluate\+Sample}} (const vectord \&xin)
 \begin{DoxyCompactList}\small\item\em Function called by bayesian optimization in bayes opt to query tumor model. \end{DoxyCompactList}\item 
 virtual std\+::function$<$ double(const double \&)$>$ \mbox{\hyperlink{classRectangle_a9cb7a91f359fea78c48f0ca5eea42151}{f\+\_\+x}} ()
@@ -54,7 +56,7 @@ bool \mbox{\hyperlink{classRectangle_a175eca860cf1dadcb8e6323d48ef1947}{check\+R
 \mbox{\Hypertarget{classRectangle_aaeb777c4a9f4c27e7fb86a70dc071a37}\label{classRectangle_aaeb777c4a9f4c27e7fb86a70dc071a37}} 
 \index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
 \index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
-\doxysubsubsection{\texorpdfstring{Rectangle()}{Rectangle()}}
+\doxysubsubsection{\texorpdfstring{Rectangle()}{Rectangle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Rectangle\+::\+Rectangle (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{double}]{low,  }\item[{double}]{high,  }\item[{double}]{radius,  }\item[{double}]{x\+\_\+trans,  }\item[{double}]{y\+\_\+trans,  }\item[{double}]{epsilon,  }\item[{double}]{noise }\end{DoxyParamCaption})}
 
 
@@ -78,6 +80,23 @@ bool \mbox{\hyperlink{classRectangle_a175eca860cf1dadcb8e6323d48ef1947}{check\+R
 \mbox{\texttt{ in}}  & {\em epsilon} & Defines smoothness transition from low to high stiffness values. \\
 \hline
 \mbox{\texttt{ in}}  & {\em noise} & Standard deviation of Gaussian noise \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classRectangle_aecce875292a64b44ce55b2896d9f5b1e}\label{classRectangle_aecce875292a64b44ce55b2896d9f5b1e}} 
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\index{Rectangle@{Rectangle}!Rectangle@{Rectangle}}
+\doxysubsubsection{\texorpdfstring{Rectangle()}{Rectangle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Rectangle\+::\+Rectangle (\begin{DoxyParamCaption}\item[{bayesopt\+::\+Parameters}]{par,  }\item[{\mbox{\hyperlink{structTumorModelParameters}{Tumor\+Model\+Parameters}} \&}]{model\+\_\+parameters }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classRectangle}{Rectangle}} constructor. Instantiates \mbox{\hyperlink{classPolarPolygon}{Polar\+Polygon}} with four vertices. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em par} & Parameters needed to run bayesian optimization. \\
+\hline
+\mbox{\texttt{ in}}  & {\em model\+\_\+parameters} & Parameters object with shape parameters. \\
 \hline
 \end{DoxyParams}
 
