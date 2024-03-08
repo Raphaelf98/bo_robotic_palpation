@@ -154,6 +154,6 @@ int main(int argc, char *argv[])
     //run bayesian optimization
     contour.runGaussianProcess();
     contour.computeCluster();
-    contour.exploreContour();
-    contour.approximateContour();
+    //contour.exploreContour();
+    //contour.approximateContour();
 }

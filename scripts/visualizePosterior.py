@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 import numpy as np
 import matplotlib
+from matplotlib.colors import Normalize
 matplotlib.use("pgf")
 matplotlib.rcParams.update({
     "pgf.texsystem": "pdflatex",
@@ -11,15 +12,24 @@ matplotlib.rcParams.update({
     'text.usetex': True,
     'pgf.rcfonts': False,
 })
-def plot_heatmap_from_csv(filename):
+def plot_heatmap_from_csv(filename,file_samples):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
-    
+    samples = pd.read_csv(file_samples)
+    samples_x = samples['x']
+    samples_y = samples['y']
+    samples_x = 100*samples_x
+    samples_y = 100*samples_y
         # Create a figure and an axes
     fig, ax = plt.subplots()
 
+
+    # Plot the heatmap using pcolormesh
     # Plot the heatmap
     cax = ax.imshow(data, cmap='jet', interpolation='nearest')
+
+    ax.scatter(samples_x, samples_y, s=50, c='black', edgecolor='black', linewidth=1, marker='+', label='Samples')
+
     fig.colorbar(cax)
     ax.set_xlim(0,data.shape[1])
     ax.set_ylim(0, data.shape[0])
@@ -31,6 +41,8 @@ def plot_heatmap_from_csv(filename):
     ax.set_yticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
     ax.set_title("Posterior")
     plt.show()
+    return fig
+
 def plot_3d_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
@@ -82,5 +94,7 @@ if __name__ == "__main__":
     print(f"Current Directory: {current_directory}")
     print(f"Parent Directory: {parent_directory}")
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
-    plot_heatmap_from_csv(data_dir+"posterior.txt")
+    fig = plot_heatmap_from_csv(data_dir+"posterior.txt", data_dir+"gp_samples.csv")
+    fig.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_posterior_plot.pgf')
+
     plot_3d_from_csv(data_dir+"posterior.txt")

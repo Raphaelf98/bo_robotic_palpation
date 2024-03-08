@@ -39,6 +39,8 @@ private:
     std::vector<std::vector<double>> std_dev_;
     std::vector<Point> samples_list_;
     size_t state_ii_;
+    //Localization 
+    std::vector<double> stiffness_centroids_;
     // Mean Shift variables
     MeanShift mean_shift_;
     std::vector<std::vector<double>> ms_data_; 

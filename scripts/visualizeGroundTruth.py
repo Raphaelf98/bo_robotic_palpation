@@ -32,11 +32,13 @@ def plot_heatmap_from_csv(filename):
     ax.set_xticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
     ax.set_yticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
     #ax.set_title("Ground Truth")
+    return fig 
+    
     plt.show()
 def plot_3d_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
-    data = data[::-1] # Optional based on how you want to view the plot
+    #data = data[::-1] # Optional based on how you want to view the plot
 
     # Create meshgrid
     x = np.arange(data.shape[1])
@@ -54,7 +56,7 @@ def plot_3d_from_csv(filename):
     # Add a color bar which maps values to colors.
     fig.colorbar(surf)
        # Set Z-axis limits
-    ax.set_zlim(0, 2)
+    ax.set_zlim(0, 4)
 
     # Remove ticks
     ax.set_xticks([])
@@ -82,6 +84,8 @@ if __name__ == "__main__":
     print(f"Current Directory: {current_directory}")
     print(f"Parent Directory: {parent_directory}")
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
-    plot_heatmap_from_csv(data_dir+"groundTruthHeatMap.csv")
+    fig = plot_heatmap_from_csv(data_dir+"groundTruthHeatMap.csv")
     plot_3d_from_csv(data_dir+"groundTruthHeatMap.csv")
+    fig.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_groundtruth_plot.pgf')
+
     

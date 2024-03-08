@@ -449,13 +449,20 @@ int main(int argc, char *argv[])
     std::cout<<"Could not load tumor_model_parameters"<< std::endl;
   }
 
-    // if (argc != 2) {
-    //     std::cerr << "Usage: " << argv[0] << " <Shape>\n";
-    //     return 1;
-    // }
+    
 
-    //std::string arg = argv[1];
+    #ifdef DEBUG
     std::string arg = "Triangle";
+    // Put your debug code here
+    #else
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " <Shape>\n";
+        return 1;
+    }
+    std::string arg = argv[1];
+    #endif
+    
+    
     std::string experiment_path = generateFilePath(DATA_PATH,"");
     std::string dirName = createShapeDirectory(experiment_path,arg);
     std::string log_dir = LOG_PATH;

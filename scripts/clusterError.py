@@ -101,6 +101,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 from pathlib import Path
+import matplotlib
 matplotlib.use("pgf")
 matplotlib.rcParams.update({
     "pgf.texsystem": "pdflatex",
@@ -187,9 +188,9 @@ labels = ['Circle Model', 'Triangle Model', 'Rectangle Model']
 
 # Defines ground truth coordinates for each shape
 ground_truths = {
-    'Circle': (0.5, 0.5),
-    'Triangle': (0.5, 0.5),
-    'Rectangle': (0.5, 0.5)
+    'Circle': (0.3, 0.7),
+    'Triangle': (0.3, 0.6),
+    'Rectangle': (0.4, 0.4)
 }
 
 # Sets up the plot
@@ -205,6 +206,5 @@ for shape, color, label in zip(shapes, colors, labels):
 plt.xlabel('Iterations N')
 plt.ylabel('Euclidean Error d')
 plt.legend(loc='upper right', frameon=False)
-plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/euc_error_iter_plot.pgf')
-
 plt.show()
+plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/euc_error_iter_plot.pgf')

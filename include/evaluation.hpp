@@ -11,6 +11,7 @@
 #include <CGAL/Boolean_set_operations_2.h>
 #include <CGAL/Exact_rational.h>
 #include <functional>
+
 /**
  * @file
  * 

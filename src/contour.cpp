@@ -131,18 +131,18 @@ void Contour::labelData_()
     K_means kmeans(y_values_, tumor_stiffness_guess_low_,tumor_stiffness_guess_high_);
     kmeans.cluster();
     //identify label for centroid with lowest stiffness values
-    std::vector<double> c = kmeans.getCentroids();
+    stiffness_centroids_ = kmeans.getCentroids();
     //Assumes that centroid index corresponds to label
-    std::vector<double>::iterator min_idx_it = std::min_element(c.begin(), c.end());
-    size_t min_idx = std::distance(c.begin(), min_idx_it);
+    std::vector<double>::iterator min_idx_it = std::min_element(stiffness_centroids_.begin(), stiffness_centroids_.end());
+    size_t min_idx = std::distance(stiffness_centroids_.begin(), min_idx_it);
     std::cout<<"Label/Index for max stiffness: "<<min_idx<<std::endl;
-    for (auto &i : c)
+    for (auto &i : stiffness_centroids_)
     {
         std::cout<<"Centroid # "<<i<< std::endl;
         
     }
     //retrieve cluster center of tumor stiffness
-    tumor_stiffness_mean_ = c[min_idx];
+    tumor_stiffness_mean_ = stiffness_centroids_[min_idx];
     std::cout<<"Tumor Stiffness mean is  "<<tumor_stiffness_mean_<< std::endl;
     std::vector<std::pair<double,size_t>> labels = kmeans.getAssignments();
     for(auto &a : labels){
@@ -162,8 +162,20 @@ void Contour::labelData_()
 }
 void Contour::computeStiffnessThreshold_()
 {
-     std::cout<<"STD: "<<stdDev(tumor_stiffness_vec_)<< std::endl;
-    threshold_ = multiplier_*stdDev(tumor_stiffness_vec_)+tumor_stiffness_mean_;
+    double std = stdDev(tumor_stiffness_vec_);
+    std::cout<<"STD: "<<std<< std::endl;
+    if (tumor_stiffness_vec_.size()>1)
+    {
+        threshold_ = multiplier_*stdDev(tumor_stiffness_vec_)+tumor_stiffness_mean_;
+    }
+    else 
+    {
+        //fallback treshold if there is only a single measurement and std of tumor_stiffness_vec_ therefore 0
+        threshold_ = 0.5 * (stiffness_centroids_[0] + stiffness_centroids_[1]);
+        std::cout<<"Only single data point in tumor stiffness cluster! "<< std::endl
+        <<"Using fallback threshold: "<< threshold_<< std::endl;
+
+    }
     std::cout<<"THRESHOLD: "<< threshold_<< std::endl;
 }
 bool Contour::contourPoint_(double &stiffness)

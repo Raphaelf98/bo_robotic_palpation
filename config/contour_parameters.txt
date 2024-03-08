@@ -1,8 +1,8 @@
-n_exploration_directions=12
+n_exploration_directions=10
 c_points=100
-means_shift_bandwidth=
+means_shift_bandwidth=0.40
 lim_steps=1000
-threshold_multiplier=0.1
-tumor_stiffness_guess_low=0.1
-tumor_stiffness_guess_high=0.9
+threshold_multiplier=1
+tumor_stiffness_guess_low=1
+tumor_stiffness_guess_high=2
 n_exploration_stepsize=0.003

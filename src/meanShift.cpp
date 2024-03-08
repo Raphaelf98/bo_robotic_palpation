@@ -113,6 +113,7 @@ void MeanShift::meanshift_mlpack()
     meanShift.Radius(bandwidth_);
     std::cout<<"Compute clusters ..."<<std::endl;
     meanShift.Cluster(data, assignments_, centroids_, forceConvergence, true);  
+    
 }
 void MeanShift::saveResultsToFile()
 {
@@ -121,6 +122,7 @@ void MeanShift::saveResultsToFile()
     std::string centroids_file = generateExperimentFilePath(experiment_path_, LOG_PATH,FILE_MS_CENTROIDS);
     mlpack::data::Save(assignemnents_file, assignments_, true);
     mlpack::data::Save(centroids_file, centroids_, true); 
+
 }
 /*
 returns centoids.
