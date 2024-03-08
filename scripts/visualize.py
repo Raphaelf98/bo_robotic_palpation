@@ -28,7 +28,6 @@ def read_contour_data(file_path):
 
     return contours
 def plot_contours(ax, gorundTruthPath, contourPointsPath, contourPath, centroidsPath, metricsPath):
-    # Read the CSV file
     
     contourPointsPath1= contourPointsPath +"1.csv"
     contourPointsPath2= contourPointsPath +"2.csv"
@@ -142,12 +141,39 @@ def add_colorbar(mappable):
     plt.sca(last_axes)
     return cbar
 
-def plot_heatmap_from_csv(ax, filename, title):
+def plot_posterior(ax, filename, title, file_samples):
+    # Read the CSV file into a pandas DataFrame
+    data = pd.read_csv(filename, header=None)
+    samples = pd.read_csv(file_samples)
+    samples_x = samples['x']
+    samples_y = samples['y']
+    samples_x = 100*samples_x
+    samples_y = 100*samples_y
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
     #data = data[::-1]
     # Plot the heatmap
     plot = ax.imshow(data, cmap='jet', interpolation='nearest')
+    ax.scatter(samples_x, samples_y, s=50, c='black', edgecolor='black', linewidth=1, marker='+', label='Samples')
+
+    add_colorbar(plot)
+    ax.set_xlim(0,data.shape[1])
+    ax.set_ylim(0, data.shape[0])
+    xticks = np.linspace(0, data.shape[1] - 1, 6)
+    yticks = np.linspace(0, data.shape[0] - 1, 6)
+    ax.set_xticks(xticks)
+    ax.set_yticks(yticks)
+    ax.set_xticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
+    ax.set_yticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
+    ax.set_title(title)
+def plot_groundtruth(ax, filename, title):
+   
+    # Read the CSV file into a pandas DataFrame
+    data = pd.read_csv(filename, header=None)
+    #data = data[::-1]
+    # Plot the heatmap
+    plot = ax.imshow(data, cmap='jet', interpolation='nearest')
+
     add_colorbar(plot)
     ax.set_xlim(0,data.shape[1])
     ax.set_ylim(0, data.shape[0])
@@ -159,6 +185,7 @@ def plot_heatmap_from_csv(ax, filename, title):
     ax.set_yticklabels([0, 0.2, 0.4, 0.6, 0.8, 1])
     ax.set_title(title)
     
+
 
 def plot_scatteredpoints_from_csv(ax, filename):
     # Read the CSV file into a pandas DataFrame
@@ -211,9 +238,9 @@ def main():
     fig, axs = plt.subplots(2,2, figsize=(10, 15))  # Adjust the layout as needed
 
     # Plotting functions
-    plot_heatmap_from_csv(axs[0,0], groundTruthHeatMapPath, "Tumor Model")
+    plot_groundtruth(axs[0,0], groundTruthHeatMapPath, "Tumor Model")
     plot_contours(axs[1,1], groundTruthPath, contourPointsPath, contourPath,centroidPath, metricsPath)
-    plot_heatmap_from_csv(axs[0,1], heatmapPath, "Posterior Distribution")
+    plot_posterior(axs[0,1], heatmapPath, "Posterior Distribution",data_dir+"gp_samples.csv")
     plot_scatteredpoints_from_csv(axs[1,0], scatterPath)
     
     # Show the plots

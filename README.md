@@ -90,7 +90,6 @@ The algorithm can be executed with four different tumor models. The algorithm ca
 To run the algorithm, run the following command inside the build directory:
 1. Triangle experiment:
 ```
-
 cd build
 ./display_gp Triangle
 ```
@@ -142,15 +141,33 @@ The following parameter files can be adjusted:
 ```
 Refer to section 1 for more details on parameter tuning. 
 ## Visualize Data
-The results will be written to the host data directory (make sure to not run the following command in the container since visualize.py depends on matplotlib which can't be run inside the container in the current version) and can be visualized through:
+### Process Data
+![Example Image](visualize_py.png)
+
+The results will be written to the host data directory (make sure to not run the following command in the container since visualize.py depends on matplotlib which can't be run inside the container in the current version) and can be visualized with:
 ```
 cd /scripts/
 python3 visualize.py YOUR_DESIRED_SHAPE + Number
 ```
 
-Example: Once a Triangle experiment was evaluated the script can be launched the following way:
+
+Example: Once a Triangle experiment was evaluated the script can be launched the following way (The command will produce the plots seen above):
 ```
 python3 visualize.py Triangle1
+
+```
+### Ground Truth Data
+![Example Image](3dgt.png)
+
+The ground truth model that was used to perform the simulation can be viewed with the following commands.
+```
+cd /scripts/
+python3 visualizeGroundTruth.py YOUR_DESIRED_SHAPE + Number
+```
+
+Example: Once a Triangle experiment was evaluated the script can be launched the following way:
+```
+python3 visualizeGroundTruth.py Triangle1
 
 ```
 # 3. Doxygen Documentation
