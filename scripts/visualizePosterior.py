@@ -5,13 +5,13 @@ from pathlib import Path
 import numpy as np
 import matplotlib
 from matplotlib.colors import Normalize
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 def plot_heatmap_from_csv(filename,file_samples):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
@@ -95,6 +95,6 @@ if __name__ == "__main__":
     print(f"Parent Directory: {parent_directory}")
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
     fig = plot_heatmap_from_csv(data_dir+"posterior.txt", data_dir+"gp_samples.csv")
-    fig.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_posterior_plot.pgf')
+    # fig.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_posterior_plot.pgf')
 
     plot_3d_from_csv(data_dir+"posterior.txt")

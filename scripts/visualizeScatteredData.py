@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import argparse
 from pathlib import Path
 import matplotlib
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 def plot_points_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename)

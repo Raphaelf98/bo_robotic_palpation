@@ -5,17 +5,17 @@ from pathlib import Path
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 def plot_heatmap_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)
-    data = data[::-1]
+    #data = data[::-1]
     print(data.shape)
        # Create a figure and an axes
     fig, ax = plt.subplots()
@@ -86,6 +86,6 @@ if __name__ == "__main__":
     data_dir = str(parent_directory)+"/data/"+args.input_string+"/log/"
     fig = plot_heatmap_from_csv(data_dir+"groundTruthHeatMap.csv")
     plot_3d_from_csv(data_dir+"groundTruthHeatMap.csv")
-    fig.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_groundtruth_plot.pgf')
+    # fig.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_groundtruth_plot.pgf')
 
     

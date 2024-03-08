@@ -4,13 +4,13 @@ import argparse
 from pathlib import Path
 import numpy as np
 import matplotlib
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 def plot_heatmap_from_csv(filename):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(filename, header=None)

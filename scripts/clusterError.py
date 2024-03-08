@@ -1,99 +1,5 @@
 
-# import os
-# import pandas as pd
-# import math
-# import matplotlib.pyplot as plt
-# import numpy as np
-# from scipy.optimize import curve_fit
-# from pathlib import Path
-# def func(x, a, b, c):
-#     return a * np.exp(-b * x) + c
-# def read_configuration(file_path):
-#     """Reads the configuration file to extract n_iterations value."""
-#     n_iterations = None
-#     with open(file_path, 'r') as file:
-#         for line in file:
-#             if line.startswith('n_iterations='):
-#                 n_iterations = int(line.strip().split('=')[1])
-#                 break
-#     return n_iterations
 
-# def read_coordinates(csv_file_path):
-#     """Reads the CSV file to extract x and y coordinates."""
-#     custom_headers = ['x', 'y']
-#     data = pd.read_csv(csv_file_path, header=None, names=custom_headers)
-#     return data['x'].values[0], data['y'].values[0]
-
-# def compute_euclidean_distances(coordinates_x, coordinates_y, gt_x=0.5, gt_y=0.5):
-#     """Computes Euclidean distances of coordinates from a ground truth point."""
-#     distances = [math.sqrt((gt_x - x) ** 2 + (gt_y - y) ** 2) for x, y in zip(coordinates_x, coordinates_y)]
-#     return distances
-
-# def fit_curve(iters, distances):
-#     """Fits a curve to the given iterations and distances using a predefined function."""
-#     def func(x, a, b, c):
-#         return a * np.exp(-b * x) + c
-    
-#     params, covariance = curve_fit(func, iters, distances, bounds=(0, [3., 1., 0.5]))
-#     return params
-
-# def plot_data_and_model(iters, distances, params, label, color):
-#     """Plots the original data points and the fitted model curve."""
-#     x_line = np.linspace(min(iters), max(iters), 100)
-#     y_line = func(x_line, *params)
-#     plt.plot(iters, distances, 'o', color=color)
-#     plt.plot(x_line, y_line, color=color, label=label)
-
-# def process_directory(parent_directory, shape, gt_x, gt_y):
-#     """Processes directories of a given shape to extract iterations, coordinates, and fit a model."""
-#     coordinates_x, coordinates_y, iters = [], [], []
-#     for item in os.listdir(parent_directory):
-#         item_path = os.path.join(parent_directory, item)
-#         if os.path.isdir(item_path) and item.startswith(shape):
-#             conf_file_path = os.path.join(item_path, "parameters", "bo_parameters.txt")
-#             csv_file_path = os.path.join(item_path, "log", "ms_centroids.csv")
-            
-#             n_iterations = read_configuration(conf_file_path)
-#             if n_iterations is not None:
-#                 iters.append(n_iterations)
-            
-#             if os.path.exists(csv_file_path):
-#                 x, y = read_coordinates(csv_file_path)
-#                 coordinates_x.append(x)
-#                 coordinates_y.append(y)
-    
-#     distances = compute_euclidean_distances(coordinates_x, coordinates_y, gt_x, gt_y)
-#     params = fit_curve(iters, distances)
-#     return iters, distances, params
-
-# # Main code
-# current_directory = Path(__file__).resolve()
-# parent_directory = current_directory.parent
-# parent_directory = parent_directory.parent
-# print(f"Current Directory: {current_directory}")
-# print(f"Parent Directory: {parent_directory}")
-# data_dir = str(parent_directory)+"/data/"
-
-# shapes = ['Circle', 'Triangle', 'Rectangle']
-# colors = ['red', 'blue', 'green']
-# labels = ['Circle Model', 'Triangle Model', 'Rectangle Model']
-# # Define ground truth coordinates for each shape
-# ground_truths = {
-#     'Circle': (0.5, 0.5),
-#     'Triangle': (0.5, 0.5),  # Modify these values as per your requirements
-#     'Rectangle': (0.5, 0.5)  # Modify these values as per your requirements
-# }
-# plt.figure(figsize=(10, 6))
-# for shape, color, label in zip(shapes, colors, labels):
-#     gt_x, gt_y = ground_truths[shape]
-#     iters, distances, params = process_directory(data_dir, shape,gt_x,gt_y)
-#     plot_data_and_model(iters, distances, params, label, color)
-
-# plt.xlabel('Iterations N')
-# plt.ylabel('Euclidean Error d')
-# plt.legend(loc='upper right', frameon=False)
-# plt.show()
-# Import necessary libraries
 import os
 import pandas as pd
 import math
@@ -102,13 +8,13 @@ import numpy as np
 from scipy.optimize import curve_fit
 from pathlib import Path
 import matplotlib
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 # Define the model function for curve fitting
 def func(x, a, b, c):
     """Exponential decay function used for curve fitting."""
@@ -207,4 +113,4 @@ plt.xlabel('Iterations N')
 plt.ylabel('Euclidean Error d')
 plt.legend(loc='upper right', frameon=False)
 plt.show()
-plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/euc_error_iter_plot.pgf')
+# plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/euc_error_iter_plot.pgf')

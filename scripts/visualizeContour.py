@@ -6,13 +6,13 @@ import argparse
 import os
 from pathlib import Path
 import matplotlib
-matplotlib.use("pgf")
-matplotlib.rcParams.update({
-    "pgf.texsystem": "pdflatex",
-    'font.family': 'serif',
-    'text.usetex': True,
-    'pgf.rcfonts': False,
-})
+# matplotlib.use("pgf")
+# matplotlib.rcParams.update({
+#     "pgf.texsystem": "pdflatex",
+#     'font.family': 'serif',
+#     'text.usetex': True,
+#     'pgf.rcfonts': False,
+# })
 def read_contour_data(file_path):
     contours = []
     current_contour = {}
@@ -149,5 +149,5 @@ for i, contour in enumerate(contour_data, start=1):
 
 
 plt.legend(loc='lower left', frameon=False)
-plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_contour_plot.pgf')
+# plt.savefig(f'/home/raphael/Desktop/pacs-project/Report/Experiments/{args.input_string}_contour_plot.pgf')
 plt.show()
