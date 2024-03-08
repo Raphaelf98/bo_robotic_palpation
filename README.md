@@ -153,7 +153,7 @@ Example: Once a Triangle experiment was evaluated the script can be launched the
 python3 visualize.py Triangle1
 
 ```
-# Doxygen Documentation
+# 3. Doxygen Documentation
 Additional documentation can be compiled with Doxygen. 
 Install Doxygen by running:
 ```
