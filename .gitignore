@@ -9,3 +9,7 @@ data/*
 # exception to the rule
 !data/.gitkeep 
 
+docs/html/*
+docs/uml/*
+docs/latex/*
+docs/Doxyfile.bak
